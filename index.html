@@ -4,19 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MongolVibes | Main Website</title>
-    
-    <!-- Default SEO / Open Graph Tags -->
     <meta name="description" content="Experience the best Mongolian Minecraft server. Custom terrain, player-driven economy, and a community that feels like home.">
     <meta name="keywords" content="MongolVibes, Minecraft, Mongolia, Survival, SMP, Lifesteal, Server">
-    
-    <!-- Open Graph / Facebook / Discord Embeds -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mnvibes.org/">
     <meta property="og:title" content="MongolVibes | Survival Redefined">
     <meta property="og:description" content="Join Season X. The most ruthless Lifesteal season yet. Custom terrain, player-driven economy, and a community that feels like home.">
     <meta property="og:image" content="https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg">
-
-    <!-- Twitter -->
+    
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://mnvibes.org/">
     <meta property="twitter:title" content="MongolVibes | Survival Redefined">
@@ -280,15 +275,31 @@
             right: 0;
             bottom: 0;
             z-index: 45; 
-            background: #09090b;
+            background: #09090b; /* Fallback */
             background: rgba(9, 9, 11, 0.98);
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             flex-direction: column;
             animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            overflow: hidden; /* Important for absolute bar */
         }
         .news-reader-fullscreen.active {
             display: flex;
+        }
+
+        #news-reader-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            transition: transform 0.3s ease;
+        }
+
+        #news-content-area {
+            padding-top: 50px; /* Offset for the bar */
+            height: 100%;
+            overflow-y: auto;
         }
 
         @keyframes slideUpFade {
@@ -318,6 +329,24 @@
         }
         .tab-btn.active::after {
             transform: scaleX(1);
+        }
+
+        /* News Card Specific Styles */
+        .news-card-clean {
+            background: linear-gradient(180deg, rgba(24, 24, 27, 0.6) 0%, rgba(9, 9, 11, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+        }
+        .news-card-clean:hover {
+            border-color: rgba(34, 197, 94, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+        }
+        .news-card-clean .news-image {
+            aspect-ratio: 21/9;
+            object-fit: cover;
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
         }
     </style>
 </head>
@@ -386,6 +415,7 @@
         <button onclick="app.openIPModal(); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-sm font-mono text-zinc-500 border border-white/10 px-6 py-3 rounded-full uppercase tracking-widest mt-8">Check Status</button>
     </div>
 
+    <!-- Modals -->
     <div id="ip-modal" class="modal-overlay" onclick="if(event.target === this) app.closeIPModal()">
         <div class="tilt-card w-full max-w-4xl perspective-container">
             <div class="modal-glass rounded-lg overflow-hidden relative shadow-2xl animate-enter-slide group transform-gpu">
@@ -442,8 +472,8 @@
                                 <i class="fas fa-users text-brand-accent mr-2"></i>Live Manifest
                             </h4>
                             <div class="flex items-center gap-2">
-                                <button onclick="app.fetchStatus()" class="text-zinc-500 hover:text-white transition-colors" title="Reload Status">
-                                    <i class="fas fa-sync-alt text-xs hover:rotate-180 transition-transform duration-500"></i>
+                                <button onclick="app.fetchStatus()" class="text-zinc-500 hover:text-white transition-colors group" title="Reload Status">
+                                    <i id="reload-icon" class="fas fa-sync-alt text-xs group-hover:rotate-180 transition-transform duration-500"></i>
                                 </button>
                                 <span class="text-[10px] bg-green-500/10 text-green-400 border border-green-500/20 px-2 py-1 rounded font-mono">ONLINE</span>
                             </div>
@@ -570,6 +600,16 @@
                                     <i class="fas fa-copy text-zinc-600 group-hover:text-brand-accent transition-colors"></i>
                                 </div>
                             </div>
+                            
+                            <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-lg">
+                                <p class="text-xs text-white font-mono leading-relaxed mb-0 font-bold">
+                                    <i class="fas fa-exclamation-triangle mr-1 text-red-500"></i> PURCHASE AGREEMENT
+                                </p>
+                                <p class="text-[10px] text-zinc-300 font-mono mt-2 leading-relaxed">
+                                    By completing this transaction, you explicitly confirm that you are over 18 or have parental consent. All sales are <strong class="text-white">FINAL</strong> and <strong class="text-white">NON-REFUNDABLE</strong>. Rank perks are subject to seasonal rebalancing. You must include your correct Minecraft IGN and Discord Username in the bank transaction description. Failure to do so may result in a reversed transaction.
+                                </p>
+                            </div>
+
                             <div class="p-4 rounded-lg bg-yellow-500/5 border border-yellow-500/10 flex gap-3">
                                 <i class="fas fa-exclamation-circle text-yellow-500 mt-0.5"></i>
                                 <p class="text-xs text-yellow-200/80 font-mono leading-relaxed">
@@ -603,9 +643,9 @@
     </div>
 
     <main id="app-container" class="flex-1 pt-24 overflow-y-auto overflow-x-hidden scroll-smooth perspective-container">
-        <div id="content-slot" class="px-6 md:px-12 pb-24 max-w-7xl mx-auto min-h-[80vh]"></div>
+        <div id="content-slot" class="px-6 md:px-12 pb-12 max-w-7xl mx-auto min-h-[80vh]"></div>
 
-        <footer class="border-t border-white/5 bg-black/60 py-16 px-6 mt-12 backdrop-blur-xl relative overflow-hidden">
+        <footer class="border-t border-white/5 bg-black/60 py-16 px-6 mt-6 backdrop-blur-xl relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-t from-brand-accent/5 to-transparent pointer-events-none"></div>
             <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-sm text-zinc-500 relative z-10">
                 <div>
@@ -639,7 +679,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, getDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, getDoc, doc, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCBCi0njBqtsHMErMA30uXRuM5-YRFryDo",
@@ -680,6 +720,31 @@
                 return null;
             }
         };
+        
+        window.fetchRecentPurchases = async () => {
+             try {
+                 const q = query(collection(db, "recent_supporters"), orderBy("timestamp", "desc"), limit(5));
+                 const querySnapshot = await getDocs(q);
+                 return querySnapshot.docs.map(doc => doc.data());
+             } catch (error) {
+                 console.error("Error getting recent supporters:", error);
+                 return [];
+             }
+        };
+
+        window.fetchTopSupporter = async () => {
+            try {
+                const q = query(collection(db, "top_supporter"), limit(1));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    return querySnapshot.docs[0].data();
+                }
+                return null; 
+            } catch (error) {
+                console.error("Error getting top supporter:", error);
+                return null;
+            }
+        };
     </script>
 
     <script>
@@ -696,7 +761,7 @@
                 defaultSeo: {
                     title: "MongolVibes | Survival Redefined",
                     desc: "Join Season X. The most ruthless Lifesteal season yet. Custom terrain, player-driven economy, and a community that feels like home.",
-                    image: "https://media.discordapp.net/attachments/1010070555283689482/1445168723299401950/Picsart_25-12-02_05-37-19-033.jpg"
+                    image: "https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg"
                 }
             },
             
@@ -725,11 +790,8 @@
                 });
             },
 
-            // New function to handle dynamic SEO Embed updates
             updateSeo: (title, desc, image) => {
                 document.title = title;
-                
-                // Helper to update attribute or create tag if missing
                 const setMeta = (propName, propValue, content) => {
                     let element = document.querySelector(`meta[${propName}="${propValue}"]`);
                     if (!element) {
@@ -739,18 +801,12 @@
                     }
                     element.setAttribute('content', content);
                 };
-
-                // Update Open Graph tags
                 setMeta('property', 'og:title', title);
                 setMeta('property', 'og:description', desc);
                 if (image) setMeta('property', 'og:image', image);
-
-                // Update Twitter tags
                 setMeta('property', 'twitter:title', title);
                 setMeta('property', 'twitter:description', desc);
                 if (image) setMeta('property', 'twitter:image', image);
-                
-                // Update standard description
                 setMeta('name', 'description', desc);
             },
 
@@ -793,9 +849,8 @@
                             <div class="order-1 lg:order-2 flex justify-center lg:justify-end relative group perspective-container">
                                 <div class="absolute -inset-10 bg-brand-accent/20 blur-[80px] opacity-40 animate-pulse"></div>
                                 <div class="relative w-full max-w-xl aspect-video bg-black rounded-lg border border-white/10 shadow-2xl transform transition-transform duration-700 hover:rotate-1 hover:scale-105 tilt-card overflow-hidden">
-                                    <img src="https://media.discordapp.net/attachments/1010070555283689482/1445168723299401950/Picsart_25-12-02_05-37-19-033.jpg?ex=6930af41&is=692f5dc1&hm=ef7802a4aa914efe6cb4fcb24968470ee54584515b47f9a1a44d30ffff238f47&=&format=webp&width=1520&height=856" 
+                                    <img src="https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg" 
                                          class="w-full h-full object-cover filter contrast-110 saturate-110 brightness-110" loading="lazy">
-                                    <!-- Tint removed and text removed -->
                                 </div>
                             </div>
                         </div>
@@ -929,7 +984,7 @@
                 `,
                 
                 news: (animated) => `
-                    <div class="max-w-3xl mx-auto pt-8 ${animated ? 'animate-enter-slide' : ''}">
+                    <div class="max-w-7xl mx-auto pt-8 ${animated ? 'animate-enter-slide' : ''}">
                          <div class="flex items-center justify-between mb-8">
                             <h2 class="text-4xl text-white font-pixel tracking-tighter">NEWS FEED</h2>
                              <div class="flex gap-6 font-mono text-sm tracking-wide">
@@ -937,8 +992,8 @@
                                 <button onclick="app.setNewsFilter('events')" class="tab-btn ${app.state.newsFilter === 'events' ? 'active' : ''}" data-filter="events">EVENTS</button>
                              </div>
                          </div>
-                         <div id="news-feed-container" class="space-y-8">
-                             <div class="flex flex-col items-center justify-center py-12 text-zinc-500">
+                         <div id="news-feed-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                             <div class="flex col-span-full flex-col items-center justify-center py-12 text-zinc-500">
                                 <i class="fas fa-circle-notch fa-spin text-2xl mb-4"></i>
                                 <p class="font-mono text-xs">Fetching transmission...</p>
                              </div>
@@ -947,78 +1002,159 @@
                 `,
 
                 store: (animated) => `
-                    <div class="pb-12">
+                    <div class="pb-6">
                         <div class="flex flex-col items-center mb-20 pt-12 animate-enter-slide">
                             <h2 class="text-6xl md:text-8xl text-white mb-6 text-center font-pixel tracking-tighter drop-shadow-xl">ITEM SHOP</h2>
                             <p class="text-zinc-400 text-center max-w-xl font-mono text-sm">
                                 Support the server directly. All proceeds go towards high-performance hosting costs.
                             </p>
                         </div>
-                        <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-                            <div class="card-indie p-8 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border border-white/10" 
-                                 onclick="app.openPaymentModal('Light Rank', '10,000 MNT', ['White Chat Color', '3 Sethomes', 'Priority Queue', 'Kit Light'])">
-                                <div class="absolute inset-0 opacity-40 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');"></div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                                <div class="relative z-10 flex flex-col h-full justify-between">
-                                    <div class="flex justify-between items-start mb-6">
-                                        <div>
-                                            <h3 class="text-3xl text-green-400 font-pixel tracking-tight group-hover:text-green-300 transition-colors">LIGHT</h3>
-                                            <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
+
+                        <div class="flex flex-col lg:flex-row gap-12 max-w-7xl mx-auto mb-16">
+                            <!-- Left Column: Products -->
+                            <div class="flex-1">
+                                <div class="grid md:grid-cols-2 gap-10">
+                                    <div class="card-indie p-8 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border border-white/10" 
+                                         onclick="app.openPaymentModal('Light Rank', '10,000 MNT', ['Colored Chat', '5 Sethomes', 'Priority', 'Light Kit', 'Heart Cap +5', 'Light Crate Keys'])">
+                                        <div class="absolute inset-0 opacity-40 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');"></div>
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                                        <div class="relative z-10 flex flex-col h-full justify-between">
+                                            <div class="flex justify-between items-start mb-6">
+                                                <div>
+                                                    <h3 class="text-3xl text-green-400 font-pixel tracking-tight group-hover:text-green-300 transition-colors">LIGHT</h3>
+                                                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
+                                                </div>
+                                                <i class="fas fa-leaf text-3xl text-zinc-700 group-hover:text-green-500 transition-colors"></i>
+                                            </div>
+                                            <div class="space-y-3 mb-8 font-mono text-sm text-zinc-300">
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Limited Colored Chat</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> 5 Sethomes</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Light Kit</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Heart Cap +5</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Weekly Light Keys</div>
+                                            </div>
+                                            <div class="btn-glitch w-full bg-zinc-800/80 backdrop-blur border border-zinc-700 text-white text-center py-4 rounded-lg font-pixel text-sm group-hover:bg-green-600 group-hover:border-green-500 transition-all">
+                                                10,000₮
+                                            </div>
                                         </div>
-                                        <i class="fas fa-leaf text-3xl text-zinc-700 group-hover:text-green-500 transition-colors"></i>
                                     </div>
-                                    <div class="space-y-3 mb-8 font-mono text-sm text-zinc-300">
-                                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> White Chat</div>
-                                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> 3 Sethomes</div>
-                                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Kit Starter</div>
+                                    <div class="card-indie p-8 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border border-brand-hyper/30 shadow-[0_0_30px_rgba(219,39,119,0.1)]"
+                                         onclick="app.openPaymentModal('Hyper Rank', '25,000 MNT', ['Full Chat Color', 'Unlimited Sethomes', '/fly in Lobby', 'Custom Particles', 'Hyper Kit', 'Heart Cap +15', 'Hyper Crate Keys'])">
+                                        <div class="absolute inset-0 opacity-30 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-hyper blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                        <div class="absolute top-6 right-6 z-20">
+                                            <span class="bg-brand-hyper text-white text-[9px] font-bold px-3 py-1 font-mono uppercase rounded-full shadow-lg">Best Value</span>
+                                        </div>
+                                        <div class="relative z-10 flex flex-col h-full justify-between">
+                                            <div class="flex justify-between items-start mb-6">
+                                                <div>
+                                                    <h3 class="text-3xl text-brand-hyper font-pixel tracking-tight group-hover:text-pink-400 transition-colors drop-shadow-md">HYPER</h3>
+                                                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
+                                                </div>
+                                            </div>
+                                            <div class="space-y-3 mb-8 font-mono text-sm text-zinc-300">
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> RGB Chat</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Unlimited Homes</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Hyper Kit</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> /fly in Lobby</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Custom Particles</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Heart Cap +15</div>
+                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Weekly Hyper Keys</div>
+                                            </div>
+                                            <div class="btn-glitch w-full bg-zinc-800/80 backdrop-blur border border-zinc-700 text-white text-center py-4 rounded-lg font-pixel text-sm group-hover:bg-brand-hyper group-hover:border-pink-500 transition-all">
+                                                25,000₮
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="btn-glitch w-full bg-zinc-800/80 backdrop-blur border border-zinc-700 text-white text-center py-4 rounded-lg font-pixel text-sm group-hover:bg-green-600 group-hover:border-green-500 transition-all">
-                                        10,000₮
+                                </div>
+                                
+                                <div class="flex flex-wrap justify-center gap-6 mt-12">
+                                    <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl hover:border-yellow-500/50 cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300" onclick="app.openPaymentModal('Lifesteal Key', '3,000 MNT', ['1x Lifesteal Key'])">
+                                        <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800 group-hover:border-yellow-500 transition-colors">
+                                            <i class="fas fa-key text-yellow-500 text-xl"></i>
+                                        </div>
+                                        <div class="font-pixel text-sm text-white mb-1">CRATE KEY</div>
+                                        <div class="text-[10px] text-zinc-500 font-mono group-hover:text-yellow-500 transition-colors">3,000 MNT</div>
+                                    </div>
+                                    <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl hover:border-purple-500/50 cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300" onclick="app.openPaymentModal('Lifesteal Kit', '5,000 MNT', ['Fully Enchanted Gear Kit'])">
+                                        <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800 group-hover:border-purple-500 transition-colors">
+                                            <i class="fas fa-shield-alt text-purple-500 text-xl"></i>
+                                        </div>
+                                        <div class="font-pixel text-sm text-white mb-1">GEAR KIT</div>
+                                        <div class="text-[10px] text-zinc-500 font-mono group-hover:text-purple-500 transition-colors">5,000 MNT</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-indie p-8 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border border-brand-hyper/30 shadow-[0_0_30px_rgba(219,39,119,0.1)]"
-                                 onclick="app.openPaymentModal('Hyper Rank', '25,000 MNT', ['RGB Chat Color', 'Unlimited Sethomes', '/fly in Lobby', 'Custom Particles', 'Kit Hyper'])">
-                                <div class="absolute inset-0 opacity-30 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-hyper blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                <div class="absolute top-6 right-6 z-20">
-                                    <span class="bg-brand-hyper text-white text-[9px] font-bold px-3 py-1 font-mono uppercase rounded-full shadow-lg">Best Value</span>
+                            
+                            <!-- Right Column: Recent Purchases / Top Supporters -->
+                            <div class="lg:w-80 shrink-0 space-y-8">
+                                <div class="bg-black/40 border border-white/5 p-6 rounded-xl">
+                                    <h4 class="text-white font-pixel mb-4 text-sm border-b border-white/10 pb-2">Recent Supporters</h4>
+                                    <div id="recent-purchases-list" class="space-y-4">
+                                         <!-- Populated by JS -->
+                                         <div class="animate-pulse flex gap-3">
+                                            <div class="w-8 h-8 rounded bg-zinc-800"></div>
+                                            <div class="flex-1 bg-zinc-800 h-8 rounded"></div>
+                                         </div>
+                                    </div>
                                 </div>
-                                <div class="relative z-10 flex flex-col h-full justify-between">
-                                    <div class="flex justify-between items-start mb-6">
-                                        <div>
-                                            <h3 class="text-3xl text-brand-hyper font-pixel tracking-tight group-hover:text-pink-400 transition-colors drop-shadow-md">HYPER</h3>
-                                            <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
+                                <div id="top-supporter-card" class="bg-gradient-to-br from-yellow-900/20 to-black border border-yellow-500/20 p-6 rounded-xl relative overflow-hidden transition-all duration-500">
+                                    <div class="absolute -top-4 -right-4 text-yellow-500/10 text-6xl">
+                                        <i class="fas fa-crown"></i>
+                                    </div>
+                                    <h4 class="text-yellow-500 font-pixel mb-1 text-sm">Top Supporter</h4>
+                                    <!-- Default / Loading State -->
+                                    <div class="flex items-center gap-3 mt-4 animate-pulse">
+                                        <div class="w-12 h-12 rounded bg-zinc-800"></div>
+                                        <div class="space-y-2">
+                                            <div class="w-20 h-4 bg-zinc-800 rounded"></div>
+                                            <div class="w-12 h-3 bg-zinc-800 rounded"></div>
                                         </div>
-                                    </div>
-                                    <div class="space-y-3 mb-8 font-mono text-sm text-zinc-300">
-                                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> RGB Chat</div>
-                                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Unlimited Homes</div>
-                                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> /fly in Lobby</div>
-                                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Custom Particles</div>
-                                    </div>
-                                    <div class="btn-glitch w-full bg-zinc-800/80 backdrop-blur border border-zinc-700 text-white text-center py-4 rounded-lg font-pixel text-sm group-hover:bg-brand-hyper group-hover:border-pink-500 transition-all">
-                                        25,000₮
                                     </div>
                                 </div>
                             </div>
                         </div>
-                         <div class="flex flex-wrap justify-center gap-6 mt-12">
-                            <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl hover:border-yellow-500/50 cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300" onclick="app.openPaymentModal('Lifesteal Key', '3,000 MNT', ['1x Rare Key'])">
-                                <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800 group-hover:border-yellow-500 transition-colors">
-                                    <i class="fas fa-key text-yellow-500 text-xl"></i>
-                                </div>
-                                <div class="font-pixel text-sm text-white mb-1">CRATE KEY</div>
-                                <div class="text-[10px] text-zinc-500 font-mono group-hover:text-yellow-500 transition-colors">3,000 MNT</div>
+
+                        <!-- Media Rank Section -->
+                        <div class="max-w-4xl mx-auto bg-black/40 border border-white/5 rounded-2xl overflow-hidden flex flex-col md:flex-row">
+                            <div class="md:w-1/3 bg-purple-900/20 p-8 flex flex-col justify-center items-center text-center border-r border-white/5 relative">
+                                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10"></div>
+                                <i class="fab fa-youtube text-6xl text-red-500 mb-4 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]"></i>
+                                <h3 class="text-2xl text-white font-pixel">MEDIA RANK</h3>
                             </div>
-                            <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl hover:border-purple-500/50 cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300" onclick="app.openPaymentModal('Lifesteal Kit', '5,000 MNT', ['Full Gear Kit'])">
-                                <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800 group-hover:border-purple-500 transition-colors">
-                                    <i class="fas fa-shield-alt text-purple-500 text-xl"></i>
+                            <div class="md:w-2/3 p-8">
+                                <h4 class="text-xl text-white font-bold mb-4 font-pixel">CONTENT CREATOR PROGRAM</h4>
+                                <p class="text-zinc-400 text-sm font-mono mb-6 leading-relaxed">
+                                    Create content for MongolVibes and get rewarded. We look for consistency, quality, and engagement over raw numbers.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 mb-6">
+                                    <div class="bg-zinc-900/50 p-3 rounded border border-white/5 text-center">
+                                        <div class="text-white font-bold text-lg">200+</div>
+                                        <div class="text-[10px] text-zinc-500 uppercase">Subscribers</div>
+                                    </div>
+                                    <div class="bg-zinc-900/50 p-3 rounded border border-white/5 text-center">
+                                        <div class="text-white font-bold text-lg">500+</div>
+                                        <div class="text-[10px] text-zinc-500 uppercase">Avg Viewers</div>
+                                    </div>
                                 </div>
-                                <div class="font-pixel text-sm text-white mb-1">GEAR KIT</div>
-                                <div class="text-[10px] text-zinc-500 font-mono group-hover:text-purple-500 transition-colors">5,000 MNT</div>
+                                <p class="text-xs text-zinc-500 mb-4">
+                                    Perks include priority support access and rank benefits equivalent to the server's highest tier.
+                                </p>
+                                <a href="https://discord.com/users/pekuly" target="_blank" class="inline-flex items-center gap-2 text-brand-accent hover:text-white transition-colors font-mono text-xs uppercase tracking-widest font-bold">
+                                    <i class="fab fa-discord"></i> PM @pekuly on Discord
+                                </a>
                             </div>
+                        </div>
+
+                        <!-- Purchase Policy Footer -->
+                        <div class="mt-8 border-t border-white/5 pt-6 text-center max-w-3xl mx-auto px-6">
+                            <h5 class="text-white font-bold uppercase tracking-widest text-[10px] mb-3">
+                                <i class="fas fa-balance-scale mr-1"></i> Terms of Transaction
+                            </h5>
+                            <p class="text-white text-[10px] font-mono leading-relaxed opacity-90">
+                                BY COMPLETING ANY PURCHASE ON THIS STORE, YOU EXPLICITLY AGREE TO THE FOLLOWING: YOU ARE AT LEAST 18 YEARS OF AGE OR HAVE OBTAINED PARENTAL CONSENT. ALL SALES ARE FINAL AND NON-REFUNDABLE UNDER ANY CIRCUMSTANCES. RANK FEATURES AND PERKS ARE SUBJECT TO ADJUSTMENT FOR GAMEPLAY BALANCE. YOU MUST INCLUDE YOUR CORRECT MINECRAFT IGN AND DISCORD USERNAME IN THE TRANSACTION DESCRIPTION TO RECEIVE YOUR ITEMS. FAILURE TO DO SO MAY RESULT IN A VOIDED TRANSACTION.
+                            </p>
                         </div>
                     </div>
                 `
@@ -1089,7 +1225,6 @@
                 const container = document.getElementById('content-slot');
                 app.state.currentPage = pageId;
                 
-                // Set default SEO for standard pages
                 let pageTitle = app.state.defaultSeo.title;
                 if(pageId === 'community') pageTitle = "MongolVibes | Season X Community";
                 if(pageId === 'store') pageTitle = "MongolVibes | Item Shop";
@@ -1115,6 +1250,56 @@
                     if (pageId === 'news') {
                         app.loadNewsFeed();
                     }
+                    if (pageId === 'store') {
+                        app.loadStoreData();
+                    }
+                }
+            },
+            
+            loadStoreData: async () => {
+                const list = document.getElementById('recent-purchases-list');
+                const topCard = document.getElementById('top-supporter-card');
+                
+                if(list && window.fetchRecentPurchases) {
+                    const purchases = await window.fetchRecentPurchases();
+                    
+                    if(purchases.length === 0) {
+                        list.innerHTML = `<div class="text-zinc-500 text-xs text-center font-mono">No recent transactions</div>`;
+                    } else {
+                        list.innerHTML = purchases.map(p => `
+                            <div class="flex items-center gap-3 p-2 rounded hover:bg-white/5 transition-colors animate-enter-slide">
+                                <img src="https://mc-heads.net/avatar/${p.avatar || 'Steve'}/32" class="w-8 h-8 rounded bg-zinc-900 border border-white/10">
+                                <div class="flex-1 min-w-0">
+                                    <div class="text-white font-bold text-xs truncate font-mono">${p.name || 'Unknown'}</div>
+                                    <div class="text-[10px] text-zinc-500 truncate">Bought ${p.item || 'Item'}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+
+                if(topCard && window.fetchTopSupporter) {
+                    const topData = await window.fetchTopSupporter();
+                    
+                    if (topData) {
+                        topCard.innerHTML = `
+                            <div class="absolute -top-4 -right-4 text-yellow-500/10 text-6xl">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h4 class="text-yellow-500 font-pixel mb-1 text-sm">Top Supporter</h4>
+                            <div class="flex items-center gap-3 mt-4 animate-enter-slide">
+                                <img src="https://mc-heads.net/avatar/${topData.avatar || 'Steve'}/64" class="w-12 h-12 rounded border border-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.2)]">
+                                <div>
+                                    <div class="text-white font-bold font-mono text-lg">${topData.name || 'Anonymous'}</div>
+                                    <div class="text-xs text-yellow-500/80 font-mono">${topData.item || 'Most Contributions'}</div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        const pulse = topCard.querySelector('.animate-pulse');
+                        if(pulse) pulse.remove();
+                        topCard.innerHTML += `<div class="text-xs text-zinc-500 font-mono mt-4">Be the first to claim this spot!</div>`;
+                    }
                 }
             },
 
@@ -1133,7 +1318,7 @@
                                 id: 'demo1',
                                 title: 'Welcome to Season X!',
                                 date: { seconds: Date.now()/1000 },
-                                image: 'https://media.discordapp.net/attachments/1010070555283689482/1445168723299401950/Picsart_25-12-02_05-37-19-033.jpg',
+                                image: 'https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg',
                                 content: 'Welcome to the new update! **Lifesteal** is now active. Check out the new shop items.',
                                 tags: ['DEV UPDATES'],
                                 author: 'Admin',
@@ -1143,11 +1328,21 @@
                                 id: 'demo2',
                                 title: 'Weekend Event: Double Hearts',
                                 date: { seconds: (Date.now()/1000) - 86400 },
-                                image: '',
+                                image: 'https://digitality.neocities.org/mongolvibes/seasonxlobby.png',
                                 content: 'Join us this weekend for double heart drops on player kills.',
                                 tags: ['EVENT'],
                                 author: 'Admin',
                                 category: 'events'
+                            },
+                             {
+                                id: 'demo3',
+                                title: 'Patch Notes 11.11',
+                                date: { seconds: (Date.now()/1000) - 172800 },
+                                image: '',
+                                content: 'Minor UI updates, Bug Fixes, VP gifting and a festive surprise coming soon.',
+                                tags: ['UPDATE'],
+                                author: 'Pekly',
+                                category: 'updates'
                             }
                         ];
                         app.state.newsCache = mockPosts;
@@ -1157,7 +1352,7 @@
                         app.renderNewsPosts(container, posts);
                     }
                 } else {
-                    container.innerHTML = '<div class="text-red-500 text-center font-mono">Connection Error: News Module Failed.</div>';
+                    container.innerHTML = '<div class="text-red-500 text-center font-mono col-span-full">Connection Error: News Module Failed.</div>';
                 }
             },
 
@@ -1169,7 +1364,7 @@
 
                 if (filteredPosts.length === 0) {
                     container.innerHTML = `
-                        <div class="text-center py-12 border border-dashed border-zinc-800 rounded-xl">
+                        <div class="text-center py-12 border border-dashed border-zinc-800 rounded-xl col-span-full">
                             <p class="text-zinc-500 font-mono">No ${app.state.newsFilter} found.</p>
                         </div>
                     `;
@@ -1177,37 +1372,38 @@
                 }
 
                 container.innerHTML = filteredPosts.map(post => {
-                    const date = new Date(post.date.seconds * 1000).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
-                    const tagsHtml = (post.tags || []).map(tag => {
-                        const isDev = tag === 'DEV UPDATES' || tag === 'UPDATE';
-                        const colorClass = isDev ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' : 'text-green-400 bg-green-500/10 border-green-500/20';
-                        return `<span class="text-[10px] font-bold font-mono px-2 py-0.5 rounded border ${colorClass}">${tag}</span>`;
-                    }).join('');
-
+                    const date = new Date(post.date.seconds * 1000).toLocaleDateString("en-GB"); 
+                    const category = (post.category || 'update').toUpperCase();
+                    const isDev = category === 'UPDATE' || category === 'UPDATES';
+                    const catColor = isDev ? 'text-red-400' : 'text-green-400';
+                    
                     return `
-                        <div class="bg-zinc-900/50 border border-white/5 rounded-xl overflow-hidden hover:border-brand-accent/30 transition-all cursor-pointer group" onclick="app.openNewsModal('${post.id}')">
-                            <div class="p-4 flex items-center gap-3">
-                                <img src="${app.state.adminAvatar}" class="w-10 h-10 rounded-full border border-white/10">
-                                <div>
-                                    <div class="text-sm font-bold text-white group-hover:text-brand-accent transition-colors">Pekly</div>
-                                    <div class="text-xs text-zinc-500 font-mono">${date}</div>
+                        <div class="news-card-clean rounded-xl overflow-hidden cursor-pointer group flex flex-col h-full" onclick="app.openNewsModal('${post.id}')">
+                            <div class="relative bg-zinc-900 h-48 overflow-hidden">
+                                ${post.image 
+                                    ? `<img src="${post.image}" class="news-image w-full h-full transition-transform duration-700 group-hover:scale-105" alt="${post.title}">` 
+                                    : `<div class="w-full h-full flex items-center justify-center bg-zinc-800/50"><i class="fas fa-image text-zinc-700 text-3xl"></i></div>`
+                                }
+                                <div class="absolute top-3 left-3 bg-black/60 backdrop-blur px-2 py-1 rounded text-[10px] font-bold tracking-widest text-white border border-white/10">
+                                    ${date}
                                 </div>
                             </div>
                             
-                            <div class="px-4 pb-3">
-                                <h3 class="text-xl text-white font-bold mb-2 font-sans">${post.title}</h3>
-                                <div class="text-sm text-zinc-400 line-clamp-2 font-sans">${post.content.replace(/[#*`]/g, '')}</div>
-                            </div>
+                            <div class="p-5 flex flex-col flex-1">
+                                <div class="text-[10px] font-bold font-mono tracking-widest mb-2 ${catColor} opacity-80">
+                                    <i class="fas fa-circle text-[6px] mr-1 align-middle"></i> ${category}
+                                </div>
 
-                            ${post.image ? `
-                                <div class="w-full h-64 overflow-hidden bg-black">
-                                    <img src="${post.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <h3 class="text-lg text-white font-bold leading-tight mb-3 font-sans group-hover:text-brand-accent transition-colors">${post.title}</h3>
+                                
+                                <p class="text-xs text-zinc-400 font-sans line-clamp-2 leading-relaxed mb-4 flex-1">
+                                    ${post.content.replace(/[#*`]/g, '')}
+                                </p>
+                                
+                                <div class="flex items-center gap-2 pt-4 border-t border-white/5 mt-auto">
+                                    <span class="text-[10px] text-zinc-500 font-mono group-hover:text-white transition-colors">Read Article</span>
+                                    <i class="fas fa-arrow-right text-[10px] text-zinc-500 group-hover:translate-x-1 transition-transform"></i>
                                 </div>
-                            ` : ''}
-                            
-                            <div class="p-4 bg-black/20 flex justify-between items-center">
-                                <div class="flex gap-2">${tagsHtml}</div>
-                                <div class="text-xs text-zinc-500 font-mono group-hover:text-white transition-colors">Read Full Post <i class="fas fa-arrow-right ml-1"></i></div>
                             </div>
                         </div>
                     `;
@@ -1217,10 +1413,18 @@
             fetchStatus: async () => {
                 const dot = document.getElementById('status-dot');
                 const text = document.getElementById('server-status');
-                
-                // Visual feedback that refresh is happening
+                const reloadIcon = document.getElementById('reload-icon');
+                                if(reloadIcon) reloadIcon.classList.add('fa-spin');
                 text.innerText = "Pinging...";
                 dot.className = "relative inline-flex rounded-full h-3 w-3 bg-yellow-500 animate-pulse";
+                
+                if(document.getElementById('ip-modal').classList.contains('active')) {
+                     document.getElementById('player-list-container').innerHTML = `
+                        <div class="col-span-full flex flex-col items-center justify-center h-full text-zinc-500 gap-2">
+                            <i class="fas fa-satellite-dish fa-spin"></i>
+                            <span class="text-xs font-mono">Refreshing Uplink...</span>
+                        </div>`;
+                }
 
                 try {
                     const response = await fetch(`https://api.mcsrvstat.us/2/${app.state.serverIP}`);
@@ -1243,6 +1447,8 @@
                     console.error("Status fetch failed:", e);
                     dot.className = "relative inline-flex rounded-full h-3 w-3 bg-red-500";
                     text.innerText = "Error";
+                } finally {
+                    if(reloadIcon) reloadIcon.classList.remove('fa-spin');
                 }
             },
 
@@ -1287,7 +1493,7 @@
 
                 container.innerHTML = data.players.list.map(player => `
                     <div class="flex items-center gap-3 p-2 rounded bg-white/5 hover:bg-white/10 transition-colors border border-transparent hover:border-white/10 cursor-default">
-                        <img src="https://minotar.net/avatar/${player}/64" class="w-8 h-8 rounded bg-zinc-900 shadow-sm" alt="${player}">
+                        <img src="https://mc-heads.net/avatar/${player}/64" class="w-8 h-8 rounded bg-zinc-900 shadow-sm" alt="${player}">
                         <span class="text-sm font-mono text-zinc-300 font-bold tracking-wide">${player}</span>
                     </div>
                 `).join('');
@@ -1327,7 +1533,6 @@
                     return;
                 }
 
-                // Update SEO for this specific news post
                 app.updateSeo(
                     `MongolVibes News | ${post.title}`, 
                     post.content.substring(0, 150).replace(/[#*`]/g, '') + '...', 
@@ -1369,7 +1574,6 @@
                 if(window.location.hash.startsWith('#news/')) {
                      window.location.hash = 'news';
                 }
-                // Reset SEO to default when closing news
                 app.updateSeo(app.state.defaultSeo.title, app.state.defaultSeo.desc, app.state.defaultSeo.image);
             },
 
@@ -1398,7 +1602,6 @@
                 document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
                 document.getElementById('news-modal').classList.remove('active');
                 if(window.location.hash.includes('news/')) window.location.hash = 'news';
-                // Reset SEO
                 app.updateSeo(app.state.defaultSeo.title, app.state.defaultSeo.desc, app.state.defaultSeo.image);
             },
 
@@ -1453,23 +1656,19 @@
                 if(newsContent && newsBar) {
                     newsContent.addEventListener('scroll', () => {
                         const currentScroll = newsContent.scrollTop;
-                        const maxScroll = newsContent.scrollHeight - newsContent.clientHeight;
-                        
-                        if (currentScroll <= 0 || currentScroll >= maxScroll - 20) {
-                             newsBar.style.transform = 'translateY(0)';
-                        } else if (currentScroll > lastScroll && currentScroll > 50) {
+                        // Logic simplified for absolute bar
+                        if (currentScroll > 50 && currentScroll > lastScroll) {
                             newsBar.style.transform = 'translateY(-100%)';
-                        } else if (currentScroll < lastScroll) {
-                             newsBar.style.transform = 'translateY(0)';
+                        } else {
+                            newsBar.style.transform = 'translateY(0)';
                         }
-                        
                         lastScroll = currentScroll;
                     });
                 }
             },
 
             init: () => {
-                console.log("Made By Pekly: MNVIBES website2");
+                console.log("Made By Pekly: MNVIBES website v2.2");
                 app.initListeners();
                 app.setRandomSplash();
 
@@ -1483,11 +1682,8 @@
                     app.routerWithCooldown(initialRoute);
                 }
 
-                // Force highlight update after a short delay to ensure DOM is stable
                 setTimeout(() => {
                     app.initTiltEffect();
-                    
-                    // Fix for highlighter position on load
                     const startPage = app.state.lastActivePage || 'home';
                     const activeBtn = document.querySelector(`button[data-target="${startPage}"]`);
                     if(activeBtn) app.updateNavHighlight(activeBtn);
