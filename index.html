@@ -372,6 +372,7 @@
             transition: opacity 0.8s ease-in-out, transform 8s ease-out;
             transform: scale(1.05);
             object-fit: cover;
+            pointer-events: none;
         }
         .carousel-slide.active {
             opacity: 1;
@@ -913,7 +914,7 @@
             splashTexts: [
                 "Made in Mongolia!", "Thanks!", "Season X Live!", "Lowkey Chill!", 
                 "No P2W!", "Bedrock Ready!", "Since 2023!", "Also try Terraria!", 
-                "Mongol Server!", "Use /vote!", "MONGOLVIBES!", "Thank you, The donators!"
+                "Mongol Server!", "Use /vote!", "MONGOLVIBES!"
             ],
 
             initTiltEffect: () => {
@@ -980,6 +981,10 @@
 
                 container.innerHTML = `
                     ${slidesHtml}
+                    <!-- Click Zones for Navigation -->
+                    <div class="absolute inset-y-0 left-0 w-1/2 z-10 cursor-pointer" onclick="app.prevSlide()"></div>
+                    <div class="absolute inset-y-0 right-0 w-1/2 z-10 cursor-pointer" onclick="app.nextSlide()"></div>
+                    
                     <div class="carousel-overlay-hover">
                         ${captionHtml}
                     </div>
@@ -1136,17 +1141,6 @@
                             <p class="text-xl text-zinc-400 max-w-2xl mx-auto font-mono relative z-10">
                                 The most ruthless Lifesteal season yet. <span class="text-white bg-red-900/20 px-1">Trust no one.</span>
                             </p>
-                            
-                            <!-- New Season Description Section -->
-                            <div class="mt-8 max-w-3xl mx-auto px-6">
-                                <div class="bg-black/40 backdrop-blur-sm border border-white/10 p-6 rounded-xl relative">
-                                    <div class="absolute -top-3 -left-3 text-red-500/20 text-4xl"><i class="fas fa-quote-left"></i></div>
-                                    <p class="text-zinc-300 font-mono text-sm leading-relaxed text-center relative z-10">
-                                        MongolVibes seasons typically run for 1 to 3 months. While we primarily focus on Survival and Lifesteal modes, we are constantly expanding with new gamemodes if possible. Our goal is to craft the most enjoyable server for our community. Thank you for playing—your fun is our happiness!
-                                    </p>
-                                    <div class="absolute -bottom-3 -right-3 text-red-500/20 text-4xl"><i class="fas fa-quote-right"></i></div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-20">
@@ -1188,7 +1182,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-8"> <!-- Reduced Margin Bottom from mb-20 to mb-8 -->
+                        <div class="mb-12">
                             <div class="flex items-end justify-between border-b border-white/5 pb-4 mb-8">
                                 <h2 class="text-3xl text-white font-pixel tracking-tighter">SNAPSHOTS</h2>
                                 <span class="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">Gallery</span>
@@ -1220,6 +1214,18 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Moved Description Section Here -->
+                        <div class="max-w-3xl mx-auto px-6 mb-8">
+                            <div class="bg-black/40 backdrop-blur-sm border border-white/10 p-6 rounded-xl relative">
+                                <div class="absolute -top-3 -left-3 text-red-500/20 text-4xl"><i class="fas fa-quote-left"></i></div>
+                                <p class="text-zinc-300 font-mono text-sm leading-relaxed text-center relative z-10">
+                                    MongolVibes seasons typically run for 1 to 3 months. While we primarily focus on Survival and Lifesteal modes, we are constantly expanding with new gamemodes if possible. Our goal is to craft the most enjoyable server for our community. Thank you for playing—your fun is our happiness!
+                                </p>
+                                <div class="absolute -bottom-3 -right-3 text-red-500/20 text-4xl"><i class="fas fa-quote-right"></i></div>
+                            </div>
+                        </div>
+
                     </div>
                 `,
                 
@@ -1281,12 +1287,14 @@
                                             ${isHyper ? '<div class="absolute top-0 right-0 w-32 h-32 bg-brand-hyper blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>' : ''}
                                             
                                             ${rank.isBestValue ? `
-                                            <div class="absolute top-0 right-0 z-20" style="backface-visibility: hidden; transform: translateZ(0);">
-                                                <span class="bg-brand-hyper text-white text-[8px] font-bold px-2 py-0.5 font-mono uppercase rounded-bl-xl shadow-lg inline-block">Best Value</span>
+                                            <div class="absolute top-0 left-1/2 -translate-x-1/2 z-20" style="backface-visibility: hidden; transform: translateZ(0) translateX(-50%);">
+                                                <div class="bg-brand-hyper text-white text-[10px] font-bold px-3 py-1 font-mono uppercase rounded-b-lg shadow-[0_4px_10px_rgba(219,39,119,0.4)] inline-block tracking-wider">
+                                                    Best Value
+                                                </div>
                                             </div>` : ''}
 
                                             <div class="relative z-10 flex flex-col h-full justify-between">
-                                                <div class="flex justify-between items-start mb-6">
+                                                <div class="flex justify-between items-start mb-6 mt-2">
                                                     <div>
                                                         <h3 class="text-3xl ${titleColor} font-pixel tracking-tight transition-colors">${rank.name}</h3>
                                                         <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
@@ -1898,6 +1906,32 @@
                 document.getElementById('payment-modal').classList.remove('active');
             },
 
+            loadDynamicSplash: async () => {
+                const splash = document.getElementById('splash-text');
+                if(!splash) return;
+
+                // First load a default random splash
+                app.setRandomSplash();
+
+                if (window.fetchRecentPurchases) {
+                    try {
+                        const supporters = await window.fetchRecentPurchases();
+                        if (supporters && supporters.length > 0) {
+                            // Pick a random supporter
+                            const randomSupporter = supporters[Math.floor(Math.random() * supporters.length)];
+                            if (randomSupporter && randomSupporter.name) {
+                                // Add to splash texts and set immediately
+                                const text = `Thank u, ${randomSupporter.name}!`;
+                                app.splashTexts.push(text);
+                                splash.innerText = text;
+                            }
+                        }
+                    } catch (e) {
+                        console.log("Could not load dynamic supporter splash");
+                    }
+                }
+            },
+
             setRandomSplash: () => {
                 const splash = document.getElementById('splash-text');
                 if(splash) {
@@ -1932,7 +1966,7 @@
             init: () => {
                 console.log("Designed And Made By Pekly (MNVIBES Website v2)");
                 app.initListeners();
-                app.setRandomSplash();
+                app.loadDynamicSplash(); // Replaced setRandomSplash with the dynamic loader
 
                 const hash = window.location.hash.replace('#', '');
                 
