@@ -847,6 +847,7 @@
                 discordCache: null,
                 newsCache: [],
                 newsFilter: 'updates', 
+                addedPlayerSplash: false,
                 adminAvatar: "https://www.gravatar.com/avatar/e4ed8aa7ba70a2e44240adbcfd946d3a?d=200",
                 defaultSeo: {
                     title: "MongolVibes | Survival Redefined",
@@ -1287,8 +1288,8 @@
                                             ${isHyper ? '<div class="absolute top-0 right-0 w-32 h-32 bg-brand-hyper blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>' : ''}
                                             
                                             ${rank.isBestValue ? `
-                                            <div class="absolute top-0 left-1/2 -translate-x-1/2 z-20" style="backface-visibility: hidden; transform: translateZ(0) translateX(-50%);">
-                                                <div class="bg-brand-hyper text-white text-[10px] font-bold px-3 py-1 font-mono uppercase rounded-b-lg shadow-[0_4px_10px_rgba(219,39,119,0.4)] inline-block tracking-wider">
+                                            <div class="absolute -top-3 right-6 z-20">
+                                                <div class="bg-brand-hyper text-white text-[10px] font-bold px-4 py-1.5 font-mono uppercase rounded-full shadow-[0_0_15px_rgba(219,39,119,0.5)] border border-pink-400 transform rotate-2 tracking-wider">
                                                     Best Value
                                                 </div>
                                             </div>` : ''}
@@ -1698,6 +1699,16 @@
                         dot.className = "relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_#22c55e]";
                         text.innerText = `${data.players.online} Online`;
                         text.classList.add('text-brand-accent');
+
+                        // NEW: Add random player splash logic if we haven't already
+                        if (data.players && data.players.list && data.players.list.length > 0 && !app.state.addedPlayerSplash) {
+                            const randomPlayer = data.players.list[Math.floor(Math.random() * data.players.list.length)];
+                            app.splashTexts.push(`${randomPlayer} is playing!`);
+                            app.state.addedPlayerSplash = true;
+                            // Re-roll to potentially show the player
+                            app.setRandomSplash(); 
+                        }
+
                     } else {
                          dot.className = "relative inline-flex rounded-full h-3 w-3 bg-red-500";
                          text.innerText = "Offline";
@@ -1910,7 +1921,7 @@
                 const splash = document.getElementById('splash-text');
                 if(!splash) return;
 
-                // First load a default random splash
+                // First load a default random splash from the static list
                 app.setRandomSplash();
 
                 if (window.fetchRecentPurchases) {
@@ -1920,10 +1931,12 @@
                             // Pick a random supporter
                             const randomSupporter = supporters[Math.floor(Math.random() * supporters.length)];
                             if (randomSupporter && randomSupporter.name) {
-                                // Add to splash texts and set immediately
+                                // Add to splash texts pool instead of replacing
                                 const text = `Thank u, ${randomSupporter.name}!`;
                                 app.splashTexts.push(text);
-                                splash.innerText = text;
+                                
+                                // Re-roll splash now that we have more options
+                                app.setRandomSplash();
                             }
                         }
                     } catch (e) {
@@ -1966,7 +1979,7 @@
             init: () => {
                 console.log("Designed And Made By Pekly (MNVIBES Website v2)");
                 app.initListeners();
-                app.loadDynamicSplash(); // Replaced setRandomSplash with the dynamic loader
+                app.loadDynamicSplash(); 
 
                 const hash = window.location.hash.replace('#', '');
                 
