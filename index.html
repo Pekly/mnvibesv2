@@ -385,6 +385,11 @@
             display: flex;
             gap: 0.5rem;
             z-index: 20;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease;
+        }
+        .carousel-container:hover .carousel-dots {
+            opacity: 1; /* Visible on hover */
         }
         .carousel-dot {
             width: 8px;
@@ -658,7 +663,10 @@
                                 <i class="fas fa-shopping-bag text-white"></i>
                             </div>
                             <h3 class="text-4xl text-white font-pixel mb-1 tracking-tighter" id="pay-rank-name">RANK</h3>
-                            <p class="text-brand-accent font-mono text-xl" id="pay-rank-price">0 MNT</p>
+                             <!-- Pricing Section with optional strike-through -->
+                            <div id="pay-price-container">
+                                <p class="text-brand-accent font-mono text-xl" id="pay-rank-price">0 MNT</p>
+                            </div>
                         </div>
                         <div class="relative z-10">
                             <div class="h-px w-full bg-gradient-to-r from-white/20 to-transparent mb-4"></div>
@@ -851,7 +859,55 @@
                     { img: "https://digitality.neocities.org/mongolvibes/mnvibesadvent.png", alt: "Seasonal Events & Giveaways" },
                     { img: "https://digitality.neocities.org/mongolvibes/shopseasonx.png", alt: "Custom Item Shop" }
                 ],
-                slideInterval: null
+                slideInterval: null,
+                storeItems: {
+                    ranks: [
+                        {
+                            id: 'light_rank',
+                            name: 'LIGHT',
+                            price: '6,999₮',
+                            priceVal: 6999,
+                            originalPrice: '10,000₮',
+                            perks: ['Limited Colored Chat', '5 Sethomes', 'Light Kit', 'Heart Cap +5', 'Weekly Light Keys'],
+                            isBestValue: false,
+                            theme: 'green',
+                            icon: `<path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+                        },
+                        {
+                            id: 'hyper_rank',
+                            name: 'HYPER',
+                            price: '19,999₮',
+                            priceVal: 19999,
+                            originalPrice: '25,000₮',
+                            perks: ['RGB Chat', 'Unlimited Homes', 'Hyper Kit', '/fly in Lobby', 'Custom Particles', 'Heart Cap +15', 'Weekly Hyper Keys'],
+                            isBestValue: true,
+                            theme: 'hyper',
+                            icon: `<path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>`
+                        }
+                    ],
+                    consumables: [
+                         {
+                            id: 'crate_key',
+                            name: 'CRATE KEY',
+                            price: '2,000 MNT',
+                            priceVal: 2000,
+                            originalPrice: null,
+                            desc: '1x Lifesteal Key',
+                            icon: 'fa-key',
+                            color: 'yellow'
+                        },
+                        {
+                            id: 'gear_kit',
+                            name: 'GEAR KIT',
+                            price: '8,000 MNT',
+                            priceVal: 8000,
+                            originalPrice: '10,000 MNT',
+                            desc: 'Fully Maxed Gear Kit',
+                            icon: 'fa-shield-alt',
+                            color: 'purple'
+                        }
+                    ]
+                }
             },
             
             splashTexts: [
@@ -1132,32 +1188,32 @@
                             </div>
                         </div>
 
-                        <div class="mb-20">
+                        <div class="mb-8"> <!-- Reduced Margin Bottom from mb-20 to mb-8 -->
                             <div class="flex items-end justify-between border-b border-white/5 pb-4 mb-8">
                                 <h2 class="text-3xl text-white font-pixel tracking-tighter">SNAPSHOTS</h2>
                                 <span class="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">Gallery</span>
                             </div>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <div class="aspect-square bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group relative cursor-pointer" onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/seasonxlobby.png')">
+                                <div class="aspect-square bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group relative cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-20 hover:shadow-2xl" onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/seasonxlobby.png')">
                                     <img src="https://digitality.neocities.org/mongolvibes/seasonxlobby.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                     <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                         <i class="fas fa-expand text-white"></i>
                                     </div>
                                 </div>
-                                <div class="aspect-square bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group relative cursor-pointer" onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/mnvibesadvent.png')">
+                                <div class="aspect-square bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group relative cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-20 hover:shadow-2xl" onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/mnvibesadvent.png')">
                                     <img src="https://digitality.neocities.org/mongolvibes/mnvibesadvent.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/18181b/white?text=Screenshot+2'">
                                      <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                         <i class="fas fa-expand text-white"></i>
                                     </div>
                                 </div>
-                                <div class="aspect-square bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group relative cursor-pointer" onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/season9lobby.png')">
+                                <div class="aspect-square bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group relative cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-20 hover:shadow-2xl" onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/season9lobby.png')">
                                     <img src="https://digitality.neocities.org/mongolvibes/season9lobby.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/18181b/white?text=Screenshot+3'">
                                      <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                         <i class="fas fa-expand text-white"></i>
                                     </div>
                                 </div>
-                                <div class="aspect-square bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group relative cursor-pointer" onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/shopseasonx.png')">
-                                    <img src="https://digitality.neocities.org/mongolvibes/shopseasonx.png" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/18181b/white?text=Screenshot+4'">
+                                <div class="aspect-square bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group relative cursor-pointer transition-transform duration-300 hover:scale-105 hover:z-20 hover:shadow-2xl" onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/shopseasonx.png')">
+                                    <img src="https://digitality.neocities.org/mongolvibes/shopseasonx.png" class="w-full h-full object-cover group-hover:scale-100 transition-transform duration-500" onerror="this.src='https://placehold.co/400x400/18181b/white?text=Screenshot+4'">
                                      <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                         <i class="fas fa-expand text-white"></i>
                                     </div>
@@ -1198,93 +1254,82 @@
                             <!-- Left Column: Products -->
                             <div class="flex-1">
                                 <div class="grid md:grid-cols-2 gap-10">
-                                    <!-- Light Rank Card -->
-                                    <div class="card-indie p-8 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border border-white/10" 
-                                         onclick="app.openPaymentModal('Light Rank', '10,000 MNT', ['Colored Chat', '5 Sethomes', 'Priority', 'Light Kit', 'Heart Cap +5', 'Light Crate Keys'])">
-                                        <div class="absolute inset-0 opacity-40 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');"></div>
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                                        <div class="relative z-10 flex flex-col h-full justify-between">
-                                            <div class="flex justify-between items-start mb-6">
-                                                <div>
-                                                    <h3 class="text-3xl text-green-400 font-pixel tracking-tight group-hover:text-green-300 transition-colors">LIGHT</h3>
-                                                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
-                                                </div>
-                                                <!-- Custom 4-Point Star Icon (Hollow) -->
-                                                <div class="text-zinc-700 group-hover:text-green-500 transition-colors">
-                                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-3 mb-8 font-mono text-sm text-zinc-300">
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Limited Colored Chat</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> 5 Sethomes</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Light Kit</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Heart Cap +5</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div> Weekly Light Keys</div>
-                                            </div>
-                                            <div class="btn-glitch w-full bg-zinc-800/80 backdrop-blur border border-zinc-700 text-white text-center py-4 rounded-lg font-pixel text-sm group-hover:bg-green-600 group-hover:border-green-500 transition-all">
-                                                10,000₮
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Hyper Rank Card -->
-                                    <div class="card-indie p-8 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border border-brand-hyper/30 shadow-[0_0_30px_rgba(219,39,119,0.1)]"
-                                         onclick="app.openPaymentModal('Hyper Rank', '25,000 MNT', ['Full Chat Color', 'Unlimited Sethomes', '/fly in Lobby', 'Custom Particles', 'Hyper Kit', 'Heart Cap +15', 'Hyper Crate Keys'])">
-                                        <div class="absolute inset-0 opacity-30 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-hyper blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                                    ${app.state.storeItems.ranks.map(rank => {
+                                        const isHyper = rank.theme === 'hyper';
+                                        const borderColor = isHyper ? 'border-brand-hyper/30' : 'border-white/10';
+                                        const titleColor = isHyper ? 'text-brand-hyper group-hover:text-pink-400' : 'text-green-400 group-hover:text-green-300';
+                                        const btnBg = isHyper ? 'group-hover:bg-brand-hyper group-hover:border-pink-500' : 'group-hover:bg-green-600 group-hover:border-green-500';
+                                        const iconColor = isHyper ? 'text-brand-hyper group-hover:text-pink-400' : 'text-zinc-700 group-hover:text-green-500';
+                                        const fillType = isHyper ? 'fill="currentColor"' : 'fill="none"';
                                         
-                                        <!-- Best Value Tag: Fixed to corner -->
-                                        <div class="absolute top-0 right-0 z-20">
-                                            <span class="bg-brand-hyper text-white text-[9px] font-bold px-4 py-2 font-mono uppercase rounded-bl-xl shadow-lg inline-block">Best Value</span>
-                                        </div>
+                                        const perksHtml = rank.perks.map(p => {
+                                            const dotColor = isHyper ? 'bg-brand-hyper shadow-[0_0_5px_#db2777]' : 'bg-green-500';
+                                            return `<div class="flex items-center gap-3"><div class="w-1.5 h-1.5 ${dotColor} rounded-full"></div> ${p}</div>`;
+                                        }).join('');
 
-                                        <div class="relative z-10 flex flex-col h-full justify-between">
-                                            <div class="flex justify-between items-start mb-6">
-                                                <div>
-                                                    <h3 class="text-3xl text-brand-hyper font-pixel tracking-tight group-hover:text-pink-400 transition-colors drop-shadow-md">HYPER</h3>
-                                                    <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
+                                        // Handle optional original price for display (Card View)
+                                        let priceDisplay = rank.price;
+                                        if (rank.originalPrice) {
+                                            priceDisplay = `<span class="line-through text-zinc-500 text-xs mr-2">${rank.originalPrice}</span>${rank.price}`;
+                                        }
+
+                                        return `
+                                        <div class="card-indie p-8 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border ${borderColor} ${isHyper ? 'shadow-[0_0_30px_rgba(219,39,119,0.1)]' : ''}" 
+                                             onclick="app.openPaymentModal('${rank.name} Rank', '${rank.price}', ['${rank.perks.join("','")}'], '${rank.originalPrice || ''}')">
+                                            <div class="absolute inset-0 opacity-${isHyper ? '30' : '40'} bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/${isHyper ? 'carbon-fibre' : 'black-scales'}.png');"></div>
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                                            ${isHyper ? '<div class="absolute top-0 right-0 w-32 h-32 bg-brand-hyper blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>' : ''}
+                                            
+                                            ${rank.isBestValue ? `
+                                            <div class="absolute top-0 right-0 z-20" style="backface-visibility: hidden; transform: translateZ(0);">
+                                                <span class="bg-brand-hyper text-white text-[8px] font-bold px-2 py-0.5 font-mono uppercase rounded-bl-xl shadow-lg inline-block">Best Value</span>
+                                            </div>` : ''}
+
+                                            <div class="relative z-10 flex flex-col h-full justify-between">
+                                                <div class="flex justify-between items-start mb-6">
+                                                    <div>
+                                                        <h3 class="text-3xl ${titleColor} font-pixel tracking-tight transition-colors">${rank.name}</h3>
+                                                        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
+                                                    </div>
+                                                    <div class="${iconColor} transition-colors">
+                                                        <svg width="32" height="32" viewBox="0 0 24 24" ${fillType} xmlns="http://www.w3.org/2000/svg">
+                                                            ${rank.icon}
+                                                        </svg>
+                                                    </div>
                                                 </div>
-                                                <!-- Custom 4-Point Star Icon (Solid) -->
-                                                <div class="text-brand-hyper group-hover:text-pink-400 transition-colors">
-                                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-                                                    </svg>
+                                                <div class="space-y-3 mb-8 font-mono text-sm text-zinc-300">
+                                                    ${perksHtml}
                                                 </div>
-                                            </div>
-                                            <div class="space-y-3 mb-8 font-mono text-sm text-zinc-300">
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> RGB Chat</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Unlimited Homes</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Hyper Kit</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> /fly in Lobby</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Custom Particles</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Heart Cap +15</div>
-                                                <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 bg-brand-hyper rounded-full shadow-[0_0_5px_#db2777]"></div> Weekly Hyper Keys</div>
-                                            </div>
-                                            <div class="btn-glitch w-full bg-zinc-800/80 backdrop-blur border border-zinc-700 text-white text-center py-4 rounded-lg font-pixel text-sm group-hover:bg-brand-hyper group-hover:border-pink-500 transition-all">
-                                                25,000₮
+                                                <div class="btn-glitch w-full bg-zinc-800/80 backdrop-blur border border-zinc-700 text-white text-center py-4 rounded-lg font-pixel text-sm ${btnBg} transition-all">
+                                                    ${priceDisplay}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        `;
+                                    }).join('')}
                                 </div>
                                 
                                 <div class="flex flex-wrap justify-center gap-6 mt-12">
-                                    <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl hover:border-yellow-500/50 cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300" onclick="app.openPaymentModal('Lifesteal Key', '2,000 MNT', ['1x Lifesteal Key'])">
-                                        <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800 group-hover:border-yellow-500 transition-colors">
-                                            <i class="fas fa-key text-yellow-500 text-xl"></i>
+                                    ${app.state.storeItems.consumables.map(item => {
+                                        const hoverColor = item.color === 'yellow' ? 'hover:border-yellow-500/50 group-hover:border-yellow-500 text-yellow-500 group-hover:text-yellow-500' : 'hover:border-purple-500/50 group-hover:border-purple-500 text-purple-500 group-hover:text-purple-500';
+                                        
+                                        // Handle original price for consumables
+                                        let priceDisplay = item.price;
+                                        if (item.originalPrice) {
+                                            priceDisplay = `<span class="line-through text-zinc-600 mr-1">${item.originalPrice}</span>${item.price}`;
+                                        }
+
+                                        return `
+                                        <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300 ${item.color === 'yellow' ? 'hover:border-yellow-500/50' : 'hover:border-purple-500/50'}" 
+                                             onclick="app.openPaymentModal('${item.name}', '${item.price}', ['${item.desc}'], '${item.originalPrice || ''}')">
+                                            <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800 transition-colors ${item.color === 'yellow' ? 'group-hover:border-yellow-500' : 'group-hover:border-purple-500'}">
+                                                <i class="fas ${item.icon} text-xl ${item.color === 'yellow' ? 'text-yellow-500' : 'text-purple-500'}"></i>
+                                            </div>
+                                            <div class="font-pixel text-sm text-white mb-1">${item.name}</div>
+                                            <div class="text-[10px] text-zinc-500 font-mono transition-colors ${item.color === 'yellow' ? 'group-hover:text-yellow-500' : 'group-hover:text-purple-500'}">${priceDisplay}</div>
                                         </div>
-                                        <div class="font-pixel text-sm text-white mb-1">CRATE KEY</div>
-                                        <div class="text-[10px] text-zinc-500 font-mono group-hover:text-yellow-500 transition-colors">2,000 MNT</div>
-                                    </div>
-                                    <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl hover:border-purple-500/50 cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300" onclick="app.openPaymentModal('Lifesteal Kit', '8,000 MNT', ['Fully Maxed Gear Kit'])">
-                                        <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800 group-hover:border-purple-500 transition-colors">
-                                            <i class="fas fa-shield-alt text-purple-500 text-xl"></i>
-                                        </div>
-                                        <div class="font-pixel text-sm text-white mb-1">GEAR KIT</div>
-                                        <div class="text-[10px] text-zinc-500 font-mono group-hover:text-purple-500 transition-colors">8,000 MNT</div>
-                                    </div>
+                                        `;
+                                    }).join('')}
                                 </div>
                             </div>
                             
@@ -1317,7 +1362,17 @@
                             </div>
                         </div>
 
-                        <!-- Media Rank Section -->
+                        <!-- Purchase Policy Footer moved UP -->
+                        <div class="mt-8 border-t border-white/5 pt-8 pb-4 text-center max-w-3xl mx-auto px-6 mb-8">
+                            <h5 class="text-white font-bold uppercase tracking-widest text-[10px] mb-3">
+                                <i class="fas fa-balance-scale mr-1"></i> Terms of Transaction
+                            </h5>
+                            <p class="text-white text-[10px] font-mono leading-relaxed opacity-90 max-w-2xl mx-auto">
+                                BY COMPLETING ANY PURCHASE ON THIS STORE, YOU EXPLICITLY AGREE TO THE FOLLOWING: YOU ARE AT LEAST 18 YEARS OF AGE OR HAVE OBTAINED PARENTAL CONSENT. ALL SALES ARE FINAL AND NON-REFUNDABLE UNDER ANY CIRCUMSTANCES. RANK FEATURES AND PERKS ARE SUBJECT TO ADJUSTMENT FOR GAMEPLAY BALANCE. YOU MUST INCLUDE YOUR CORRECT MINECRAFT IGN AND DISCORD USERNAME IN THE TRANSACTION DESCRIPTION TO RECEIVE YOUR ITEMS. FAILURE TO DO SO MAY RESULT IN A VOIDED TRANSACTION.
+                            </p>
+                        </div>
+
+                        <!-- Media Rank Section moved DOWN -->
                         <div class="max-w-4xl mx-auto bg-black/40 border border-white/5 rounded-2xl overflow-hidden flex flex-col md:flex-row">
                             <div class="md:w-1/3 bg-purple-900/20 p-8 flex flex-col justify-center items-center text-center border-r border-white/5 relative">
                                 <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10"></div>
@@ -1348,15 +1403,6 @@
                             </div>
                         </div>
 
-                        <!-- Purchase Policy Footer -->
-                        <div class="mt-8 border-t border-white/5 pt-8 pb-4 text-center max-w-3xl mx-auto px-6">
-                            <h5 class="text-white font-bold uppercase tracking-widest text-[10px] mb-3">
-                                <i class="fas fa-balance-scale mr-1"></i> Terms of Transaction
-                            </h5>
-                            <p class="text-white text-[10px] font-mono leading-relaxed opacity-90 max-w-2xl mx-auto">
-                                BY COMPLETING ANY PURCHASE ON THIS STORE, YOU EXPLICITLY AGREE TO THE FOLLOWING: YOU ARE AT LEAST 18 YEARS OF AGE OR HAVE OBTAINED PARENTAL CONSENT. ALL SALES ARE FINAL AND NON-REFUNDABLE UNDER ANY CIRCUMSTANCES. RANK FEATURES AND PERKS ARE SUBJECT TO ADJUSTMENT FOR GAMEPLAY BALANCE. YOU MUST INCLUDE YOUR CORRECT MINECRAFT IGN AND DISCORD USERNAME IN THE TRANSACTION DESCRIPTION TO RECEIVE YOUR ITEMS. FAILURE TO DO SO MAY RESULT IN A VOIDED TRANSACTION.
-                            </p>
-                        </div>
                     </div>
                 `
             },
@@ -1827,10 +1873,17 @@
                 }, 1500);
             },
 
-            openPaymentModal: (rank, price, perks) => {
+            openPaymentModal: (rank, price, perks, originalPrice) => {
                 const modal = document.getElementById('payment-modal');
                 document.getElementById('pay-rank-name').innerText = rank;
-                document.getElementById('pay-rank-price').innerText = price;
+                
+                const priceContainer = document.getElementById('pay-price-container');
+                if (originalPrice && originalPrice !== '') {
+                    priceContainer.innerHTML = `<p class="text-brand-accent font-mono text-xl"><span class="line-through text-zinc-500 text-sm mr-2">${originalPrice}</span>${price}</p>`;
+                } else {
+                    priceContainer.innerHTML = `<p class="text-brand-accent font-mono text-xl">${price}</p>`;
+                }
+
                 const perksContainer = document.getElementById('pay-rank-perks');
                 perksContainer.innerHTML = perks.map(p => `
                     <li class="flex items-center gap-3">
