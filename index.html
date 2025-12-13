@@ -47,7 +47,8 @@
                             bg: '#09090b', 
                             card: '#18181b', 
                             accent: '#22c55e', 
-                            hyper: '#db2777', 
+                            hyper: '#db2777',
+                            bypass: '#ef4444', 
                             discord: '#5865F2',
                             surface: '#27272a',
                             border: '#3f3f46',
@@ -59,6 +60,7 @@
                         'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'glitch': 'glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite',
                         'fade-in': 'fadeIn 0.5s ease-in-out forwards',
+                        'pan-bg': 'panBg 60s linear infinite alternate',
                     },
                     keyframes: {
                         enterSlide: {
@@ -80,6 +82,10 @@
                         fadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' }
+                        },
+                        panBg: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '100%': { backgroundPosition: '100% 50%' }
                         }
                     }
                 }
@@ -142,6 +148,7 @@
         }
         .btn-glitch:hover {
             transform: scale(1.02);
+            /* Default shadow, can be overridden */
             box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
         }
         .btn-glitch::before {
@@ -157,6 +164,13 @@
         .btn-glitch:hover::before {
             left: 100%;
         }
+
+        /* Color specific glow overrides */
+        .btn-glow-green:hover { box-shadow: 0 0 25px rgba(34, 197, 94, 0.6) !important; }
+        .btn-glow-pink:hover { box-shadow: 0 0 25px rgba(219, 39, 119, 0.6) !important; }
+        .btn-glow-red:hover { box-shadow: 0 0 25px rgba(239, 68, 68, 0.6) !important; }
+        .btn-glow-purple:hover { box-shadow: 0 0 25px rgba(168, 85, 247, 0.6) !important; }
+        .btn-glow-yellow:hover { box-shadow: 0 0 25px rgba(234, 179, 8, 0.6) !important; }
 
         .modal-glass {
             background: rgba(10, 10, 12, 0.85);
@@ -444,6 +458,21 @@
         .carousel-container:hover .carousel-caption {
             transform: translateY(0);
         }
+        
+        .hero-minecraft-bg {
+            /* DELETED */
+        }
+        
+        .hero-minecraft-overlay {
+            /* DELETED */
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.1; } /* Subtle visibility */
+            90% { opacity: 0.1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col text-zinc-100 selection:bg-brand-accent selection:text-black">
@@ -454,7 +483,7 @@
         <div class="flex flex-col items-center relative">
             <div class="absolute inset-0 bg-brand-accent blur-[40px] opacity-20 rounded-full animate-pulse"></div>
             <div class="w-16 h-16 border-4 border-t-4 border-brand-accent border-t-transparent rounded-full animate-spin mb-4 relative z-10"></div>
-            <p class="text-white font-pixel text-2xl tracking-widest relative z-10 animate-pulse">LOADING WORLD</p>
+            <p class="text-white font-pixel text-2xl tracking-widest relative z-10 animate-pulse">MNVIBES.ORG</p>
         </div>
     </div>
 
@@ -466,8 +495,10 @@
     <nav class="fixed top-0 w-full z-50 h-24 flex items-center justify-between px-6 md:px-12 pointer-events-none bg-gradient-to-b from-black via-black/80 to-transparent backdrop-blur-[2px]">
         <div class="pointer-events-auto flex items-center gap-4 cursor-pointer group relative" onclick="app.routerWithCooldown('home')">
             <div class="relative w-14 h-14 flex items-center justify-center transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
-                <div class="absolute inset-0 bg-yellow-500 blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
-                <img src="https://i.ibb.co/27YWBW6M/Picsart-25-12-04-05-19-25-855.png" alt="MongolVibes Logo" class="w-full h-full object-contain relative z-10 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]">
+                <!-- UPDATED TO RED GLOW -->
+                <div class="absolute inset-0 bg-red-600 blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
+                <!-- UPDATED TO RED SHADOW -->
+                <img src="https://i.ibb.co/27YWBW6M/Picsart-25-12-04-05-19-25-855.png" alt="MongolVibes Logo" class="w-full h-full object-contain relative z-10 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">
             </div>
             <div class="flex flex-col relative">
                 <span class="font-pixel text-2xl tracking-tighter text-white group-hover:text-brand-accent transition-colors drop-shadow-md">MongolVibes</span>
@@ -694,7 +725,7 @@
                                     <div>
                                         <div class="text-[10px] text-zinc-500 uppercase font-bold mb-1">Khan Bank Account</div>
                                         <div class="text-xl font-mono text-white tracking-widest font-bold">5303195240</div>
-                                        <div class="text-xs text-zinc-400 mt-1">UCHRAL</div>
+                                        <div class="text-xs text-zinc-400 mt-1">UCHRAL (MN98000500)</div>
                                     </div>
                                     <i class="fas fa-copy text-zinc-600 group-hover:text-brand-accent transition-colors"></i>
                                 </div>
@@ -741,10 +772,10 @@
         </div>
     </div>
 
-    <main id="app-container" class="flex-1 pt-24 overflow-y-auto overflow-x-hidden scroll-smooth perspective-container">
-        <div id="content-slot" class="px-6 md:px-12 pb-12 max-w-7xl mx-auto min-h-[80vh]"></div>
+    <main id="app-container" class="flex-1 pt-24 overflow-y-auto overflow-x-hidden scroll-smooth perspective-container relative">
+        <div id="content-slot" class="px-6 md:px-12 pb-12 max-w-7xl mx-auto min-h-[80vh] relative z-10"></div>
 
-        <footer class="border-t border-white/5 bg-black/60 py-16 px-6 mt-6 backdrop-blur-xl relative overflow-hidden">
+        <footer class="border-t border-white/5 bg-black/60 py-16 px-6 mt-6 backdrop-blur-xl relative overflow-hidden z-10">
             <div class="absolute inset-0 bg-gradient-to-t from-brand-accent/5 to-transparent pointer-events-none"></div>
             <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-sm text-zinc-500 relative z-10">
                 <div>
@@ -768,7 +799,7 @@
                         <li><a href="https://support.mnvibes.org/appeal" class="hover:text-brand-accent transition-all hover:pl-2">Ban Appeals</a></li>
                     </ul>
                 </div>
-                <div class="text-right flex flex-col justify-end">
+                <div>
                     <p class="font-mono text-[10px] bg-clip-text text-transparent bg-gradient-to-r from-zinc-500 to-white uppercase tracking-widest font-bold">Est. 2023 • Season X</p>
                     <p class="font-mono text-[10px] text-zinc-700 mt-2">Not affiliated with Mojang AB.</p>
                 </div>
@@ -894,6 +925,17 @@
                             isBestValue: true,
                             theme: 'hyper',
                             icon: `<path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>`
+                        },
+                        {
+                            id: 'bypass_rank',
+                            name: 'BYPASS',
+                            price: '35,000₮',
+                            priceVal: 35000,
+                            originalPrice: null,
+                            perks: ['Includes Hyper & Light Perms', 'Immune to Player Damage', 'Cannot Deal PVP Damage', 'Heart System Disabled', 'Hidden from Locator (Perm)'],
+                            isBestValue: false,
+                            theme: 'bypass',
+                            icon: `<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>`
                         }
                     ],
                     consumables: [
@@ -1030,6 +1072,30 @@
                 
                 if(caption) caption.innerText = app.state.slides[app.state.currentSlide].alt;
             },
+            
+            startFloatingBg: () => {
+                const container = document.getElementById('floating-bg-container');
+                if(!container) return;
+                container.innerHTML = '';
+                const chars = ['MV', '[]', ':)', '[]', 'MV'];
+                const count = 20; 
+
+                for(let i=0; i<count; i++) {
+                    const el = document.createElement('div');
+                    el.innerText = chars[Math.floor(Math.random() * chars.length)];
+                    el.className = 'floating-item absolute text-white/5 font-mono font-bold select-none pointer-events-none';
+                    el.style.left = Math.random() * 100 + '%';
+                    el.style.fontSize = (Math.random() * 4 + 1) + 'rem';
+                    el.style.animation = `floatUp ${Math.random() * 10 + 15}s linear infinite`;
+                    el.style.animationDelay = `-${Math.random() * 20}s`;
+                    container.appendChild(el);
+                }
+            },
+
+            stopFloatingBg: () => {
+                 const container = document.getElementById('floating-bg-container');
+                 if(container) container.innerHTML = '';
+            },
 
             updateSeo: (title, desc, image) => {
                 document.title = title;
@@ -1064,18 +1130,22 @@
             templates: {
                 home: (animated) => `
                     <div class="${animated ? 'animate-enter-slide' : ''}">
-                        <div class="grid lg:grid-cols-2 gap-16 items-center py-12 md:py-24">
+                         <!-- Background Elements Removed for Clean Look -->
+                         <div id="floating-bg-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+                         
+                        <div class="grid lg:grid-cols-2 gap-16 items-center py-12 md:py-24 relative z-10">
                             <div class="order-2 lg:order-1 relative z-10">
                                 <div class="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900/80 border border-zinc-700/50 backdrop-blur-sm text-zinc-300 text-[10px] font-mono font-bold tracking-[0.2em] mb-8 rounded-full shadow-lg">
                                     <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                                     JAVA & BEDROCK COMPATIBLE
                                 </div>
+                                
                                 <h1 class="text-6xl md:text-8xl leading-[0.9] text-white mb-8 tracking-tighter drop-shadow-2xl">
                                     SURVIVAL<br>
                                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-emerald-800">REDEFINED</span>
                                 </h1>
+                                <!-- Cleaned up description box -->
                                 <p class="text-lg text-zinc-400 leading-relaxed max-w-lg mb-12 font-mono border-l-2 border-brand-accent/50 pl-6 relative">
-                                    <span class="absolute -left-[3px] top-0 h-8 w-[4px] bg-brand-accent"></span>
                                     Experience the best Mongolian Minecraft server. Custom terrain, player-driven economy, and a community that feels like home.
                                 </p>
                                 <div class="flex flex-col sm:flex-row gap-4">
@@ -1098,13 +1168,13 @@
                             </div>
                         </div>
 
-                        <div class="mt-24">
+                        <div class="mt-24 relative z-10">
                             <div class="flex items-end justify-between border-b border-white/5 pb-4 mb-12">
                                 <h2 class="text-3xl text-white font-pixel tracking-tighter">SERVER FEATURES</h2>
                                 <span class="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">Sys.Ver 1.21.8</span>
                             </div>
                             <div class="grid md:grid-cols-3 gap-8">
-                                <div class="card-indie p-8 rounded-xl bg-zinc-900/40 border border-white/5 hover:border-brand-accent/30 transition-all hover-lift group tilt-card">
+                                <div class="card-indie p-8 rounded-xl bg-zinc-900/40 border border-white/5 hover:border-brand-accent/30 transition-all hover-lift group tilt-card backdrop-blur-sm">
                                     <div class="w-14 h-14 bg-zinc-800/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-brand-accent/20 transition-colors">
                                         <i class="fas fa-gamepad text-3xl text-brand-accent group-hover:scale-110 transition-transform"></i>
                                     </div>
@@ -1113,7 +1183,7 @@
                                         Tailored gameplay experiences ranging from hardcore survival to relaxed creative plots.
                                     </p>
                                 </div>
-                                <div class="card-indie p-8 rounded-xl bg-zinc-900/40 border border-white/5 hover:border-pink-500/30 transition-all hover-lift group tilt-card">
+                                <div class="card-indie p-8 rounded-xl bg-zinc-900/40 border border-white/5 hover:border-pink-500/30 transition-all hover-lift group tilt-card backdrop-blur-sm">
                                     <div class="w-14 h-14 bg-zinc-800/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-pink-500/20 transition-colors">
                                         <i class="fas fa-users text-3xl text-pink-500 group-hover:scale-110 transition-transform"></i>
                                     </div>
@@ -1122,7 +1192,7 @@
                                         Active staff, regular events, and a toxicity-free environment enforced by custom bots.
                                     </p>
                                 </div>
-                                <div class="card-indie p-8 rounded-xl bg-zinc-900/40 border border-white/5 hover:border-blue-500/30 transition-all hover-lift group tilt-card">
+                                <div class="card-indie p-8 rounded-xl bg-zinc-900/40 border border-white/5 hover:border-blue-500/30 transition-all hover-lift group tilt-card backdrop-blur-sm">
                                     <div class="w-14 h-14 bg-zinc-800/50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-500/20 transition-colors">
                                         <i class="fas fa-server text-3xl text-blue-500 group-hover:scale-110 transition-transform"></i>
                                     </div>
@@ -1170,7 +1240,7 @@
                                     </li>
                                     <li class="flex items-center gap-4 group/item">
                                         <div class="w-8 h-8 rounded bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-400 group-hover/item:border-white transition-colors">!</div>
-                                        <span>0 Hearts = <strong class="text-white bg-red-900/30 px-2 py-0.5 rounded">24h BAN</strong></span>
+                                        <span>0 Hearts = <strong class="text-white bg-red-900/30 px-2 py-0.5 rounded">BLACKLIST</strong></span>
                                     </li>
                                 </ul>
                             </div>
@@ -1269,17 +1339,33 @@
                         <div class="flex flex-col lg:flex-row gap-12 max-w-7xl mx-auto mb-16">
                             <!-- Left Column: Products -->
                             <div class="flex-1">
-                                <div class="grid md:grid-cols-2 gap-10">
+                                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                                     ${app.state.storeItems.ranks.map(rank => {
                                         const isHyper = rank.theme === 'hyper';
-                                        const borderColor = isHyper ? 'border-brand-hyper/30' : 'border-white/10';
-                                        const titleColor = isHyper ? 'text-brand-hyper group-hover:text-pink-400' : 'text-green-400 group-hover:text-green-300';
-                                        const btnBg = isHyper ? 'group-hover:bg-brand-hyper group-hover:border-pink-500' : 'group-hover:bg-green-600 group-hover:border-green-500';
-                                        const iconColor = isHyper ? 'text-brand-hyper group-hover:text-pink-400' : 'text-zinc-700 group-hover:text-green-500';
-                                        const fillType = isHyper ? 'fill="currentColor"' : 'fill="none"';
+                                        const isBypass = rank.theme === 'bypass';
+                                        
+                                        let borderColor = 'border-white/10';
+                                        if (isHyper) borderColor = 'border-brand-hyper/30';
+                                        if (isBypass) borderColor = 'border-brand-bypass/30';
+
+                                        let titleColor = 'text-green-400 group-hover:text-green-300';
+                                        if (isHyper) titleColor = 'text-brand-hyper group-hover:text-pink-400';
+                                        if (isBypass) titleColor = 'text-brand-bypass group-hover:text-red-400';
+
+                                        let btnBg = 'group-hover:bg-green-600 group-hover:border-green-500 btn-glow-green';
+                                        if (isHyper) btnBg = 'group-hover:bg-brand-hyper group-hover:border-pink-500 btn-glow-pink';
+                                        if (isBypass) btnBg = 'group-hover:bg-brand-bypass group-hover:border-red-500 btn-glow-red';
+
+                                        let iconColor = 'text-zinc-700 group-hover:text-green-500';
+                                        if (isHyper) iconColor = 'text-brand-hyper group-hover:text-pink-400';
+                                        if (isBypass) iconColor = 'text-brand-bypass group-hover:text-red-400';
+
+                                        const fillType = (isHyper || isBypass) ? 'fill="currentColor"' : 'fill="none"';
                                         
                                         const perksHtml = rank.perks.map(p => {
-                                            const dotColor = isHyper ? 'bg-brand-hyper shadow-[0_0_5px_#db2777]' : 'bg-green-500';
+                                            let dotColor = 'bg-green-500';
+                                            if (isHyper) dotColor = 'bg-brand-hyper shadow-[0_0_5px_#db2777]';
+                                            if (isBypass) dotColor = 'bg-brand-bypass shadow-[0_0_5px_#ef4444]';
                                             return `<div class="flex items-center gap-3"><div class="w-1.5 h-1.5 ${dotColor} rounded-full"></div> ${p}</div>`;
                                         }).join('');
 
@@ -1289,12 +1375,26 @@
                                             priceDisplay = `<span class="line-through text-zinc-500 text-xs mr-2">${rank.originalPrice}</span>${rank.price}`;
                                         }
 
+                                        let bgPattern = 'black-scales';
+                                        if (isHyper) bgPattern = 'carbon-fibre';
+                                        if (isBypass) bgPattern = 'diagonal-stripes'; // or any other pattern
+
                                         return `
-                                        <div class="card-indie p-8 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border ${borderColor} ${isHyper ? 'shadow-[0_0_30px_rgba(219,39,119,0.1)]' : ''}" 
+                                        <div class="card-indie p-6 rounded-2xl bg-black group cursor-pointer relative overflow-hidden tilt-card hover-lift border ${borderColor} ${isHyper ? 'shadow-[0_0_30px_rgba(219,39,119,0.1)]' : ''} ${isBypass ? 'shadow-[0_0_30px_rgba(239,68,68,0.1)]' : ''}" 
                                              onclick="app.openPaymentModal('${rank.name} Rank', '${rank.price}', ['${rank.perks.join("','")}'], '${rank.originalPrice || ''}')">
-                                            <div class="absolute inset-0 opacity-${isHyper ? '30' : '40'} bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/${isHyper ? 'carbon-fibre' : 'black-scales'}.png');"></div>
+                                            
+                                            <!-- Dynamic Background Object (Top Right) -->
+                                            <div class="absolute -right-6 -top-6 opacity-10 transform rotate-12 scale-150 pointer-events-none transition-transform group-hover:scale-[1.75] duration-700 ${isBypass ? 'text-red-500' : (isHyper ? 'text-pink-500' : 'text-green-500')}">
+                                                <svg width="180" height="180" viewBox="0 0 24 24" ${fillType} xmlns="http://www.w3.org/2000/svg">
+                                                    ${rank.icon}
+                                                </svg>
+                                            </div>
+
+                                            <div class="absolute inset-0 opacity-${isHyper || isBypass ? '30' : '40'} bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://www.transparenttextures.com/patterns/${bgPattern}.png');"></div>
                                             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                                            
                                             ${isHyper ? '<div class="absolute top-0 right-0 w-32 h-32 bg-brand-hyper blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>' : ''}
+                                            ${isBypass ? '<div class="absolute top-0 right-0 w-32 h-32 bg-brand-bypass blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>' : ''}
                                             
                                             ${rank.isBestValue ? `
                                             <div class="absolute top-4 right-4 z-20">
@@ -1307,12 +1407,8 @@
                                                 <div class="flex justify-between items-start mb-6 mt-2">
                                                     <div>
                                                         <h3 class="text-3xl ${titleColor} font-pixel tracking-tight transition-colors">${rank.name}</h3>
-                                                        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50">Lifetime Rank</span>
-                                                    </div>
-                                                    <div class="${iconColor} transition-colors">
-                                                        <svg width="32" height="32" viewBox="0 0 24 24" ${fillType} xmlns="http://www.w3.org/2000/svg">
-                                                            ${rank.icon}
-                                                        </svg>
+                                                        ${isBypass ? '<p class="text-[10px] text-zinc-600 font-mono italic mt-1 leading-tight">Designed for peaceful gameplay. Not Pay-to-Win.</p>' : ''}
+                                                        <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-zinc-800 px-2 py-1 rounded bg-black/50 mt-2 inline-block">Lifetime Rank</span>
                                                     </div>
                                                 </div>
                                                 <div class="space-y-3 mb-8 font-mono text-sm text-zinc-300">
@@ -1338,7 +1434,7 @@
                                         }
 
                                         return `
-                                        <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300 ${item.color === 'yellow' ? 'hover:border-yellow-500/50' : 'hover:border-purple-500/50'}" 
+                                        <div class="group bg-zinc-900/50 backdrop-blur border border-zinc-800 p-6 rounded-xl cursor-pointer transition-all w-48 text-center hover:-translate-y-2 duration-300 ${item.color === 'yellow' ? 'hover:border-yellow-500/50 btn-glow-yellow shadow-lg shadow-transparent hover:shadow-yellow-500/20' : 'hover:border-purple-500/50 btn-glow-purple shadow-lg shadow-transparent hover:shadow-purple-500/20'}" 
                                              onclick="app.openPaymentModal('${item.name}', '${item.price}', ['${item.desc}'], '${item.originalPrice || ''}')">
                                             <div class="w-12 h-12 bg-black rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800 transition-colors ${item.color === 'yellow' ? 'group-hover:border-yellow-500' : 'group-hover:border-purple-500'}">
                                                 <i class="fas ${item.icon} text-xl ${item.color === 'yellow' ? 'text-yellow-500' : 'text-purple-500'}"></i>
@@ -1443,6 +1539,11 @@
                     app.stopCarousel();
                 }
 
+                // Stop floating BG if leaving home
+                if (app.state.currentPage === 'home' && pageId !== 'home') {
+                    app.stopFloatingBg();
+                }
+
                 setTimeout(() => {
                     app.router(pageId);
                     container.style.transition = 'all 0.4s ease';
@@ -1519,6 +1620,7 @@
 
                     if (pageId === 'home') {
                         app.startCarousel();
+                        app.startFloatingBg();
                     }
                     if (pageId === 'news') {
                         app.loadNewsFeed();
@@ -1528,6 +1630,8 @@
                     }
                 }
             },
+            
+            // ... (rest of the code remains the same: loadStoreData, loadNewsFeed, renderNewsPosts, fetchStatus, fetchDiscordStatus, renderDiscordInfo, renderPlayerList, modal functions, etc.)
             
             loadStoreData: async () => {
                 const list = document.getElementById('recent-purchases-list');
@@ -1599,7 +1703,7 @@
                             },
                             {
                                 id: 'demo2',
-                                title: 'Weekend Event: Double Hearts',
+                                title: 'Weekend Event: Koth',
                                 date: { seconds: (Date.now()/1000) - 86400 },
                                 image: 'https://digitality.neocities.org/mongolvibes/seasonxlobby.png',
                                 content: 'Join us this weekend for double heart drops on player kills.',
@@ -1609,10 +1713,10 @@
                             },
                              {
                                 id: 'demo3',
-                                title: 'Patch Notes 11.11',
+                                title: 'Patch Notes 2.20',
                                 date: { seconds: (Date.now()/1000) - 172800 },
                                 image: '',
-                                content: 'Minor UI updates, Bug Fixes, VP gifting and a festive surprise coming soon.',
+                                content: 'This is a test.',
                                 tags: ['UPDATE'],
                                 author: 'Pekly',
                                 category: 'updates'
