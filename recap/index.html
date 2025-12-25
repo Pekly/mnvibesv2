@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongolVibes | Legacy Archive</title>
+    <meta name="description" content="MongolVibes 2025 Recap Experience.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Silkscreen&display=swap');
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['IBM Plex Sans', 'sans-serif'],
+                        pixel: ['Silkscreen', 'monospace'], 
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#09090b', 
+                            card: '#18181b', 
+                            main: 'var(--brand-color)', 
+                            surface: '#27272a',
+                            border: '#3f3f46',
+                        }
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'zoom-in': 'zoomIn 0.5s ease-out forwards',
+                        'cinematic': 'cinematic 4s ease-out forwards',
+                        'reveal': 'revealText 1s cubic-bezier(0.2, 1, 0.3, 1) forwards',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        },
+                        zoomIn: {
+                            '0%': { transform: 'scale(0.95)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        cinematic: {
+                            '0%': { transform: 'scale(1) translateY(0)' },
+                            '100%': { transform: 'scale(1.1) translateY(-20px)' }
+                        },
+                        revealText: {
+                            '0%': { transform: 'translateY(100%)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        slideInRight: {
+                            '0%': { opacity: '0', transform: 'translateX(100px) skewX(-10deg)' },
+                            '100%': { opacity: '1', transform: 'translateX(0) skewX(0)' }
+                        },
+                        slideInLeft: {
+                            '0%': { opacity: '0', transform: 'translateX(-100px) skewX(10deg)' },
+                            '100%': { opacity: '1', transform: 'translateX(0) skewX(0)' }
+                        },
+                        zoomInHit: {
+                            '0%': { opacity: '0', transform: 'scale(2) translateZ(100px)', filter: 'blur(10px)' },
+                            '100%': { opacity: '1', transform: 'scale(1) translateZ(0)', filter: 'blur(0)' }
+                        },
+                        zoomOutHit: {
+                            '0%': { opacity: '0', transform: 'scale(0.5)', filter: 'blur(10px)' },
+                            '100%': { opacity: '1', transform: 'scale(1)', filter: 'blur(0)' }
+                        },
+                        dropDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-100px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        rotateIn: {
+                            '0%': { opacity: '0', transform: 'rotate(-15deg) scale(0.8)', transformOrigin: 'center' },
+                            '100%': { opacity: '1', transform: 'rotate(0) scale(1)', transformOrigin: 'center' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --brand-color: #3b82f6;
+        }
+
+        body {
+            color: #e4e4e7;
+            font-family: 'IBM Plex Sans', sans-serif;
+            overflow: hidden; 
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            background-color: #050505;
+            transition: background-color 1s ease;
+        }
+
+        #bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: -50;
+            transition: opacity 1s ease;
+            overflow: hidden;
+        }
+
+        #bg-image-element {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4; 
+            filter: grayscale(100%) contrast(120%) brightness(0.6);
+            transition: transform 10s ease, opacity 1s ease;
+            image-rendering: pixelated; 
+            animation: slowZoom 30s infinite alternate linear;
+        }
+        
+        @keyframes slowZoom {
+            0% { transform: scale(1.05); }
+            100% { transform: scale(1.15); }
+        }
+
+        #bg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: -40;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%);
+            box-shadow: inset 0 0 150px var(--brand-color);
+            opacity: 0.3;
+            transition: box-shadow 1s ease, opacity 1s ease;
+            pointer-events: none;
+        }
+
+        #snow-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1; 
+        }
+
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        .glass-panel {
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .big-stat-number {
+            font-size: clamp(4rem, 15vw, 12rem);
+            line-height: 0.9;
+            font-family: 'Silkscreen', monospace; 
+            color: transparent;
+            -webkit-text-stroke: 2px white;
+            position: relative;
+            z-index: 10;
+            white-space: nowrap; 
+            text-shadow: 0 0 30px var(--brand-color);
+        }
+        
+        .fx-glitch { position: relative; }
+        .fx-glitch::before, .fx-glitch::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #09090b; 
+        }
+        .fx-glitch::before {
+            left: 2px; text-shadow: -1px 0 #ff00c1; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .fx-glitch::after {
+            left: -2px; text-shadow: -1px 0 #00fff9; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        .fx-shimmer {
+            background: linear-gradient(to right, #fff 0%, #fff 40%, var(--brand-color) 50%, #fff 60%, #fff 100%);
+            background-size: 200% auto;
+            color: #000;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+
+        .fx-spacing { animation: spacing-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; filter: blur(5px); }
+        @keyframes spacing-in { from { letter-spacing: 0.5em; opacity: 0; filter: blur(5px); } to { letter-spacing: normal; opacity: 1; filter: blur(0); } }
+
+        .fx-3d { animation: rotate-x-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform-origin: bottom; }
+        @keyframes rotate-x-in { from { opacity: 0; transform: rotateX(90deg); } to { opacity: 1; transform: rotateX(0); } }
+
+        .fx-pop { animation: pop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; opacity: 0; }
+        @keyframes pop-in { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(14px, 9999px, 127px, 0); } 20% { clip: rect(89px, 9999px, 50px, 0); } 40% { clip: rect(32px, 9999px, 7px, 0); } 60% { clip: rect(100px, 9999px, 93px, 0); } 80% { clip: rect(26px, 9999px, 108px, 0); } 100% { clip: rect(61px, 9999px, 66px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(10px, 9999px, 92px, 0); } 20% { clip: rect(66px, 9999px, 14px, 0); } 40% { clip: rect(122px, 9999px, 5px, 0); } 60% { clip: rect(43px, 9999px, 83px, 0); } 80% { clip: rect(8px, 9999px, 119px, 0); } 100% { clip: rect(138px, 9999px, 34px, 0); }
+        }
+
+        #recap-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            overflow: hidden;
+            perspective: 1000px; 
+        }
+        
+        #recap-overlay.active {
+            display: flex;
+        }
+
+        .slide-content {
+            opacity: 0;
+            transition: opacity 0.4s ease-out; 
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            will-change: transform, opacity, filter;
+        }
+
+        .slide-content.active {
+            opacity: 1;
+        }
+
+        .slide-content.exit {
+            opacity: 0;
+            transform: scale(0.5) translateZ(-500px);
+            filter: blur(30px);
+            transition: all 0.6s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--brand-color); }
+
+        .btn-clean {
+            position: relative;
+            background: white;
+            color: black;
+            padding: 16px 40px;
+            font-family: 'Silkscreen', monospace;
+            font-size: 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            overflow: hidden;
+        }
+        
+        .btn-clean:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px var(--brand-color);
+        }
+
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.3) 50%);
+            background-size: 100% 4px;
+            z-index: 60;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+        
+        .countdown-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--brand-color);
+            width: 0%;
+        }
+        
+        .countdown-active {
+            width: 100% !important;
+            transition: width 10s linear;
+        }
+
+        .recap-control-btn {
+            position: absolute;
+            bottom: 60px; 
+            right: 60px; 
+            cursor: pointer;
+            z-index: 100;
+            padding: 12px 30px;
+            border: 1px solid rgba(255,255,255,0.15); 
+            color: white;
+            font-family: 'Silkscreen', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            background: transparent; 
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .recap-control-btn:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateX(5px);
+        }
+
+        .recap-back-btn {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            cursor: pointer;
+            z-index: 100;
+            padding: 12px 30px;
+            border: 1px solid rgba(255,255,255,0.15); 
+            color: rgba(255,255,255,0.7);
+            font-family: 'Silkscreen', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            background: transparent; 
+            border-radius: 2px;
+            display: none; 
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recap-back-btn:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+        }
+
+        .recap-exit-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            z-index: 100;
+            color: rgba(255,255,255,0.5);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .recap-exit-btn:hover {
+            color: white;
+        }
+
+        #music-player {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 16px 8px 8px;
+            border-radius: 9999px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+        
+        #music-player.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .music-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .music-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .music-spin {
+            animation: spin-slow 8s linear infinite;
+        }
+        
+        .visualizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 20px;
+            margin-left: 8px;
+        }
+        .v-bar {
+            width: 3px;
+            background: var(--brand-color);
+            border-radius: 2px;
+            animation: equalize 1s infinite ease-in-out;
+        }
+        .v-bar:nth-child(1) { animation-delay: 0.1s; height: 40%; }
+        .v-bar:nth-child(2) { animation-delay: 0.3s; height: 60%; }
+        .v-bar:nth-child(3) { animation-delay: 0.5s; height: 80%; }
+        .v-bar:nth-child(4) { animation-delay: 0.2s; height: 50%; }
+        
+        @keyframes equalize {
+            0%, 100% { height: 20%; }
+            50% { height: 100%; }
+        }
+
+        .animate-warp-out {
+            animation: warpOut 0.8s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+            pointer-events: none;
+        }
+
+        @keyframes warpOut {
+            0% { opacity: 1; transform: scale(1); filter: blur(0) brightness(1); }
+            40% { opacity: 1; transform: scale(0.95); filter: blur(2px) brightness(1.2); }
+            100% { opacity: 0; transform: scale(4); filter: blur(20px) brightness(2); }
+        }
+
+        .animate-flash-in {
+            animation: flashIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes flashIn {
+            0% { opacity: 0; transform: scale(1.1); filter: brightness(3) blur(10px); }
+            100% { opacity: 1; transform: scale(1); filter: brightness(1) blur(0); }
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-main selection:text-white">
+
+    <div class="noise-overlay"></div>
+    <div class="scanlines"></div>
+
+    <div id="music-player">
+        <div class="music-icon music-spin">
+            <img src="https://t2.genius.com/unsafe/344x344/https%3A%2F%2Fimages.genius.com%2F342bbb52679627c49efa66ddeaba1c40.1000x1000x1.png" alt="Album Art">
+            <div class="absolute inset-0 bg-black/10"></div>
+        </div>
+        <div class="flex flex-col">
+            <span class="text-[9px] text-zinc-400 font-mono uppercase tracking-widest leading-none mb-1">Now Playing</span>
+            <span class="text-xs text-white font-bold font-sans leading-none whitespace-nowrap">Minecraft Volume Alpha - Clark</span>
+        </div>
+        <div class="visualizer">
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+        </div>
+        <div class="ml-2 cursor-pointer text-zinc-400 hover:text-white transition-colors" onclick="toggleMute()">
+            <i class="fas fa-volume-up" id="audio-icon"></i>
+        </div>
+    </div>
+
+    <div id="bg-container">
+        <img id="bg-image-element" src="https://i.imgur.com/vYiEnAM.png" alt="Background">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/90"></div>
+        <div id="bg-glow"></div> 
+    </div>
+
+    <canvas id="snow-canvas"></canvas>
+
+    <div id="recap-overlay">
+        <div id="recap-exit-btn" class="recap-exit-btn" onclick="quitRecap()" style="display: none;">
+            <i class="fas fa-arrow-left"></i>
+            <span>Exit to Title</span>
+        </div>
+
+        <button id="recap-back-btn" class="recap-back-btn" onclick="prevSlide()">
+            <i class="fas fa-chevron-left text-xs"></i>
+            <span>Back</span>
+        </button>
+
+        <button id="recap-next-btn" class="recap-control-btn" onclick="nextSlide()">
+            <span>Continue</span>
+            <i class="fas fa-chevron-right text-xs"></i>
+        </button>
+        
+        <div class="absolute bottom-0 left-0 w-full h-1 bg-white/5 z-50">
+            <div id="recap-progress" class="h-full bg-white shadow-[0_0_15px_white] transition-all duration-300 ease-linear" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <div id="transition-prompt" class="fixed inset-0 z-[100] bg-black hidden flex-col items-center justify-center text-center px-6">
+        <h1 class="font-pixel text-4xl md:text-6xl text-white mb-8 fx-glitch" data-text="That was 2025.">That was 2025.</h1>
+        <p class="font-mono text-zinc-400 tracking-[0.2em] mb-12 uppercase max-w-lg leading-relaxed">
+            Would you like to read the messages left on the tree?
+        </p>
+        
+        <div class="flex gap-8 items-center mb-12">
+            <button onclick="skipMessages()" class="text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors">
+                No, Go to Dashboard
+            </button>
+            <button onclick="startMessageSequence()" class="btn-clean">
+                Yes, View Messages
+            </button>
+        </div>
+        
+        <div class="absolute bottom-12 text-zinc-600 font-mono text-[10px] uppercase tracking-widest">
+            Auto-continuing in <span id="auto-timer" class="text-white">10</span>s...
+        </div>
+        <div class="w-full max-w-md h-1 bg-zinc-800 rounded-full overflow-hidden mt-4">
+            <div id="choice-countdown" class="h-full bg-white w-0" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <div id="main-dashboard" class="relative z-10 w-full h-full flex flex-col transition-all duration-1000 opacity-100">
+        
+        <header class="w-full max-w-7xl mx-auto px-6 h-32 flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-4 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity" onclick="window.location.href='https://mnvibes.org'">
+                <img src="https://i.ibb.co/27YWBW6M/Picsart-25-12-04-05-19-25-855.png" alt="Logo" class="w-8 h-8 object-contain filter grayscale contrast-150">
+                <span class="font-pixel text-lg text-white/90 tracking-widest">MONGOLVIBES</span>
+            </div>
+            <div class="hidden md:flex items-center gap-3">
+                 <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">RECAP 2025</span>
+                 <div class="w-1.5 h-1.5 rounded-full bg-brand-main shadow-[0_0_10px_var(--brand-color)]"></div>
+            </div>
+        </header>
+
+        <main id="lobby-view" class="flex-1 flex flex-col items-center justify-center text-center px-4 relative pb-20">
+            <div class="relative mb-16 group">
+                <h2 class="font-mono text-zinc-500 text-xs tracking-[1em] mb-4 uppercase group-hover:text-brand-main transition-colors duration-500">MongolVibes</h2>
+                <h1 class="font-pixel text-5xl md:text-8xl text-zinc-500/20 tracking-tighter absolute top-0 left-1/2 -translate-x-1/2 transform scale-110 select-none pointer-events-none">
+                    ACROSS
+                </h1>
+                <h1 class="font-pixel text-5xl md:text-8xl text-white tracking-tighter relative z-10 drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+                    8 SEASONS
+                </h1>
+            </div>
+            
+            <div class="relative z-20 flex flex-col items-center gap-6">
+                <button onclick="startRecap()" class="btn-clean">
+                    View Recap
+                </button>
+                <button id="quick-access-btn" onclick="showDashboard()" class="hidden text-zinc-500 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors flex items-center gap-2 group">
+                    <span>Jump to Dashboard</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </main>
+
+        <main id="stats-view" class="hidden flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 flex-col lg:flex-row items-center justify-center gap-12 pb-12 animate-reveal">
+            
+            <div class="w-full lg:w-1/2 space-y-8">
+                <div>
+                    <div class="flex justify-between items-start">
+                        <h1 class="text-4xl md:text-6xl font-pixel text-white leading-none mb-4">2025<br><span class="text-zinc-600">SUMMARY</span></h1>
+                        <div class="flex gap-4">
+                            <button onclick="goToLobby()" class="mt-2 text-xs font-mono text-zinc-500 hover:text-white uppercase tracking-widest flex items-center gap-2 transition-colors group">
+                                <i class="fas fa-home group-hover:scale-110 transition-transform duration-300"></i>
+                                Back to Title
+                            </button>
+                            <button onclick="startRecap()" class="mt-2 text-xs font-mono text-zinc-500 hover:text-brand-main uppercase tracking-widest flex items-center gap-2 transition-colors group">
+                                <i class="fas fa-redo group-hover:rotate-180 transition-transform duration-500"></i>
+                                Replay Recap
+                            </button>
+                        </div>
+                    </div>
+                    <div class="h-0.5 w-24 bg-brand-main shadow-[0_0_15px_var(--brand-color)]"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass-panel p-6 border-l-2 border-l-zinc-700 hover:border-l-brand-main transition-all group">
+                        <div class="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">Total Players</div>
+                        <div class="text-3xl text-white font-pixel group-hover:text-brand-main transition-colors">1,532</div>
+                    </div>
+                    <div class="glass-panel p-6 border-l-2 border-l-zinc-700 hover:border-l-emerald-500 transition-all group">
+                        <div class="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">Chunks Rendered</div>
+                        <div class="text-3xl text-white font-pixel group-hover:text-emerald-500 transition-colors">2.3M</div>
+                    </div>
+                    <div class="glass-panel p-6 border-l-2 border-l-zinc-700 hover:border-l-blue-500 transition-all group">
+                        <div class="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">Messages Sent</div>
+                        <div class="text-2xl text-white font-pixel group-hover:text-blue-500 transition-colors">1M+</div>
+                        <div class="text-[8px] text-zinc-500 font-mono mt-1">814k Discord • 220k MC</div>
+                    </div>
+                    <div class="glass-panel p-6 border-l-2 border-l-zinc-700 hover:border-l-yellow-500 transition-all group">
+                        <div class="text-zinc-500 text-[10px] font-mono uppercase tracking-widest mb-2">Diamonds Mined</div>
+                        <div class="text-3xl text-white font-pixel group-hover:text-yellow-500 transition-colors">87K+</div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-0 flex items-stretch overflow-hidden border-brand-main/20">
+                    <div class="w-24 bg-zinc-900 flex items-center justify-center border-r border-white/5">
+                        <img src="https://minotar.net/avatar/Temka_Temka/100.png" class="w-16 h-16 grayscale opacity-80">
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-center relative">
+                        <div class="absolute top-0 right-0 p-2 opacity-10 font-pixel text-4xl">MVP</div>
+                        <div class="text-[10px] font-mono text-brand-main uppercase tracking-widest mb-1">Player of the Year</div>
+                        <div class="text-2xl text-white font-pixel">Temka_Temka</div>
+                        <div class="text-xs text-zinc-500 mt-1 font-mono">1,440 Hours Played • All Time</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-1/2 h-[600px] glass-panel flex flex-col relative overflow-hidden">
+                <div class="shrink-0 p-5 border-b border-white/5 flex justify-between items-center bg-black/20">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-comment-dots text-brand-main text-xs"></i>
+                        <span class="font-mono text-xs text-white uppercase tracking-widest font-bold">Community Messages</span>
+                    </div>
+                    <div class="text-[10px] text-zinc-600 font-mono">Archive</div>
+                </div>
+                
+                <div id="message-list" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+                </div>
+                
+                <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none"></div>
+            </div>
+        </main>
+        
+        <footer class="mt-auto py-8 text-center text-zinc-700 font-mono text-[10px] uppercase tracking-[0.2em] relative z-20">
+            MongolVibes © 2025
+        </footer>
+    </div>
+
+    <script>
+        const audio = new Audio('https://od.lk/s/OTdfOTYwOTE1NDJf/Minecraft%20Volume%20Alpha%20-%2014%20-%20Clark.mp3');
+        audio.loop = false;
+        audio.volume = 0.5;
+        let isPlaying = false;
+        
+        function initAudio() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    document.getElementById('music-player').classList.add('active');
+                }).catch(e => console.log("Audio play failed:", e));
+            }
+        }
+        
+        function toggleMute() {
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('audio-icon').className = 'fas fa-volume-up';
+                document.querySelectorAll('.v-bar').forEach(bar => bar.style.animationPlayState = 'running');
+            } else {
+                audio.pause();
+                document.getElementById('audio-icon').className = 'fas fa-volume-mute';
+                document.querySelectorAll('.v-bar').forEach(bar => bar.style.animationPlayState = 'paused');
+            }
+        }
+
+        window.addEventListener('click', initAudio, { once: true });
+        window.addEventListener('mousemove', initAudio, { once: true });
+
+        const themes = {
+            ice: '#3b82f6',    
+            fire: '#ef4444',   
+            gold: '#eab308',   
+            emerald: '#10b981', 
+            void: '#a855f7'    
+        };
+
+        const slides = [
+            { type: 'text', text: "MONGOLVIBES", sub: "Welcome to", theme: 'ice', anim: 'enter-zoom-in', textEffect: 'fx-glitch' },
+            { type: 'stat', number: "1,532", label: "PLAYERS JOINED", theme: 'ice', anim: 'enter-slide-right', textEffect: 'fx-spacing' },
+            { type: 'stat', number: "2.3M", label: "CHUNKS RENDERED", theme: 'emerald', anim: 'enter-slide-left', textEffect: 'fx-3d' },
+            { type: 'stat', number: "87K", label: "DIAMONDS MINED", theme: 'gold', val: 87000, anim: 'enter-drop', textEffect: 'fx-shimmer' },
+            { type: 'highlight', title: "THE SURVIVOR", player: "MNKHJIN", desc: "MOST COMPETITIVE PLAYER", theme: 'fire', anim: 'enter-zoom-out', textEffect: 'fx-glitch' },
+            { type: 'stat', number: "50+", label: "PEAK PLAYERS ONLINE", theme: 'void', anim: 'enter-rotate', textEffect: 'fx-pop' },
+            { type: 'stat', number: "814K", label: "DISCORD MESSAGES", theme: 'ice', val: 814053, anim: 'enter-slide-right', textEffect: 'fx-spacing' },
+            { type: 'stat', number: "220K", label: "IN-GAME CHATS", theme: 'ice', val: 220227, anim: 'enter-slide-left', textEffect: 'fx-spacing' },
+            { type: 'stat', number: "7", label: "EVENTS HOSTED", theme: 'gold', anim: 'enter-zoom-in', textEffect: 'fx-pop' },
+            { type: 'text', text: "UHC", sub: "MOST POPULAR EVENT", theme: 'fire', anim: 'enter-rotate', textEffect: 'fx-glitch' },
+            { 
+                type: 'highlight', 
+                title: "THE ARCHITECTS", 
+                player: "ERDXNE, Valonor, doojoba888", 
+                players: ["ERDXNE", "Valonor", "doojoba888"],
+                desc: "Major Builds", 
+                theme: 'emerald', 
+                anim: 'enter-drop', 
+                textEffect: 'fx-3d' 
+            },
+            { type: 'stat', number: "9-10", label: "MOST ACTIVE SEASONS", theme: 'void', anim: 'enter-zoom-in', textEffect: 'fx-pop' },
+            { type: 'stat', number: "$34T", label: "SPENT", theme: 'gold', anim: 'enter-slide-left', textEffect: 'fx-shimmer' },
+            { type: 'highlight', title: "MOST DEDICATED", player: "Temka_Temka", desc: "1,440 Hours on Record", theme: 'gold', anim: 'enter-zoom-out', textEffect: 'fx-spacing' },
+            { type: 'text', text: "THANK YOU", sub: "The journey was amazing", theme: 'ice', anim: 'enter-zoom-in', textEffect: 'fx-spacing' },
+        ];
+
+        const messages = [
+            { text: "Угтах ондоо бүтээлээр дүүрэн\nУрам тэтгэсэн амжилтаар баян\nГэгээн гэрлээр гэр тань гийж\nГэрэлт оюунаар ухаан тань тэлж\nШинэ оноо аз жаргалаар дүүрэн угтаарай", author: "Batdelger" },
+            { text: "Merry Christmas!", author: "MrSocks" },
+            { text: "Happy new year monkies!", author: "Temuzen" },
+            { text: "duu huu nar ashtaihan baitsgaagarai + shine jil ch duhuj bn ta narta bayrin mend everyone", author: "xel" },
+            { text: "mongolvibes so good server i enjoy very much guys", author: "imcute" },
+            { text: "I love MNVibes community, and all the friends I made in the server. I'm really grateful for all the people who are behind the server's progress. Thank you all for welcoming me", author: "Nishincupnoodls" },
+            { text: "lesgoo 2026", author: "Mnkhjin" },
+            { text: "Happy new year brothers.", author: "DEFFECTIVE" },
+            { text: "yes my pussy is green", author: "sirencs" },
+            { text: "bi 4 nastai ohiduudiig huchindeh durtai ta nar bas turshaad uzeerei", author: "cutiesigma" },
+            { text: "i know i am a moderator but i am thankful for Pekly (the owner) for hosting this server and accepting me as a staff and player and a friend. thanks to this server i had found great friends and hobby. thank you for hosting this server and making my 2 years of playing minecraft fun and entertaining", author: "Erdxne" },
+            { text: "the greatest smp server of all time", author: "JonhnyJonhny" },
+            { text: "hi ty 111111", author: "cuentyy1" },
+            { text: "merry christmas ho ho ho", author: "DarkBladeKingXD" },
+            { text: "Hello everyone! (Or Pekuly)\n\nIt have been fun to play with you guys and ever since i joined about a month ago i expected not much but dear DEFFECT has been my best friend to play alongside and get to know each other \n\nwish everyone for the best... however, i personally still have my feelongs stuck when Himiko betrayed my trust that day, so I don't get to celebrate christmas, however i do believe this time we will make the day special!\n\nIt's been a year i had been more alone and about a month ago when i joined to the server didn't expect much but i met DEFFECT and he was really nice to me and many others  Although my naughty list (or still doesn't trust) is... Himiko, because he killed me and (better luck)", author: "Catheron" },
+            { text: "happy Christmas", author: "Knave" },
+            { text: "do you want a cake", author: "Xvc0530" },
+            { text: "hihihihihi", author: "Tugldr" },
+            { text: "love my girl (also loves MongolVibes", author: "Dead" },
+            { text: "i was new here, but the Temka_Temka helped me and mad me cool or pro in this server without Temka_Temka i wouldn't be here to be honest. I even tho he is no longer moderator i would love to play with him.\n\nBonus: Give Temka_Temka moderator back, Pretty please", author: "Skyvalor" },
+            { text: "merry Christmas", author: "crimsonClaw" },
+            { text: "メリークリスマス!", author: "MatroZtt" },
+            { text: "Merry christmas to you!", author: "Taivn" },
+            { text: "Huurhn dursmjuud buteesn servershd", author: "Envaura" },
+            { text: "Ergu al gusriin ashtai pzda ingj amidarhaar uheec gcimn", author: "Someone" }
+        ];
+
+        const badWords = ["shit", "fuck", "bitch", "ass", "cunt", "damn", "fucking", "nigger", "dick", "pzda", "huchindeh", "pussy"];
+        const warmReplacements = ["MongolVibes the best! <3", "1st!", "Merry Christmas!", "Mongolia rahhhh!"];
+
+        function setTheme(color) {
+            document.documentElement.style.setProperty('--brand-color', color);
+            document.getElementById('bg-glow').style.boxShadow = `inset 0 0 150px ${color}`;
+        }
+
+        function censorText(text) {
+            let lowerText = text.toLowerCase();
+            let found = false;
+            for (let word of badWords) if (lowerText.includes(word)) found = true;
+            if (found) {
+                const r = warmReplacements[Math.floor(Math.random() * warmReplacements.length)];
+                return `<span class="text-zinc-600 italic line-through decoration-brand-main">[REDACTED]</span> <span class="text-brand-main">${r}</span>`;
+            }
+            return text;
+        }
+
+        function renderMessages() {
+            const list = document.getElementById('message-list');
+            list.innerHTML = '';
+            messages.forEach((msg, index) => {
+                const clean = censorText(msg.text);
+                const avatar = `https://minotar.net/avatar/${msg.author}/64.png`;
+                const div = document.createElement('div');
+                div.className = "flex gap-4 group hover:pl-2 transition-all duration-300";
+                div.innerHTML = `
+                    <div class="relative mt-1">
+                        <div class="w-10 h-10 rounded bg-zinc-800 overflow-hidden border border-white/10 group-hover:border-brand-main transition-colors">
+                            <img src="${avatar}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[8px] font-mono text-zinc-500">${index+1}</div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-[10px] font-mono font-bold text-brand-main uppercase tracking-widest">${msg.author}</span>
+                            <div class="h-px bg-zinc-800 flex-1 group-hover:bg-zinc-700 transition-colors"></div>
+                        </div>
+                        <p class="text-zinc-300 font-sans text-sm leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity whitespace-pre-line">"${clean}"</p>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function checkLegacyStatus() {
+            if (localStorage.getItem('mnvibes_recap_seen')) {
+                const quickBtn = document.getElementById('quick-access-btn');
+                if(quickBtn) quickBtn.classList.remove('hidden');
+            }
+        }
+
+        let currentSlide = 0;
+        const overlay = document.getElementById('recap-overlay');
+
+        function startRecap() {
+            if(!isPlaying && !audio.paused) initAudio(); 
+            
+            const lobby = document.getElementById('lobby-view');
+            const stats = document.getElementById('stats-view');
+            
+            let elementToAnimate = null;
+            if (lobby.style.display !== 'none') {
+                elementToAnimate = lobby;
+            } else if (!stats.classList.contains('hidden')) {
+                elementToAnimate = stats;
+            }
+
+            if (elementToAnimate) {
+                elementToAnimate.classList.add('animate-warp-out');
+                setTimeout(() => {
+                    elementToAnimate.classList.remove('animate-warp-out');
+                    launchRecapOverlay();
+                }, 700); 
+            } else {
+                launchRecapOverlay();
+            }
+        }
+        
+        function launchRecapOverlay() {
+            const hasSeen = localStorage.getItem('mnvibes_recap_seen');
+            if (hasSeen) {
+                document.getElementById('recap-exit-btn').style.display = 'flex';
+            } else {
+                document.getElementById('recap-exit-btn').style.display = 'none';
+            }
+
+            document.getElementById('lobby-view').style.display = 'none';
+            document.getElementById('stats-view').classList.add('hidden'); 
+            document.getElementById('main-dashboard').style.opacity = '0';
+            
+            overlay.classList.add('active');
+            
+            overlay.classList.add('animate-flash-in');
+            setTimeout(() => overlay.classList.remove('animate-flash-in'), 1000);
+
+            if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(e => {});
+
+            localStorage.setItem('mnvibes_recap_seen', 'true');
+            checkLegacyStatus();
+
+            const nextBtn = document.getElementById('recap-next-btn');
+            nextBtn.style.display = 'flex';
+            nextBtn.setAttribute('onclick', 'nextSlide()');
+            
+            const backBtn = document.getElementById('recap-back-btn');
+            backBtn.setAttribute('onclick', 'prevSlide()');
+
+            currentSlide = 0;
+            playSlide();
+        }
+
+        function quitRecap() {
+            overlay.classList.remove('active');
+            if (document.exitFullscreen) document.exitFullscreen().catch(e => {});
+            
+            setTheme(themes.ice);
+            
+            document.getElementById('lobby-view').style.display = 'flex';
+            document.getElementById('main-dashboard').style.opacity = '1';
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            playSlide();
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                playSlide();
+            }
+        }
+
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                
+                const val = Math.floor(progress * (end - start) + start);
+                obj.innerHTML = val.toLocaleString();
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    obj.innerHTML = end.toLocaleString() + (obj.dataset.suffix || "");
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        function playSlide() {
+            if (currentSlide >= slides.length) {
+                endRecap();
+                return;
+            }
+
+            const data = slides[currentSlide];
+            const nextBtn = document.getElementById('recap-next-btn');
+            const backBtn = document.getElementById('recap-back-btn');
+            
+            if (currentSlide === 0) {
+                backBtn.style.display = 'none';
+                nextBtn.innerHTML = `<span>START</span> <i class="fas fa-play text-xs"></i>`;
+            } else {
+                backBtn.style.display = 'flex';
+                nextBtn.innerHTML = `<span>CONTINUE</span> <i class="fas fa-chevron-right text-xs"></i>`;
+            }
+
+            setTheme(themes[data.theme] || themes.ice);
+            
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            document.getElementById('recap-progress').style.width = `${progress}%`;
+
+            overlay.querySelectorAll('.slide-content').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('exit');
+                setTimeout(() => el.remove(), 600);
+            });
+
+            const slideEl = document.createElement('div');
+            slideEl.className = 'slide-content'; 
+            
+            let html = '';
+            const animClass = data.anim || 'animate-enter-zoom-in';
+            const textEffectClass = data.textEffect || 'fx-spacing'; 
+
+            if (data.type === 'intro' || data.type === 'text') {
+                html = `
+                    <div class="relative z-10 ${animClass}">
+                        <h2 class="font-mono text-sm tracking-[1em] mb-6 uppercase" style="color: var(--brand-color)">${data.sub}</h2>
+                        <h1 class="font-pixel text-6xl md:text-9xl text-white ${textEffectClass}" data-text="${data.text || data.title}">${data.text || data.title}</h1>
+                    </div>
+                `;
+            } else if (data.type === 'stat') {
+                const isLong = data.number.length > 3;
+                const fontSizeStyle = isLong ? 'font-size: clamp(3rem, 12vw, 8rem);' : '';
+                
+                let numberDisplay = data.number;
+                let counterId = '';
+                
+                if (data.val && typeof data.val === 'number') {
+                    numberDisplay = "0";
+                    counterId = `id="counter-${currentSlide}"`;
+                }
+
+                html = `
+                    <div class="flex flex-col items-center ${animClass}">
+                        <div class="font-mono text-xs uppercase tracking-[0.5em] mb-8" style="color: var(--brand-color)">System Statistic</div>
+                        <div class="big-stat-number ${textEffectClass}" style="${fontSizeStyle}" ${counterId} data-val="${data.number}" data-text="${data.number}" data-suffix="${data.number.replace(/[0-9.,]/g, '')}">
+                            ${numberDisplay}
+                        </div>
+                        <div class="font-pixel text-2xl md:text-4xl text-white mt-8 tracking-tighter opacity-80">${data.label}</div>
+                    </div>
+                `;
+            } else if (data.type === 'highlight') {
+                let visualContent = '';
+                
+                if (data.players && Array.isArray(data.players)) {
+                    visualContent = '<div class="flex justify-center -space-x-8 mb-12">';
+                    data.players.forEach((p, i) => {
+                        const zIndex = 30 - (i * 10);
+                        const delay = i * 0.1;
+                        visualContent += `
+                            <div class="relative w-32 h-32 md:w-48 md:h-48 rounded-lg border-2 border-[var(--brand-color)] overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)] transform z-[${zIndex}] animate-enter-zoom-in" style="animation-delay: ${delay}s">
+                                <img src="https://minotar.net/avatar/${p}/256.png" class="w-full h-full object-cover">
+                            </div>
+                        `;
+                    });
+                    visualContent += '</div>';
+                } else {
+                    const avatarName = data.imagePlayer || data.player;
+                    visualContent = `
+                        <div class="relative mb-12 group perspective-card">
+                            <div class="absolute inset-0 bg-[var(--brand-color)] blur-3xl opacity-20 animate-pulse"></div>
+                            <img src="https://minotar.net/avatar/${avatarName}/256.png" class="w-48 h-48 md:w-64 md:h-64 rounded-none border-2 border-[var(--brand-color)] relative z-10 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                        </div>
+                    `;
+                }
+
+                const nameSize = data.player.length > 20 ? 'text-xl md:text-3xl leading-tight' : (data.player.length > 15 ? 'text-2xl md:text-4xl' : 'text-5xl md:text-7xl');
+                
+                html = `
+                    <div class="flex flex-col items-center ${animClass} max-w-4xl mx-auto">
+                        ${visualContent}
+                        <h2 class="font-mono tracking-[0.5em] text-sm uppercase mb-4" style="color: var(--brand-color);">${data.title}</h2>
+                        <h1 class="font-pixel ${nameSize} text-white mb-6 drop-shadow-2xl ${textEffectClass}" data-text="${data.player}">${data.player}</h1>
+                        <div class="font-mono text-zinc-400 text-xs border border-zinc-800 px-4 py-2 bg-black/50 backdrop-blur">${data.desc}</div>
+                    </div>
+                `;
+            }
+
+            slideEl.innerHTML = html;
+            overlay.appendChild(slideEl);
+
+            requestAnimationFrame(() => {
+                slideEl.classList.add('active');
+                if (data.val && typeof data.val === 'number') {
+                    const el = document.getElementById(`counter-${currentSlide}`);
+                    if(el) animateValue(el, 0, data.val, 1500);
+                }
+            });
+        }
+
+        let choiceTimeout;
+        let countdownInterval;
+
+        function endRecap() {
+            overlay.classList.remove('active');
+            
+            setTheme(themes.ice);
+            document.getElementById('recap-progress').style.width = '0%';
+            
+            document.getElementById('transition-prompt').style.display = 'flex';
+            
+            const bar = document.getElementById('choice-countdown');
+            bar.classList.remove('countdown-active');
+            bar.style.width = '0%';
+            
+            setTimeout(() => {
+                bar.classList.add('countdown-active');
+            }, 50);
+            
+            let timeLeft = 10;
+            const timerText = document.getElementById('auto-timer');
+            timerText.innerText = timeLeft;
+            
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                timerText.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+            
+            choiceTimeout = setTimeout(() => {
+                skipMessages();
+            }, 10000); 
+        }
+
+        let msgIndex = 0;
+
+        function startMessageSequence() {
+            clearTimeout(choiceTimeout); 
+            clearInterval(countdownInterval);
+            document.getElementById('transition-prompt').style.display = 'none';
+            overlay.classList.add('active');
+            
+            const nextBtn = document.getElementById('recap-next-btn');
+            nextBtn.style.display = 'flex';
+            nextBtn.innerHTML = `<span>Next Message</span> <i class="fas fa-chevron-right text-xs"></i>`;
+            nextBtn.setAttribute('onclick', 'nextMessage()');
+            
+            const backBtn = document.getElementById('recap-back-btn');
+            backBtn.style.display = 'none'; 
+            backBtn.setAttribute('onclick', 'prevMessage()');
+            
+            msgIndex = 0;
+            playMessageSlide();
+        }
+
+        function nextMessage() {
+            msgIndex++;
+            playMessageSlide();
+        }
+
+        function prevMessage() {
+            if (msgIndex > 0) {
+                msgIndex--;
+                playMessageSlide();
+            }
+        }
+
+        function playMessageSlide() {
+            if (msgIndex >= messages.length) {
+                endMessageSequence();
+                return;
+            }
+
+            const msg = messages[msgIndex];
+            const skinUrl = `https://minotar.net/skin/${msg.author}`;
+            
+            const nextBtn = document.getElementById('recap-next-btn');
+            const backBtn = document.getElementById('recap-back-btn');
+            
+            if (msgIndex === 0) {
+                backBtn.style.display = 'none';
+            } else {
+                backBtn.style.display = 'flex';
+            }
+            
+            const bgEl = document.getElementById('bg-image-element');
+            bgEl.style.opacity = '0'; 
+            
+            setTimeout(() => {
+                bgEl.src = skinUrl;
+                bgEl.style.opacity = '0.3';
+                bgEl.style.transform = 'scale(1.2)'; 
+            }, 300);
+
+            const progress = ((msgIndex + 1) / messages.length) * 100;
+            document.getElementById('recap-progress').style.width = `${progress}%`;
+
+            overlay.querySelectorAll('.slide-content').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('exit');
+                setTimeout(() => el.remove(), 600);
+            });
+
+            const slideEl = document.createElement('div');
+            slideEl.className = 'slide-content';
+            
+            const cleanText = censorText(msg.text);
+            const isLong = msg.text.length > 100;
+            const fontSize = isLong ? 'text-xl md:text-3xl' : 'text-3xl md:text-5xl';
+
+            slideEl.innerHTML = `
+                <div class="relative z-10 max-w-4xl w-full animate-enter-zoom-in">
+                    <div class="flex flex-col items-center">
+                        <img src="https://minotar.net/avatar/${msg.author}/100.png" class="w-20 h-20 rounded-lg border-2 border-white/20 mb-8 shadow-2xl animate-slam-in">
+                        
+                        <div class="font-mono text-brand-main text-xs uppercase tracking-[0.5em] mb-8">Message ${msgIndex + 1}/${messages.length}</div>
+                        
+                        <h1 class="font-serif italic ${fontSize} text-white leading-relaxed mb-12 drop-shadow-lg whitespace-pre-line">
+                            "${cleanText}"
+                        </h1>
+                        
+                        <div class="font-pixel text-xl text-zinc-400 border-t border-white/10 pt-4 px-8">
+                            - ${msg.author}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            overlay.appendChild(slideEl);
+            requestAnimationFrame(() => slideEl.classList.add('active'));
+        }
+
+        function endMessageSequence() {
+            overlay.classList.remove('active');
+            if (document.exitFullscreen) document.exitFullscreen().catch(e => {});
+
+            document.getElementById('bg-image-element').src = "https://i.imgur.com/vYiEnAM.png";
+            document.getElementById('bg-image-element').style.transform = 'scale(1.05)';
+            document.getElementById('bg-image-element').style.opacity = '0.4';
+            
+            showDashboard();
+        }
+
+        function skipMessages() {
+            clearTimeout(choiceTimeout);
+            clearInterval(countdownInterval);
+            document.getElementById('transition-prompt').style.display = 'none';
+            if (document.exitFullscreen) document.exitFullscreen().catch(e => {});
+            showDashboard();
+        }
+
+        function goToLobby() {
+            document.getElementById('main-dashboard').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('lobby-view').style.display = 'flex';
+                document.getElementById('stats-view').classList.remove('flex');
+                document.getElementById('stats-view').classList.add('hidden');
+                document.getElementById('main-dashboard').style.opacity = '1';
+                
+                const bgEl = document.getElementById('bg-image-element');
+                bgEl.src = "https://i.imgur.com/vYiEnAM.png";
+            }, 500);
+        }
+
+        function showDashboard() {
+            document.getElementById('main-dashboard').style.opacity = '1';
+            document.getElementById('lobby-view').style.display = 'none';
+            
+            const bgEl = document.getElementById('bg-image-element');
+            bgEl.src = "https://i.imgur.com/vYiEnAM.png";
+            bgEl.style.opacity = '0.4';
+            
+            const statsView = document.getElementById('stats-view');
+            statsView.classList.remove('hidden');
+            statsView.classList.add('flex');
+        }
+
+        window.addEventListener('load', () => {
+            renderMessages();
+            initSnow();
+            checkLegacyStatus();
+        });
+
+        function initSnow() {
+            const canvas = document.getElementById('snow-canvas');
+            const ctx = canvas.getContext('2d');
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            
+            const particles = Array.from({length: 40}, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                r: Math.random() * 2 + 0.5,
+                s: Math.random() * 0.5 + 0.2
+            }));
+
+            function loop() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+                ctx.beginPath();
+                particles.forEach(p => {
+                    ctx.moveTo(p.x, p.y);
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    p.y += p.s;
+                    if(p.y > height) p.y = -5;
+                });
+                ctx.fill();
+                requestAnimationFrame(loop);
+            }
+            loop();
+        }
+    </script>
+</body>
+</html>
