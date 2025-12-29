@@ -46,7 +46,7 @@
                         brand: {
                             bg: '#09090b', 
                             card: '#18181b', 
-                            accent: '#22c55e', 
+                            accent: '#3b82f6', 
                             hyper: '#db2777',
                             bypass: '#ef4444', 
                             discord: '#5865F2',
@@ -103,6 +103,35 @@
             overflow-x: hidden;
         }
 
+        /* NEW: Background Layer Animations */
+        .bg-layer {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transform: scale(1.1);
+            transition: opacity 1.2s ease-in-out, transform 12s ease-out;
+            z-index: 0;
+            /* Changed to simple dark tint (brightness reduction) only */
+            filter: brightness(0.4);
+        }
+        .bg-layer.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Title Glow Effect */
+        .title-glow {
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3);
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3); }
+            100% { text-shadow: 0 0 30px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.5); }
+        }
+
         .noise-overlay {
             position: absolute;
             top: 0;
@@ -123,7 +152,7 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #09090b; }
         ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #22c55e; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
 
         .tilt-card {
             transform-style: preserve-3d;
@@ -151,7 +180,7 @@
                 0% 100%, 
                 0% 15%
             );
-            filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.2));
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.2));
         }
 
         .btn-glitch {
@@ -161,7 +190,7 @@
         }
         .btn-glitch:hover {
             transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
         .btn-glitch::before {
             content: '';
@@ -223,7 +252,7 @@
         }
 
         .splash-text {
-            animation: bounce-rotate 2s ease-in-out infinite;
+            animation: splash-pulse 0.6s ease-in-out infinite alternate;
             transform-origin: center;
             position: absolute;
             right: -30px; 
@@ -232,9 +261,9 @@
             z-index: 20;
             pointer-events: none;
         }
-        @keyframes bounce-rotate {
-            0%, 100% { transform: translateY(0) rotate(-15deg) scale(1); }
-            50% { transform: translateY(-5px) rotate(-12deg) scale(1.05); }
+        @keyframes splash-pulse {
+            0% { transform: translateY(0) rotate(-20deg) scale(1); }
+            100% { transform: translateY(0) rotate(-20deg) scale(1.15); }
         }
 
         .modal-overlay {
@@ -294,7 +323,7 @@
             color: white;
         }
         .win-btn.close:hover {
-            background-color: #ef4444;
+            background-color: #ef4444; 
             color: white;
         }
 
@@ -303,7 +332,7 @@
         .markdown-body h2 { font-size: 1.25em; font-weight: bold; margin-bottom: 0.5em; color: white; margin-top: 1em; }
         .markdown-body p { margin-bottom: 1em; line-height: 1.6; color: #a1a1aa; font-family: 'IBM Plex Sans', sans-serif; }
         .markdown-body ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; color: #d4d4d8; }
-        .markdown-body a { color: #22c55e; text-decoration: underline; }
+        .markdown-body a { color: #3b82f6; text-decoration: underline; }
         .markdown-body blockquote { border-left: 4px solid #3f3f46; padding-left: 1em; color: #71717a; font-style: italic; }
 
         .news-reader-fullscreen {
@@ -352,8 +381,8 @@
             transition: all 0.3s;
         }
         .tab-btn.active {
-            color: #22c55e;
-            text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+            color: #3b82f6;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
         }
         .tab-btn::after {
             content: '';
@@ -362,7 +391,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: #22c55e;
+            background: #3b82f6;
             transform: scaleX(0);
             transition: transform 0.3s;
         }
@@ -376,7 +405,7 @@
             transition: all 0.3s ease;
         }
         .news-card-clean:hover {
-            border-color: rgba(34, 197, 94, 0.3);
+            border-color: rgba(59, 130, 246, 0.3);
             transform: translateY(-2px);
             box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
         }
@@ -418,7 +447,6 @@
             display: flex;
             gap: 0.5rem;
             z-index: 20;
-            opacity: 0; 
             transition: opacity 0.3s ease;
         }
         .carousel-container:hover .carousel-dots {
@@ -433,39 +461,55 @@
             transition: all 0.3s ease;
         }
         .carousel-dot.active {
-            background: #22c55e;
+            background: #3b82f6;
             width: 24px;
         }
-        .carousel-overlay-hover {
+        
+        .carousel-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            opacity: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 40%);
+            opacity: 1; 
             transition: opacity 0.3s ease;
             display: flex;
-            align-items: flex-end;
+            align-items: flex-end; 
             justify-content: center;
-            padding-bottom: 3rem;
+            padding-bottom: 3rem; 
             z-index: 15;
             pointer-events: none;
         }
-        .carousel-container:hover .carousel-overlay-hover {
-            opacity: 1;
-        }
+        
         .carousel-caption {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            padding: 0.25rem 0.8rem;
+            border-radius: 9999px; 
+            border: 1px solid rgba(255,255,255,0.05);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: #fff;
-            transform: translateY(10px);
-            transition: transform 0.3s ease;
-        }
-        .carousel-container:hover .carousel-caption {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             transform: translateY(0);
+            box-shadow: none;
+            text-shadow: none; 
+            transition: all 0.3s ease;
+        }
+        
+        .caption-animate {
+            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInLeft {
+            0% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
         }
         
         @keyframes floatUp {
@@ -473,26 +517,6 @@
             10% { opacity: 0.1; } 
             90% { opacity: 0.1; }
             100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
-        }
-
-        .snowflake {
-            position: fixed;
-            top: -10px;
-            background: white;
-            width: 4px;
-            height: 4px;
-            box-shadow: 0 0 4px white;
-            opacity: 0.8;
-            pointer-events: none;
-            z-index: 1;
-            animation-name: snowfall;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-
-        @keyframes snowfall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0.2; }
         }
 
         .avatar-stack-item {
@@ -511,11 +535,54 @@
             background: linear-gradient(135deg, rgba(200, 230, 255, 0.1), transparent);
             mix-blend-mode: overlay;
         }
+
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 5000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .join-toast {
+            background: rgba(16, 16, 18, 0.4); /* Made background much more transparent */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5); /* Softened shadow */
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            pointer-events: auto;
+            min-width: 220px;
+        }
+
+        .join-toast.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast-join { border-left: 3px solid #3b82f6; }
+        .toast-leave { border-left: 3px solid #ef4444; }
+
+        .join-toast img {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col text-zinc-100 selection:bg-brand-accent selection:text-black">
 
     <div class="noise-overlay"></div>
+    
+    <div id="toast-container"></div>
 
     <div id="loading-screen" class="fixed inset-0 bg-black z-[2000] flex items-center justify-center transition-opacity duration-500">
         <div class="flex flex-col items-center relative">
@@ -525,11 +592,11 @@
         </div>
     </div>
 
-    <!-- GLOBAL BACKGROUND CONTAINER -->
-    <div id="global-bg" class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none transition-all duration-700">
-        <!-- Default Background Content -->
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-900/10 via-zinc-950/80 to-zinc-950"></div>
-        <div class="absolute inset-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/stardust.png');"></div>
+    <div id="global-bg" class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-black">
+        <div id="bg-image-container" class="absolute inset-0 z-0"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-[#050505] z-10"></div>
+        <div class="absolute inset-0 bg-black/20 z-10"></div> 
+        <div class="absolute inset-0 opacity-20 z-10" style="background-image: url('https://www.transparenttextures.com/patterns/stardust.png');"></div>
     </div>
 
     <nav class="fixed top-0 w-full z-50 h-24 flex items-center justify-between px-6 md:px-12 pointer-events-none bg-gradient-to-b from-black via-black/80 to-transparent backdrop-blur-[2px]">
@@ -539,7 +606,7 @@
                 <img src="https://i.ibb.co/27YWBW6M/Picsart-25-12-04-05-19-25-855.png" alt="MongolVibes Logo" class="w-full h-full object-contain relative z-10 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]">
             </div>
             <div class="flex flex-col relative">
-                <span class="font-pixel text-2xl tracking-tighter text-white group-hover:text-brand-accent transition-colors drop-shadow-md">MongolVibes</span>
+                <span class="font-pixel text-2xl tracking-tighter text-white group-hover:text-red-500 transition-colors drop-shadow-md">MongolVibes</span>
                 <span id="splash-text" class="text-[11px] text-yellow-300 font-pixel splash-text hidden md:block leading-none tracking-wide px-1 rounded">Made in Mongolia!</span>
             </div>
         </div>
@@ -550,8 +617,7 @@
             <button onclick="app.routerWithCooldown('community', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="community">Season X</button>
             <button onclick="app.routerWithCooldown('news', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="news">News</button>
             <button onclick="app.routerWithCooldown('store', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="store">Store</button>
-            <button onclick="app.routerWithCooldown('advent', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="advent">Advent</button>
-            <button onclick="app.handleVoteClick(this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-brand-accent hover:text-green-300 transition-all relative z-10 drop-shadow-[0_0_8px_rgba(34,197,94,0.3)]" data-target="vote">Vote</button>
+            <button onclick="app.handleVoteClick(this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-brand-accent hover:text-blue-300 transition-all relative z-10 drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]" data-target="vote">Vote</button>
         </div>
 
         <div class="pointer-events-auto hidden md:flex flex-col items-end">
@@ -577,7 +643,6 @@
         <button onclick="app.routerWithCooldown('community', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel hover:text-brand-accent tracking-tighter">Season X</button>
         <button onclick="app.routerWithCooldown('news', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel hover:text-brand-accent tracking-tighter">News</button>
         <button onclick="app.routerWithCooldown('store', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel text-brand-accent tracking-tighter">Store</button>
-        <button onclick="app.routerWithCooldown('advent', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel text-brand-ice hover:text-white tracking-tighter">Advent</button>
         <a href="https://minecraft-mp.com/server/322276/vote/" target="_blank" class="text-3xl font-pixel hover:text-brand-accent no-underline tracking-tighter">Vote</a>
         <button onclick="app.openIPModal(); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-sm font-mono text-zinc-500 border border-white/10 px-6 py-3 rounded-full uppercase tracking-widest mt-8">Check Status</button>
     </div>
@@ -815,6 +880,32 @@
         </div>
     </div>
 
+    <!-- RECAP POPUP -->
+    <div id="recap-popup" class="fixed bottom-6 right-6 z-[9000] hidden translate-y-10 opacity-0 transition-all duration-500 ease-out">
+        <div class="bg-zinc-900/90 backdrop-blur-xl border border-brand-accent/20 p-4 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.5)] flex items-center gap-4 max-w-xs md:max-w-sm relative overflow-hidden group">
+            <!-- Decorative shine -->
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
+            
+            <div class="flex-shrink-0 w-10 h-10 bg-brand-accent/10 rounded-lg flex items-center justify-center border border-brand-accent/20 animate-pulse">
+                <i class="fas fa-server text-brand-accent"></i>
+            </div>
+            
+            <div class="flex-1 mr-2">
+                <h4 class="text-white font-pixel text-xs mb-0.5 tracking-wide text-brand-accent">2025 SERVER RECAP</h4>
+                <p class="text-zinc-400 text-[10px] font-mono leading-tight">See how we grew this year. Check the server stats.</p>
+            </div>
+            
+            <div class="flex items-center gap-3 relative z-10">
+                <a href="https://www.mnvibes.org/recap" class="bg-brand-accent hover:bg-blue-400 text-black font-bold font-pixel text-[10px] px-3 py-1.5 rounded transition-colors shadow-[0_0_10px_rgba(59,130,246,0.3)]" target="_blank">
+                    VIEW
+                </a>
+                <button onclick="app.closeRecapPopup()" class="text-zinc-500 hover:text-white transition-colors" title="Close">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <main id="app-container" class="flex-1 pt-24 overflow-y-auto overflow-x-hidden scroll-smooth perspective-container relative">
         <div id="content-slot" class="px-6 md:px-12 pb-12 max-w-7xl mx-auto min-h-[80vh] relative z-10"></div>
 
@@ -931,8 +1022,8 @@
                 newsCache: [],
                 newsFilter: 'updates', 
                 addedPlayerSplash: false,
-                adventEndDate: new Date('2025-12-25'), 
                 adminAvatar: "https://www.gravatar.com/avatar/e4ed8aa7ba70a2e44240adbcfd946d3a?d=200",
+                recapTimer: null,
                 defaultSeo: {
                     title: "MongolVibes | Survival Redefined",
                     desc: "Join Season X. The most ruthless Lifesteal season yet. Custom terrain, player-driven economy, and a community that feels like home.",
@@ -942,12 +1033,9 @@
                 slides: [
                     { img: "https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg", alt: "Season X: Ruthless Lifesteal" },
                     { img: "https://digitality.neocities.org/mongolvibes/seasonxlobby.png", alt: "Community Hub & Lobby" },
-                    { img: "https://digitality.neocities.org/mongolvibes/mnvibesadvent.png", alt: "Seasonal Events & Giveaways" },
                     { img: "https://digitality.neocities.org/mongolvibes/shopseasonx.png", alt: "Custom Item Shop" }
                 ],
                 slideInterval: null,
-                countdownInterval: null,
-                snowInterval: null,
                 storeItems: {
                     ranks: [
                         {
@@ -1036,7 +1124,7 @@
             
             startCarousel: () => {
                 if (app.state.slideInterval) clearInterval(app.state.slideInterval);
-                app.renderCarousel();
+                // REMOVED app.renderCarousel() from here to fix animation reset bug
                 app.state.slideInterval = setInterval(app.nextSlide, 5000); 
             },
 
@@ -1056,8 +1144,8 @@
 
             goToSlide: (index) => {
                 app.state.currentSlide = index;
-                app.updateCarousel();
-                app.startCarousel(); 
+                app.updateCarousel(); // Transition happens here
+                app.startCarousel();  // Restart timer without re-rendering DOM
             },
 
             renderCarousel: () => {
@@ -1075,7 +1163,7 @@
                          onclick="app.goToSlide(${index})"></div>
                 `).join('');
                 
-                const captionHtml = `<div class="carousel-caption">${app.state.slides[app.state.currentSlide].alt}</div>`;
+                const captionHtml = `<div class="carousel-caption caption-animate">${app.state.slides[app.state.currentSlide].alt}</div>`;
 
                 container.innerHTML = `
                     ${slidesHtml}
@@ -1083,7 +1171,7 @@
                     <div class="absolute inset-y-0 left-0 w-1/2 z-10 cursor-pointer" onclick="app.prevSlide()"></div>
                     <div class="absolute inset-y-0 right-0 w-1/2 z-10 cursor-pointer" onclick="app.nextSlide()"></div>
                     
-                    <div class="carousel-overlay-hover">
+                    <div class="carousel-overlay">
                         ${captionHtml}
                     </div>
                     <div class="carousel-dots">
@@ -1116,92 +1204,18 @@
                     }
                 });
                 
-                if(caption) caption.innerText = app.state.slides[app.state.currentSlide].alt;
+                if(caption) {
+                    // Trigger reflow to restart animation
+                    caption.classList.remove('caption-animate');
+                    void caption.offsetWidth; 
+                    caption.innerText = app.state.slides[app.state.currentSlide].alt;
+                    caption.classList.add('caption-animate');
+                }
             },
             
             // Background is managed globally now
             startFloatingBg: () => { /* No-op for floating BG in global scope */ },
             stopFloatingBg: () => { /* No-op */ },
-
-            startSnow: () => {
-                app.stopSnow(); 
-                // Append directly to global BG container to ensure full screen coverage
-                const container = document.getElementById('global-bg');
-                if (!container) return;
-                
-                const maxSnowflakes = 40;
-                let activeSnowflakes = 0;
-
-                const createSnowflake = () => {
-                    if (document.hidden || activeSnowflakes >= maxSnowflakes || app.state.currentPage !== 'advent') return;
-
-                    const flake = document.createElement('div');
-                    flake.classList.add('snowflake');
-                    // Random left position (0-100vw)
-                    flake.style.left = Math.random() * 100 + 'vw';
-                    flake.style.animationDuration = Math.random() * 5 + 5 + 's'; 
-                    flake.style.opacity = Math.random();
-                    flake.style.width = flake.style.height = (Math.random() * 4 + 2) + 'px'; 
-                    
-                    flake.addEventListener('animationend', () => {
-                        if(flake.parentNode) {
-                            flake.parentNode.removeChild(flake);
-                            activeSnowflakes--;
-                        }
-                    });
-
-                    container.appendChild(flake);
-                    activeSnowflakes++;
-                };
-
-                app.state.snowInterval = setInterval(createSnowflake, 300);
-            },
-
-            stopSnow: () => {
-                if (app.state.snowInterval) clearInterval(app.state.snowInterval);
-                const container = document.getElementById('global-bg');
-                // Remove all snowflakes
-                if (container) {
-                    const flakes = container.querySelectorAll('.snowflake');
-                    flakes.forEach(f => f.remove());
-                }
-            },
-
-            startCountdown: () => {
-                if(app.state.countdownInterval) clearInterval(app.state.countdownInterval);
-                
-                const update = () => {
-                    const now = new Date();
-                    const currentYear = now.getFullYear();
-                    let target = new Date(`December 25, ${currentYear} 00:00:00`);
-                    if (now > target) target = new Date(`December 25, ${currentYear + 1} 00:00:00`);
-                    
-                    const diff = target - now;
-                    
-                    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const s = Math.floor((diff % (1000 * 60)) / 1000);
-                    
-                    if(document.getElementById('cd-days')) {
-                        document.getElementById('cd-days').innerText = d.toString().padStart(2, '0');
-                        document.getElementById('cd-hours').innerText = h.toString().padStart(2, '0');
-                        document.getElementById('cd-mins').innerText = m.toString().padStart(2, '0');
-                        document.getElementById('cd-secs').innerText = s.toString().padStart(2, '0');
-                    }
-                };
-                
-                update();
-                app.state.countdownInterval = setInterval(update, 1000);
-            },
-
-            showAdventInstructions: () => {
-                const instructions = document.getElementById('advent-instructions');
-                if(instructions) {
-                    instructions.classList.remove('hidden');
-                    instructions.classList.add('flex');
-                }
-            },
 
             updateSeo: (title, desc, image) => {
                 document.title = title;
@@ -1277,25 +1291,48 @@
             
             // New Function to handle Global Background Switching
             updateBackground: (pageId) => {
-                const bgContainer = document.getElementById('global-bg');
-                if (!bgContainer) return;
+                const container = document.getElementById('bg-image-container');
+                if (!container) return;
 
-                if (pageId === 'advent') {
-                    // Switch to Advent Background
-                    bgContainer.innerHTML = `
-                        <div class="absolute inset-0 bg-black/80 z-10 transition-opacity duration-1000"></div>
-                        <div class="absolute inset-0 w-full h-full bg-cover opacity-60 blur-sm animate-pan-bg" style="background-image: url(''); background-size: 120% auto;"></div>
-                    `;
-                } else {
-                    // Revert to Default Background
-                    // Check if already default to avoid re-rendering
-                    if (!bgContainer.querySelector('.bg-\\[radial-gradient\\(circle_at_center\\,_var\\(--tw-gradient-stops\\)\\)\\]')) {
-                        bgContainer.innerHTML = `
-                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-900/10 via-zinc-950/80 to-zinc-950 transition-colors duration-1000"></div>
-                            <div class="absolute inset-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/stardust.png');"></div>
-                        `;
-                    }
-                }
+                // Configuration for per-page backgrounds
+                const backgrounds = {
+                    'home': 'https://i.imgur.com/WvFn4Cc.png',
+                    'community': 'https://i.imgur.com/sAxJ57i.png',
+                    'news': 'https://i.imgur.com/sys80bu.png',
+                    'store': 'https://i.imgur.com/4WjMtNO.png',
+                    'vote': 'https://i.imgur.com/sTldxnJ.png'
+                };
+
+                const bgUrl = backgrounds[pageId] || backgrounds['home'];
+
+                // Check if the current active background is already the target one to prevent unnecessary transitions
+                const currentActive = container.querySelector('.bg-layer.active');
+                if (currentActive && currentActive.dataset.bg === bgUrl) return;
+
+                // Create new background layer
+                const newLayer = document.createElement('div');
+                newLayer.className = 'bg-layer';
+                newLayer.style.backgroundImage = `url('${bgUrl}')`;
+                newLayer.dataset.bg = bgUrl;
+
+                // Append to container
+                container.appendChild(newLayer);
+
+                // Force reflow to ensure transition plays
+                void newLayer.offsetWidth;
+
+                // Activate the new layer (fade in)
+                newLayer.classList.add('active');
+
+                // Remove old layers after transition
+                const oldLayers = container.querySelectorAll('.bg-layer:not(:last-child)');
+                oldLayers.forEach(layer => {
+                    layer.classList.remove('active');
+                    // Remove from DOM after transition matches CSS time (1.2s)
+                    setTimeout(() => {
+                        if (layer.parentNode) layer.parentNode.removeChild(layer);
+                    }, 1200); 
+                });
             },
 
             templates: {
@@ -1311,9 +1348,9 @@
                                     JAVA & BEDROCK COMPATIBLE
                                 </div>
                                 
-                                <h1 class="text-6xl md:text-8xl leading-[0.9] text-white mb-8 tracking-tighter drop-shadow-2xl">
+                                <h1 class="text-6xl md:text-8xl leading-[0.9] text-white mb-8 tracking-tighter drop-shadow-2xl title-glow">
                                     SURVIVAL<br>
-                                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-emerald-800">REDEFINED</span>
+                                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-blue-200">REDEFINED</span>
                                 </h1>
                                 <p class="text-lg text-zinc-400 leading-relaxed max-w-lg mb-12 font-mono border-l-2 border-brand-accent/50 pl-6 relative">
                                     Experience the best Mongolian Minecraft server. Custom terrain, player-driven economy, and a community that feels like home.
@@ -1376,138 +1413,30 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- NEW: Latest Updates Section -->
+                        <div class="mt-24 relative z-10 pb-12">
+                            <div class="flex items-end justify-between border-b border-white/5 pb-4 mb-8">
+                                <h2 class="text-3xl text-white font-pixel tracking-tighter">LATEST UPDATES</h2>
+                                <button onclick="app.routerWithCooldown('news')" class="text-brand-accent font-mono text-xs uppercase tracking-widest hover:text-white transition-colors group">
+                                    View All <i class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                            <div id="home-news-feed" class="grid md:grid-cols-3 gap-6">
+                                <div class="col-span-full flex flex-col items-center justify-center py-12 text-zinc-500">
+                                    <i class="fas fa-circle-notch fa-spin text-2xl mb-4"></i>
+                                    <p class="font-mono text-xs">Loading latest intel...</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `,
                 
-                advent: (animated) => {
-                    const isEnded = new Date() > app.state.adventEndDate;
-                    
-                    return `
-                    <div class="relative min-h-[90vh] flex flex-col items-center justify-center py-20 px-4 ${animated ? 'animate-enter-slide' : ''}">
-                        <!-- Removed local background as it's now global -->
-
-                        <!-- Content Container -->
-                        <div class="relative z-10 w-full max-w-5xl flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-20 animate-float">
-                            
-                            <!-- Left: Text Content -->
-                            <div class="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
-                                <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 rounded-full font-mono text-[10px] text-white font-bold tracking-[0.2em] mb-2 backdrop-blur-sm">
-                                    <span class="w-1.5 h-1.5 bg-brand-ice rounded-full animate-pulse"></span>
-                                    WINTER FESTIVAL
-                                </div>
-                                <h1 class="text-5xl md:text-7xl font-bold text-white tracking-tighter leading-none drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                                    Winter Season:<br>
-                                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-cyan-200 to-white">25 Days of Giving</span>
-                                </h1>
-                                <p class="text-lg text-zinc-300 font-medium border-l-2 border-brand-ice pl-4">The MongolVibes annual event is now live!</p>
-                                <p class="text-sm text-zinc-400 max-w-md font-mono leading-relaxed">
-                                    Exclusive cosmetics, rare keys, and limited-edition items await those who participate daily. Don't miss out on the festivities.
-                                </p>
-                                
-                                ${!isEnded ? `
-                                    <button onclick="app.showAdventInstructions()" class="group mt-6 px-8 py-4 bg-brand-ice hover:bg-white text-black font-bold font-pixel text-xs uppercase tracking-widest rounded-xl transition-all transform hover:-translate-y-1 shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] flex items-center gap-3">
-                                        <i class="fas fa-gift text-lg group-hover:rotate-12 transition-transform"></i>
-                                        <span>View Advent Calendar</span>
-                                    </button>
-                                ` : `
-                                    <div class="mt-6 px-8 py-4 bg-zinc-900/80 border border-zinc-800 text-zinc-500 font-bold font-pixel text-xs uppercase tracking-widest rounded-xl cursor-not-allowed flex items-center gap-3 backdrop-blur-sm">
-                                        <i class="fas fa-lock text-lg"></i>
-                                        <span>Event Concluded</span>
-                                    </div>
-                                    <p class="text-zinc-500 font-mono text-[10px] mt-2">Thanks for participating in this season's event!</p>
-                                `}
-                            </div>
-
-                            <!-- Right: Countdown -->
-                            <div class="flex-1 w-full max-w-sm flex flex-col justify-center">
-                                <div class="flex items-center gap-2 text-zinc-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-6 justify-center lg:justify-start">
-                                    <i class="fas fa-hourglass-half text-brand-ice animate-pulse"></i>
-                                    <span>Time Remaining</span>
-                                </div>
-                                <div class="grid grid-cols-4 gap-4" id="advent-countdown">
-                                    ${['Days', 'Hours', 'Mins', 'Secs'].map(label => `
-                                        <div class="flex flex-col items-center gap-3 group">
-                                            <div class="w-full aspect-square bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center backdrop-blur-md group-hover:border-brand-ice/50 group-hover:bg-brand-ice/5 transition-all duration-300 relative overflow-hidden">
-                                                <div class="absolute inset-0 bg-gradient-to-br from-brand-ice/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                                <span id="cd-${label.toLowerCase()}" class="text-3xl font-bold text-white font-mono relative z-10 group-hover:scale-110 transition-transform">00</span>
-                                            </div>
-                                            <span class="text-[9px] text-zinc-500 font-bold uppercase tracking-widest group-hover:text-brand-ice transition-colors">${label}</span>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Improved Modal -->
-                        <div id="advent-instructions" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in" onclick="this.classList.remove('flex'); this.classList.add('hidden')">
-                            <div class="bg-[#09090b] border border-white/10 rounded-3xl max-w-2xl w-full relative shadow-2xl overflow-hidden animate-enter-slide" onclick="event.stopPropagation()">
-                                <!-- Modal Header -->
-                                <div class="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-zinc-900/50">
-                                    <div class="flex items-center gap-3">
-                                        <i class="fas fa-snowflake text-brand-ice"></i>
-                                        <span class="font-pixel text-white tracking-tight">Participation Guide</span>
-                                    </div>
-                                    <button class="text-zinc-500 hover:text-white transition-colors" onclick="document.getElementById('advent-instructions').classList.remove('flex'); document.getElementById('advent-instructions').classList.add('hidden')">
-                                        <i class="fas fa-times text-lg"></i>
-                                    </button>
-                                </div>
-
-                                <div class="p-8 md:p-10">
-                                    <div class="flex flex-col gap-8">
-                                        <!-- Step 1 -->
-                                        <div class="flex gap-6">
-                                            <div class="flex flex-col items-center gap-1">
-                                                <div class="w-10 h-10 rounded-full bg-brand-ice/10 border border-brand-ice/20 flex items-center justify-center text-brand-ice font-bold font-mono">1</div>
-                                                <div class="w-px h-full bg-zinc-800"></div>
-                                            </div>
-                                            <div class="flex-1 pb-4">
-                                                <h4 class="text-white font-bold text-lg mb-1">Launch Minecraft</h4>
-                                                <p class="text-zinc-400 text-sm font-mono mb-4">Open your game client (version 1.21.6+) and navigate to Multiplayer.</p>
-                                                <div class="bg-black border border-zinc-800 rounded-lg p-4 flex justify-between items-center group hover:border-brand-ice/30 transition-colors">
-                                                    <div>
-                                                        <div class="text-[10px] text-zinc-500 uppercase font-bold mb-1">Server Address</div>
-                                                        <code class="text-white font-mono font-bold text-lg tracking-wide">mnvibes.org</code>
-                                                    </div>
-                                                    <button class="btn-glitch px-4 py-2 bg-zinc-900 border border-zinc-700 rounded text-xs text-white font-mono hover:bg-zinc-800" onclick="navigator.clipboard.writeText('mnvibes.org'); this.innerText = 'COPIED!'; setTimeout(()=>this.innerText='COPY', 1000)">
-                                                        COPY
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Step 2 -->
-                                        <div class="flex gap-6">
-                                            <div class="flex flex-col items-center gap-1">
-                                                <div class="w-10 h-10 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 font-bold font-mono">2</div>
-                                            </div>
-                                            <div class="flex-1">
-                                                <h4 class="text-white font-bold text-lg mb-1">Claim Your Gift</h4>
-                                                <p class="text-zinc-400 text-sm font-mono mb-4">Once joined, type the command below in chat to open your calendar.</p>
-                                                <div class="bg-black border border-zinc-800 rounded-lg p-4 flex justify-between items-center group hover:border-purple-500/30 transition-colors">
-                                                    <div>
-                                                        <div class="text-[10px] text-zinc-500 uppercase font-bold mb-1">In-Game Command</div>
-                                                        <code class="text-purple-400 font-mono font-bold text-lg tracking-wide">/advent</code>
-                                                    </div>
-                                                    <button class="btn-glitch px-4 py-2 bg-zinc-900 border border-zinc-700 rounded text-xs text-white font-mono hover:bg-zinc-800" onclick="navigator.clipboard.writeText('/advent'); this.innerText = 'COPIED!'; setTimeout(()=>this.innerText='COPY', 1000)">
-                                                        COPY
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-                },
-                
-                // ... (other templates: community, news, store remain same) ...
+                // ... (other templates remain the same) ...
                 community: (animated) => `
                     <div class="${animated ? 'animate-enter-slide' : ''} max-w-7xl mx-auto">
                         <div class="relative h-[400px] md:h-[500px] w-full rounded-3xl overflow-hidden mb-16 group border border-white/5">
-                            <div class="absolute inset-0 bg-[url('https://i.imgur.com/ej1EfPV.png')] bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105 frost-effect blur-[2px]"></div>
+                            <div class="absolute inset-0 bg-[url('https://i.imgur.com/sAxJ57i.png')] bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105 frost-effect blur-[2px]"></div>
                             <div class="absolute inset-0 frost-overlay"></div>
                             <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/40 to-transparent"></div>
                             
@@ -1603,7 +1532,6 @@
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 ${[
                                     'seasonxlobby.png',
-                                    'mnvibesadvent.png', 
                                     'season9lobby.png', 
                                     'shopseasonx.png'
                                 ].map((img, i) => `
@@ -1858,10 +1786,6 @@
                     app.stopFloatingBg();
                 }
                 
-                if (app.state.currentPage === 'advent' && pageId !== 'advent') {
-                    app.stopSnow();
-                }
-
                 setTimeout(() => {
                     app.router(pageId);
                     container.style.transition = 'all 0.4s ease';
@@ -1918,7 +1842,6 @@
                 if(pageId === 'community') pageTitle = "MongolVibes | Season X Community";
                 if(pageId === 'store') pageTitle = "MongolVibes | Item Shop";
                 if(pageId === 'news') pageTitle = "MongolVibes | News Feed";
-                if(pageId === 'advent') pageTitle = "MongolVibes | Advent Calendar";
 
                 if (pageId.startsWith('news/')) {
                     const newsId = pageId.split('/')[1];
@@ -1938,9 +1861,11 @@
                     document.getElementById('app-container').scrollTo(0, 0);
 
                     if (pageId === 'home') {
-                        app.startCarousel();
+                        app.renderCarousel(); // Render ONCE when entering home
+                        app.startCarousel();  // Start timer
                         app.startFloatingBg();
                         app.updateHomePlayerCount(); 
+                        app.loadHomeNews(); // NEW: Load news on home page
                     }
                     if (pageId === 'news') {
                         app.loadNewsFeed();
@@ -1948,13 +1873,100 @@
                     if (pageId === 'store') {
                         app.loadStoreData();
                     }
-                    if (pageId === 'advent') {
-                        app.startSnow();
-                        app.startCountdown();
-                    }
                 }
             },
             
+            // NEW: Fetch and render last 3 news for Home Page
+            loadHomeNews: async () => {
+                const container = document.getElementById('home-news-feed');
+                if (!container) return;
+
+                let posts = app.state.newsCache;
+                
+                if (!posts || posts.length === 0) {
+                    if (window.fetchNewsData) {
+                        try {
+                            posts = await window.fetchNewsData();
+                            app.state.newsCache = posts;
+                        } catch(e) {
+                            console.error("Home news fetch failed", e);
+                        }
+                    }
+                }
+
+                // If still no posts (DB offline/empty), use mock data matching loadNewsFeed
+                if (!posts || posts.length === 0) {
+                    posts = [
+                        {
+                            id: 'demo1',
+                            title: 'Welcome to Season X!',
+                            date: { seconds: Date.now()/1000 },
+                            image: 'https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg',
+                            content: 'Welcome to the new update! **Lifesteal** is now active.',
+                            category: 'updates'
+                        },
+                        {
+                            id: 'demo2',
+                            title: 'Weekend Event: Koth',
+                            date: { seconds: (Date.now()/1000) - 86400 },
+                            image: 'https://digitality.neocities.org/mongolvibes/seasonxlobby.png',
+                            content: 'Join us this weekend for double heart drops on player kills.',
+                            category: 'events'
+                        },
+                        {
+                            id: 'demo3',
+                            title: 'Patch Notes 2.20',
+                            date: { seconds: (Date.now()/1000) - 172800 },
+                            image: '',
+                            content: 'General bug fixes and performance improvements.',
+                            category: 'updates'
+                        }
+                    ];
+                    app.state.newsCache = posts;
+                }
+
+                // Take last 3 (assuming cache is already sorted descending by date)
+                const latest = posts.slice(0, 3);
+
+                container.innerHTML = latest.map(post => {
+                    const date = new Date(post.date.seconds * 1000).toLocaleDateString("en-GB"); 
+                    const category = (post.category || 'update').toUpperCase();
+                    const isDev = category === 'UPDATE' || category === 'UPDATES';
+                    const catColor = isDev ? 'text-red-400' : 'text-green-400';
+                    
+                    return `
+                        <div class="news-card-clean rounded-xl overflow-hidden cursor-pointer group flex flex-col h-full bg-zinc-900/40 border border-white/5 backdrop-blur-sm hover-lift" onclick="app.openNewsModal('${post.id}')">
+                            <div class="relative h-40 overflow-hidden">
+                                ${post.image 
+                                    ? `<img src="${post.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="${post.title}">` 
+                                    : `<div class="w-full h-full flex items-center justify-center bg-zinc-800/50"><i class="fas fa-image text-zinc-700 text-2xl"></i></div>`
+                                }
+                                <div class="absolute top-2 left-2 bg-black/60 backdrop-blur px-2 py-0.5 rounded text-[9px] font-bold tracking-widest text-white border border-white/10">
+                                    ${date}
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 flex flex-col flex-1">
+                                <div class="text-[9px] font-bold font-mono tracking-widest mb-1.5 ${catColor} opacity-80">
+                                    <i class="fas fa-circle text-[5px] mr-1 align-middle"></i> ${category}
+                                </div>
+
+                                <h3 class="text-sm text-white font-bold leading-tight mb-2 font-sans group-hover:text-brand-accent transition-colors line-clamp-1">${post.title}</h3>
+                                
+                                <p class="text-[10px] text-zinc-400 font-sans line-clamp-2 leading-relaxed mb-3 flex-1">
+                                    ${post.content.replace(/[#*`]/g, '')}
+                                </p>
+                                
+                                <div class="flex items-center gap-2 pt-3 border-t border-white/5 mt-auto">
+                                    <span class="text-[9px] text-zinc-500 font-mono group-hover:text-white transition-colors">Read</span>
+                                    <i class="fas fa-arrow-right text-[9px] text-zinc-500 group-hover:translate-x-1 transition-transform"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            },
+
             loadStoreData: async () => {
                 const list = document.getElementById('recent-purchases-list');
                 const topCard = document.getElementById('top-supporter-card');
@@ -2109,45 +2121,125 @@
                 }).join('');
             },
 
+            showJoinToast: (playerName) => { /* Deprecated, replaced by showToast */ },
+            
+            showToast: (playerName, type) => {
+                const container = document.getElementById('toast-container');
+                if (!container) return;
+
+                const toast = document.createElement('div');
+                toast.className = `join-toast ${type === 'join' ? 'toast-join' : 'toast-leave'}`;
+                
+                const isGeneric = playerName.includes('players');
+                const headUrl = isGeneric ? 'https://mc-heads.net/avatar/Steve/32' : `https://mc-heads.net/avatar/${playerName}/32`;
+                
+                const titleColor = type === 'join' ? 'text-blue-400' : 'text-red-400';
+                const message = type === 'join' ? 'JOINED THE SERVER!' : 'LEFT THE SERVER';
+
+                toast.innerHTML = `
+                    <img src="${headUrl}" class="w-8 h-8 rounded bg-zinc-800" alt="Head">
+                    <div>
+                        <div class="text-white font-pixel text-[10px] tracking-wider">${playerName}</div>
+                        <div class="${titleColor} font-mono text-[9px] font-bold">${message}</div>
+                    </div>
+                `;
+
+                container.appendChild(toast);
+
+                // Animate in
+                setTimeout(() => {
+                    toast.classList.add('active');
+                }, 50);
+
+                // Animate out and remove
+                setTimeout(() => {
+                    toast.classList.remove('active');
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 500);
+                }, 5000); 
+            },
+
             fetchStatus: async () => {
                 const dot = document.getElementById('status-dot');
                 const text = document.getElementById('server-status');
                 const reloadIcon = document.getElementById('reload-icon');
-                if(reloadIcon) reloadIcon.classList.add('fa-spin');
-                if(text) {
-                    text.innerText = "Pinging...";
-                }
-                if(dot) {
-                     dot.className = "relative inline-flex rounded-full h-3 w-3 bg-yellow-500 animate-pulse";
-                }
                 
-                if(document.getElementById('ip-modal') && document.getElementById('ip-modal').classList.contains('active')) {
-                     document.getElementById('player-list-container').innerHTML = `
-                        <div class="col-span-full flex flex-col items-center justify-center h-full text-zinc-500 gap-2">
-                            <i class="fas fa-satellite-dish fa-spin"></i>
-                            <span class="text-xs font-mono">Refreshing Uplink...</span>
-                        </div>`;
+                // Only show "Pinging..." visual on the very first load to avoid flickering every 5s
+                if (!app.state.statusCache) {
+                    if(reloadIcon) reloadIcon.classList.add('fa-spin');
+                    if(text) text.innerText = "Pinging...";
+                    if(dot) dot.className = "relative inline-flex rounded-full h-3 w-3 bg-yellow-500 animate-pulse";
                 }
 
                 try {
                     const response = await fetch(`https://api.mcsrvstat.us/2/${app.state.serverIP}`);
                     const data = await response.json();
+                    
+                    let hasChanged = false;
+
+                    // DETECT CHANGES (Joins/Leaves/Online Status)
+                    if (app.state.statusCache) {
+                        // If online status changed, that's a big change
+                        if (app.state.statusCache.online !== data.online) {
+                            hasChanged = true;
+                        } 
+                        // If both are online, check player list diffs
+                        else if (data.online) {
+                            const oldPlayers = app.state.statusCache.players?.list || [];
+                            const newPlayers = data.players?.list || [];
+                            
+                            // Find players present in new list but not in old list (Joins)
+                            const joinedPlayers = newPlayers.filter(p => !oldPlayers.includes(p));
+                            // Find players present in old list but not in new list (Leaves)
+                            const leftPlayers = oldPlayers.filter(p => !newPlayers.includes(p));
+                            
+                            // Handle Joins
+                            if (joinedPlayers.length > 0) {
+                                hasChanged = true; // Mark as changed to trigger UI update
+                                if (joinedPlayers.length <= 3) {
+                                    joinedPlayers.forEach(player => app.showToast(player, 'join'));
+                                } else {
+                                    app.showToast(`${joinedPlayers.length} players`, 'join');
+                                }
+                            }
+
+                            // Handle Leaves
+                            if (leftPlayers.length > 0) {
+                                hasChanged = true; // Mark as changed to trigger UI update
+                                if (leftPlayers.length <= 3) {
+                                    leftPlayers.forEach(player => app.showToast(player, 'leave'));
+                                } else {
+                                    app.showToast(`${leftPlayers.length} players`, 'leave');
+                                }
+                            }
+                            
+                            // Also check if just the count changed (e.g. anonymous players)
+                            if (app.state.statusCache.players.online !== data.players.online) {
+                                hasChanged = true;
+                            }
+                        }
+                    } else {
+                        // First load is always a "change"
+                        hasChanged = true;
+                    }
+
                     app.state.statusCache = data;
                     
+                    // Always update text status (it's lightweight and doesn't cause animation jumps)
                     if (data.online) {
                         if(dot) dot.className = "relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_#22c55e]";
                         if(text) {
                             text.innerText = `${data.players.online} Online`;
                             text.classList.add('text-brand-accent');
                         }
-
-                        if (data.players && data.players.list && data.players.list.length > 0 && !app.state.addedPlayerSplash) {
-                            const randomPlayer = data.players.list[Math.floor(Math.random() * data.players.list.length)];
-                            app.splashTexts.push(`${randomPlayer} is playing!`);
-                            app.state.addedPlayerSplash = true;
-                            app.setRandomSplash(); 
+                        // Splash text logic (only on first specific loads if needed)
+                        if (!app.state.addedPlayerSplash && data.players?.list?.length > 0) {
+                             const randomPlayer = data.players.list[Math.floor(Math.random() * data.players.list.length)];
+                             app.splashTexts.push(`${randomPlayer} is playing!`);
+                             app.state.addedPlayerSplash = true;
+                             app.setRandomSplash(); 
                         }
-
                     } else {
                          if(dot) dot.className = "relative inline-flex rounded-full h-3 w-3 bg-red-500";
                          if(text) {
@@ -2155,10 +2247,15 @@
                              text.classList.remove('text-brand-accent');
                          }
                     }
-                    if(document.getElementById('ip-modal') && document.getElementById('ip-modal').classList.contains('active')) {
-                        app.renderPlayerList(data);
+
+                    // ONLY Re-render heavy widgets if something actually changed
+                    // This prevents the entrance animations from playing every 5 seconds
+                    if (hasChanged) {
+                        if(document.getElementById('ip-modal') && document.getElementById('ip-modal').classList.contains('active')) {
+                            app.renderPlayerList(data);
+                        }
+                        app.updateHomePlayerCount();
                     }
-                    app.updateHomePlayerCount();
 
                 } catch (e) {
                     console.error("Status fetch failed:", e);
@@ -2359,6 +2456,57 @@
                 document.getElementById('payment-modal').classList.remove('active');
             },
 
+            initRecapPopup: () => {
+                if (localStorage.getItem('mnvibes_recap_2025_seen')) return;
+                
+                // Initial start
+                setTimeout(() => {
+                    app.showRecapPopup();
+                }, 3000); 
+            },
+
+            showRecapPopup: () => {
+                if (localStorage.getItem('mnvibes_recap_2025_seen')) return;
+
+                const popup = document.getElementById('recap-popup');
+                if (popup) {
+                    popup.classList.remove('hidden');
+                    // Force reflow
+                    void popup.offsetWidth;
+                    popup.classList.remove('translate-y-10', 'opacity-0');
+
+                    // Auto hide after 15 seconds
+                    if (app.state.recapTimer) clearTimeout(app.state.recapTimer);
+                    app.state.recapTimer = setTimeout(app.autoHideRecapPopup, 15000);
+                }
+            },
+
+            autoHideRecapPopup: () => {
+                const popup = document.getElementById('recap-popup');
+                if (popup) {
+                    popup.classList.add('translate-y-10', 'opacity-0');
+                    
+                    setTimeout(() => {
+                        popup.classList.add('hidden');
+                        // Show again after 60 seconds
+                        if (app.state.recapTimer) clearTimeout(app.state.recapTimer);
+                        app.state.recapTimer = setTimeout(app.showRecapPopup, 60000);
+                    }, 500); // Wait for transition
+                }
+            },
+
+            closeRecapPopup: () => {
+                const popup = document.getElementById('recap-popup');
+                if (popup) {
+                    popup.classList.add('translate-y-10', 'opacity-0');
+                    setTimeout(() => {
+                        popup.classList.add('hidden');
+                    }, 500);
+                }
+                localStorage.setItem('mnvibes_recap_2025_seen', 'true');
+                if (app.state.recapTimer) clearTimeout(app.state.recapTimer);
+            },
+
             loadDynamicSplash: async () => {
                 const splash = document.getElementById('splash-text');
                 if(!splash) return;
@@ -2413,36 +2561,18 @@
                 }
             },
 
-            updateBackground: (pageId) => {
-                const bgContainer = document.getElementById('global-bg');
-                if (!bgContainer) return;
-
-                if (pageId === 'advent') {
-                    bgContainer.innerHTML = `
-                        <div class="absolute inset-0 bg-black/80 z-10 transition-opacity duration-1000"></div>
-                        <div class="absolute inset-0 w-full h-full bg-cover opacity-60 blur-sm animate-pan-bg" style="background-image: url('https://digitality.neocities.org/mongolvibes/mnvibesadvent.png'); background-size: 120% auto;"></div>
-                    `;
-                } else {
-                    if (!bgContainer.querySelector('.bg-\\[radial-gradient\\(circle_at_center\\,_var\\(--tw-gradient-stops\\)\\)\\]')) {
-                        bgContainer.innerHTML = `
-                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-green-900/10 via-zinc-950/80 to-zinc-950 transition-colors duration-1000"></div>
-                            <div class="absolute inset-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/stardust.png');"></div>
-                        `;
-                    }
-                }
-            },
-
             init: () => {
                 console.log("Designed And Made By Pekly (MNVIBES Website v2)");
                 app.initListeners();
                 app.loadDynamicSplash(); 
+                app.initRecapPopup(); // Initialize the popup
 
                 const hash = window.location.hash.replace('#', '');
                 
                 if (hash.startsWith('news/')) {
                     app.routerWithCooldown(hash);
                 } else {
-                    const validRoutes = ['home', 'community', 'store', 'news', 'advent'];
+                    const validRoutes = ['home', 'community', 'store', 'news'];
                     const initialRoute = validRoutes.includes(hash) ? hash : 'home';
                     app.routerWithCooldown(initialRoute);
                 }
@@ -2455,7 +2585,8 @@
                 }, 100);
 
                 app.fetchStatus();
-                setInterval(app.fetchStatus, 30000);
+                // Changed from 30000 (30s) to 5000 (5s) for near real-time updates
+                setInterval(app.fetchStatus, 5000);
                 app.fetchDiscordStatus();
                 
                 const loadingScreen = document.getElementById('loading-screen');
