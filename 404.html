@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couldnt find this page</title>
+    <meta name="robots" content="noindex, nofollow">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Silkscreen&display=swap');
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['IBM Plex Sans', 'sans-serif'],
+                        pixel: ['Silkscreen', 'cursive'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#09090b', 
+                            accent: '#3b82f6', 
+                            hyper: '#db2777',
+                            bypass: '#ef4444', 
+                            discord: '#5865F2',
+                        }
+                    },
+                    animation: {
+                        'enter-slide': 'enterSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glitch': 'glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite',
+                    },
+                    keyframes: {
+                        enterSlide: {
+                            '0%': { opacity: '0', transform: 'scale(0.95) translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glitch: {
+                            '0%': { transform: 'translate(0)' },
+                            '20%': { transform: 'translate(-2px, 2px)' },
+                            '40%': { transform: 'translate(-2px, -2px)' },
+                            '60%': { transform: 'translate(2px, 2px)' },
+                            '80%': { transform: 'translate(2px, -2px)' },
+                            '100%': { transform: 'translate(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            font-family: 'IBM Plex Sans', sans-serif;
+            overflow: hidden;
+        }
+
+        .noise-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .btn-glitch {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .btn-glitch:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+        .btn-glitch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-glitch:hover::before { left: 100%; }
+
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 #ef4444;
+            clip-path: inset(44% 0 61% 0);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 #3b82f6;
+            clip-path: inset(34% 0 11% 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 20% 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 10% 0); }
+            40% { clip-path: inset(80% 0 5% 0); }
+            60% { clip-path: inset(10% 0 80% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(70% 0 10% 0); }
+        }
+
+        .grid-bg-anim {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            animation: gridMove 20s linear infinite;
+        }
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+        
+        .tilt-container {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+    </style>
+</head>
+<body class="h-screen flex items-center justify-center relative selection:bg-brand-bypass selection:text-white">
+
+    <div class="noise-overlay"></div>
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80 pointer-events-none"></div>
+    
+    <div class="absolute inset-0 grid-bg-anim pointer-events-none z-0"></div>
+
+    <div class="relative z-10 max-w-lg w-full px-6 animate-enter-slide tilt-container">
+        
+        <div id="tilt-card" class="bg-zinc-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_rgba(0,0,0,0.8)] text-center relative overflow-hidden group transition-transform duration-100 ease-out">
+            
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-bypass to-transparent opacity-50"></div>
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand-bypass blur-[60px] opacity-10 rounded-full group-hover:opacity-20 transition-opacity"></div>
+            
+            <div class="relative mb-6">
+                <h1 class="text-8xl md:text-9xl font-pixel text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-600 glitch-text tracking-tighter" data-text="404">
+                    404
+                </h1>
+                <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-brand-bypass shadow-[0_0_15px_#ef4444]"></div>
+            </div>
+
+            <h2 class="text-white font-bold font-pixel text-xl mb-4 tracking-wide">
+                CHUNK NOT LOADED
+            </h2>
+            <p class="text-zinc-400 font-mono text-sm leading-relaxed mb-8">
+                The coordinates you are trying to reach lead to the void. This page may have been deleted, moved, or claimed by an unknown entity.
+            </p>
+
+            <div class="bg-black/40 border border-white/5 rounded p-3 mb-8 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-terminal text-zinc-600 text-xs"></i>
+                    <span class="text-[10px] font-mono text-zinc-500 uppercase">System Diagnostics</span>
+                </div>
+                <span class="text-[10px] font-mono text-brand-bypass font-bold flex items-center gap-2">
+                    <i class="fas fa-exclamation-triangle"></i> FATAL_ERROR
+                </span>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <a href="/" class="btn-glitch bg-white text-black py-3 rounded font-pixel text-xs font-bold uppercase tracking-widest hover:bg-zinc-200 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    RETURN TO SPAWN
+                </a>
+                <a href="https://discord.gg/XKFtYsN7YF" target="_blank" class="btn-glitch bg-[#5865F2]/10 border border-[#5865F2]/50 text-[#5865F2] py-3 rounded font-pixel text-xs font-bold uppercase tracking-widest hover:bg-[#5865F2] hover:text-white transition-all">
+                    REPORT BUG
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const card = document.getElementById('tilt-card');
+        const titleEl = document.querySelector('.glitch-text');
+        
+        document.addEventListener('mousemove', (e) => {
+            if(!card) return;
+            
+            const x = (window.innerWidth / 2 - e.pageX) / 40;
+            const y = (window.innerHeight / 2 - e.pageY) / 40;
+            
+            card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if(card) card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        });
+
+        const titles = ["404", "VOID", "NULL", "ERR"];
+        
+        setInterval(() => {
+            if(Math.random() > 0.92) {
+                const random = titles[Math.floor(Math.random() * titles.length)];
+                
+                titleEl.setAttribute('data-text', random);
+                titleEl.innerText = random;
+                titleEl.classList.add('text-brand-bypass');
+                card.style.borderColor = 'rgba(239, 68, 68, 0.5)';
+                
+                setTimeout(() => {
+                    titleEl.setAttribute('data-text', '404');
+                    titleEl.innerText = '404';
+                    titleEl.classList.remove('text-brand-bypass');
+                    card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }, 150);
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
