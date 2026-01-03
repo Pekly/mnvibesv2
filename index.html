@@ -9,14 +9,14 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://mnvibes.org/">
     <meta property="og:title" content="MongolVibes | Survival Redefined">
-    <meta property="og:description" content="Join Season X. The most ruthless Lifesteal season yet. Custom terrain, player-driven economy, and a community that feels like home.">
-    <meta property="og:image" content="https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg">
+    <meta property="og:description" content="Join Season XI. A return to roots. Pure Vanilla Survival with a roadmap of massive expansions.">
+    <meta property="og:image" content="https://i.ibb.co/cS7GGFrF/Picsart-26-01-03-14-31-23-675.jpg">
     
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://mnvibes.org/">
     <meta property="twitter:title" content="MongolVibes | Survival Redefined">
-    <meta property="twitter:description" content="Join Season X. The most ruthless Lifesteal season yet. Custom terrain, player-driven economy, and a community that feels like home.">
-    <meta property="twitter:image" content="https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg">
+    <meta property="twitter:description" content="Join Season XI. A return to roots. Pure Vanilla Survival with a roadmap of massive expansions.">
+    <meta property="twitter:image" content="https://i.ibb.co/cS7GGFrF/Picsart-26-01-03-14-31-23-675.jpg">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -52,7 +52,14 @@
                             discord: '#5865F2',
                             surface: '#27272a',
                             border: '#3f3f46',
-                            ice: '#3b82f6', 
+                            ice: '#3b82f6',
+                            // Season XI Specific Palette
+                            xi: {
+                                orange: '#f97316',
+                                gold: '#fbbf24',
+                                dark: '#0c0a09',
+                                panel: '#1c1917'
+                            }
                         }
                     },
                     animation: {
@@ -62,6 +69,7 @@
                         'glitch': 'glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite',
                         'fade-in': 'fadeIn 0.5s ease-in-out forwards',
                         'pan-bg': 'panBg 60s linear infinite alternate',
+                        'shimmer': 'shimmer 2s linear infinite',
                     },
                     keyframes: {
                         enterSlide: {
@@ -87,6 +95,10 @@
                         panBg: {
                             '0%': { backgroundPosition: '0% 50%' },
                             '100%': { backgroundPosition: '100% 50%' }
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-1000px 0' },
+                            '100%': { backgroundPosition: '1000px 0' }
                         }
                     }
                 }
@@ -130,6 +142,27 @@
         @keyframes pulseGlow {
             0% { text-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3); }
             100% { text-shadow: 0 0 30px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.5); }
+        }
+        
+        /* Season XI Specific Styles */
+        .xi-glow-text {
+            text-shadow: 0 0 20px rgba(249, 115, 22, 0.5), 0 0 40px rgba(249, 115, 22, 0.3);
+        }
+        
+        .xi-gradient-text {
+            background: linear-gradient(to right, #f97316, #fbbf24, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .xi-card-border {
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.05);
+        }
+        
+        .xi-card-border:hover {
+            border-color: rgba(249, 115, 22, 0.5);
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.15);
         }
 
         .noise-overlay {
@@ -448,6 +481,7 @@
             gap: 0.5rem;
             z-index: 20;
             transition: opacity 0.3s ease;
+            opacity: 0;
         }
         .carousel-container:hover .carousel-dots {
             opacity: 1; 
@@ -469,7 +503,7 @@
             position: absolute;
             inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 40%);
-            opacity: 1; 
+            opacity: 0; 
             transition: opacity 0.3s ease;
             display: flex;
             align-items: flex-end; 
@@ -477,6 +511,9 @@
             padding-bottom: 3rem; 
             z-index: 15;
             pointer-events: none;
+        }
+        .carousel-container:hover .carousel-overlay {
+            opacity: 1;
         }
         
         .carousel-caption {
@@ -614,7 +651,7 @@
         <div class="pointer-events-auto hidden md:flex items-center gap-2 bg-zinc-900/40 backdrop-blur-md border border-white/5 p-1.5 rounded-xl shadow-2xl nav-menu hover:border-white/10 transition-colors">
             <div class="nav-highlight" id="nav-highlight"></div>
             <button onclick="app.routerWithCooldown('home', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="home">Overview</button>
-            <button onclick="app.routerWithCooldown('community', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="community">Season X</button>
+            <button onclick="app.routerWithCooldown('community', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="community">Season XI</button>
             <button onclick="app.routerWithCooldown('news', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="news">News</button>
             <button onclick="app.routerWithCooldown('store', this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-all relative z-10" data-target="store">Store</button>
             <button onclick="app.handleVoteClick(this)" class="nav-btn px-6 py-2.5 rounded-lg font-pixel text-xs font-bold uppercase tracking-wider text-brand-accent hover:text-blue-300 transition-all relative z-10 drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]" data-target="vote">Vote</button>
@@ -640,7 +677,7 @@
     
     <div class="mobile-menu hidden fixed inset-0 bg-black/98 z-40 flex flex-col items-center justify-center gap-8 pointer-events-auto backdrop-blur-xl">
         <button onclick="app.routerWithCooldown('home', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel hover:text-brand-accent tracking-tighter">Overview</button>
-        <button onclick="app.routerWithCooldown('community', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel hover:text-brand-accent tracking-tighter">Season X</button>
+        <button onclick="app.routerWithCooldown('community', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel hover:text-brand-accent tracking-tighter">Season XI</button>
         <button onclick="app.routerWithCooldown('news', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel hover:text-brand-accent tracking-tighter">News</button>
         <button onclick="app.routerWithCooldown('store', this); document.querySelector('.mobile-menu').classList.add('hidden')" class="text-3xl font-pixel text-brand-accent tracking-tighter">Store</button>
         <a href="https://minecraft-mp.com/server/322276/vote/" target="_blank" class="text-3xl font-pixel hover:text-brand-accent no-underline tracking-tighter">Vote</a>
@@ -740,7 +777,7 @@
         <div id="news-reader-bar" class="bg-black/90 h-10 flex justify-between items-center relative z-20 select-none border-b border-white/10 shrink-0 px-6 backdrop-blur-md transition-transform duration-300">
             <div class="flex items-center gap-3">
                 <i class="fas fa-newspaper text-brand-accent text-sm"></i>
-                <span class="font-mono text-[11px] text-zinc-400 uppercase tracking-widest">MongolVibes Reader Protocol</span>
+                <span class="font-mono text-[11px] text-zinc-400 uppercase tracking-widest">MongolVibes Newsletter</span>
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-[10px] text-zinc-600 font-mono uppercase hidden sm:block">Press ESC to close</div>
@@ -934,7 +971,7 @@
                     </ul>
                 </div>
                 <div>
-                    <p class="font-mono text-[10px] bg-clip-text text-transparent bg-gradient-to-r from-zinc-500 to-white uppercase tracking-widest font-bold">Est. 2023 • Season X</p>
+                    <p class="font-mono text-[10px] bg-clip-text text-transparent bg-gradient-to-r from-zinc-500 to-white uppercase tracking-widest font-bold">Est. 2023 • Season XI</p>
                     <p class="font-mono text-[10px] text-zinc-700 mt-2">Not affiliated with Mojang AB.</p>
                 </div>
             </div>
@@ -1026,12 +1063,12 @@
                 recapTimer: null,
                 defaultSeo: {
                     title: "MongolVibes | Survival Redefined",
-                    desc: "Join Season X. The most ruthless Lifesteal season yet. Custom terrain, player-driven economy, and a community that feels like home.",
-                    image: "https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg"
+                    desc: "Join Season XI. Pure Vanilla Survival. Custom terrain, player-driven economy, and a community that feels like home.",
+                    image: "https://i.ibb.co/cS7GGFrF/Picsart-26-01-03-14-31-23-675.jpg"
                 },
                 currentSlide: 0,
                 slides: [
-                    { img: "https://digitality.neocities.org/mongolvibes/Lifestealseasonx.jpg", alt: "Season X: Ruthless Lifesteal" },
+                    { img: "https://i.ibb.co/cS7GGFrF/Picsart-26-01-03-14-31-23-675.jpg", alt: "Season XI: Vanilla Survival" },
                     { img: "https://digitality.neocities.org/mongolvibes/seasonxlobby.png", alt: "Community Hub & Lobby" },
                     { img: "https://digitality.neocities.org/mongolvibes/shopseasonx.png", alt: "Custom Item Shop" }
                 ],
@@ -1098,7 +1135,7 @@
             },
             
             splashTexts: [
-                "Made in Mongolia!", "Thanks!", "Season X Live!", "Lowkey Chill!", 
+                "Made in Mongolia!", "Thanks!", "Season XI Live!", "Lowkey Chill!", 
                 "No P2W!", "Bedrock Ready!", "Since 2023!", "Also try Terraria!", 
                 "Mongol Server!", "Use /vote!", "MONGOLVIBES!"
             ],
@@ -1381,7 +1418,7 @@
                         <div class="mt-24 relative z-10">
                             <div class="flex items-end justify-between border-b border-white/5 pb-4 mb-12">
                                 <h2 class="text-3xl text-white font-pixel tracking-tighter">SERVER FEATURES</h2>
-                                <span class="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">Sys.Ver 1.21.8</span>
+                                <span class="text-zinc-600 font-mono text-[10px] uppercase tracking-widest">Sys.Ver 1.21.11</span>
                             </div>
                             <div class="grid md:grid-cols-3 gap-8">
                                 <div class="card-indie p-8 rounded-xl bg-zinc-900/40 border border-white/5 hover:border-brand-accent/30 transition-all hover-lift group tilt-card backdrop-blur-sm">
@@ -1416,117 +1453,134 @@
                     </div>
                 `,
                 
-                // ... (other templates: community, news, store remain same) ...
                 community: (animated) => `
                     <div class="${animated ? 'animate-enter-slide' : ''} max-w-7xl mx-auto">
-                        <div class="relative h-[400px] md:h-[500px] w-full rounded-3xl overflow-hidden mb-16 group border border-white/5">
-                            <div class="absolute inset-0 bg-[url('https://i.imgur.com/sAxJ57i.png')] bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105 frost-effect blur-[2px]"></div>
-                            <div class="absolute inset-0 frost-overlay"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/40 to-transparent"></div>
+                        <!-- Key Art Hero with Season XI Branding -->
+                        <div class="relative h-[400px] md:h-[500px] w-full rounded-3xl overflow-hidden mb-16 group xi-card-border shadow-2xl">
+                            <!-- Using provided Picart image for new visual identity -->
+                            <div class="absolute inset-0 bg-[url('https://i.imgur.com/Kcotrk8.png')] bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105 backdrop-blur-sm"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0c0a09] via-black/30 to-transparent"></div>
                             
                             <div class="absolute bottom-0 left-0 w-full p-8 md:p-16 flex flex-col items-center text-center z-10">
-                                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-red-950/80 backdrop-blur-md border border-red-500/30 rounded-full font-mono text-[10px] font-bold tracking-[0.2em] mb-6 shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:scale-105 transition-transform cursor-crosshair">
-                                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-                                    LIFESTEAL ACTIVE
+                                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-black/60 backdrop-blur-md border border-orange-500/50 rounded-full font-mono text-[10px] font-bold tracking-[0.2em] mb-6 shadow-[0_0_20px_rgba(249,115,22,0.3)] hover:scale-105 transition-transform cursor-crosshair text-orange-400">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span>
+                                    VANILLA SURVIVAL
                                 </div>
-                                <h1 class="text-7xl md:text-9xl text-white font-pixel tracking-tighter leading-none mb-4 drop-shadow-2xl">
-                                    SEASON <span class="text-red-600 relative inline-block hover:animate-pulse">X
-                                        <span class="absolute -inset-4 bg-red-600 blur-[50px] opacity-20 animate-pulse pointer-events-none"></span>
+                                <h1 class="text-7xl md:text-9xl text-white font-pixel tracking-tighter leading-none mb-4 drop-shadow-2xl xi-glow-text">
+                                    SEASON <span class="xi-gradient-text relative inline-block hover:animate-pulse">XI
+                                        <span class="absolute -inset-4 bg-orange-500 blur-[60px] opacity-20 animate-pulse pointer-events-none"></span>
                                     </span>
                                 </h1>
-                                <p class="text-lg md:text-xl text-zinc-300 font-mono max-w-2xl drop-shadow-md border-t border-white/10 pt-6 mt-2">
-                                    The most ruthless chapter yet. Trust no one.
+                                <p class="text-lg md:text-xl text-zinc-300 font-mono max-w-2xl drop-shadow-md border-t border-orange-500/30 pt-6 mt-2">
+                                    A fresh start. A new horizon. The true survival experience returns.
                                 </p>
                             </div>
                         </div>
 
+                        <!-- 2-Column Grid (Structure preserved, content updated for XI) -->
                         <div class="grid md:grid-cols-2 gap-6 mb-20">
-                            <div class="bg-zinc-900/20 backdrop-blur-sm border border-white/5 p-1 rounded-2xl hover:border-red-600/30 transition-all duration-300 group tilt-card">
+                            <!-- Left: Vanilla Core Focus -->
+                            <div class="bg-zinc-900/20 backdrop-blur-sm xi-card-border p-1 rounded-2xl hover:border-orange-500/50 transition-all duration-300 group tilt-card">
                                 <div class="bg-black/50 h-full rounded-xl p-8 md:p-10 relative overflow-hidden">
-                                    <div class="absolute top-0 right-0 p-32 bg-red-600/5 blur-[80px] rounded-full pointer-events-none group-hover:bg-red-600/10 transition-colors"></div>
+                                    <div class="absolute top-0 right-0 p-32 bg-orange-600/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-orange-600/20 transition-colors"></div>
                                     
                                     <div class="flex items-center justify-between mb-8">
-                                        <h3 class="text-2xl text-white font-pixel tracking-tight">MECHANICS</h3>
-                                        <i class="fas fa-heart text-2xl text-red-600 group-hover:scale-110 transition-transform"></i>
+                                        <h3 class="text-2xl text-white font-pixel tracking-tight">PURE VANILLA</h3>
+                                        <i class="fas fa-leaf text-2xl text-orange-500 group-hover:scale-110 transition-transform"></i>
                                     </div>
                                     
                                     <div class="grid grid-cols-1 gap-4 font-mono text-sm relative z-10">
+                                        <p class="text-zinc-400 leading-relaxed mb-4">
+                                            We are stripping back the complexity. No over-complicated plugins, no pay-to-win advantages. Just you, the world, and the community.
+                                        </p>
+                                        
                                         <div class="flex items-center gap-4 p-4 bg-zinc-900/50 rounded-lg border border-white/5 hover:bg-zinc-800/50 transition-colors">
-                                            <div class="w-10 h-10 rounded bg-green-900/20 border border-green-500/20 flex items-center justify-center text-green-500 text-lg font-bold">+</div>
+                                            <div class="w-10 h-10 rounded bg-orange-900/20 border border-orange-500/20 flex items-center justify-center text-orange-500 text-lg font-bold"><i class="fas fa-cube"></i></div>
                                             <div>
-                                                <div class="text-white font-bold text-xs uppercase tracking-wider mb-0.5">Kill Player</div>
-                                                <div class="text-zinc-500 text-[10px]">Gain 1 Heart permanently</div>
+                                                <div class="text-white font-bold text-xs uppercase tracking-wider mb-0.5">Classic Gameplay</div>
+                                                <div class="text-zinc-500 text-[10px]">1.21.11 Generation & Mechanics</div>
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-4 p-4 bg-zinc-900/50 rounded-lg border border-white/5 hover:bg-zinc-800/50 transition-colors">
-                                            <div class="w-10 h-10 rounded bg-red-900/20 border border-red-500/20 flex items-center justify-center text-red-500 text-lg font-bold">-</div>
+                                            <div class="w-10 h-10 rounded bg-yellow-900/20 border border-yellow-500/20 flex items-center justify-center text-yellow-500 text-lg font-bold"><i class="fas fa-handshake"></i></div>
                                             <div>
-                                                <div class="text-white font-bold text-xs uppercase tracking-wider mb-0.5">Death</div>
-                                                <div class="text-zinc-500 text-[10px]">Lose 1 Heart permanently</div>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center gap-4 p-4 bg-zinc-900/50 rounded-lg border border-white/5 hover:bg-zinc-800/50 transition-colors">
-                                            <div class="w-10 h-10 rounded bg-zinc-800 border border-zinc-600 flex items-center justify-center text-zinc-400 text-lg font-bold">!</div>
-                                            <div>
-                                                <div class="text-white font-bold text-xs uppercase tracking-wider mb-0.5">Elimination</div>
-                                                <div class="text-zinc-500 text-[10px]">0 Hearts = <span class="text-red-400">Ban (Revive via Item)</span></div>
+                                                <div class="text-white font-bold text-xs uppercase tracking-wider mb-0.5">Economy Reset</div>
+                                                <div class="text-zinc-500 text-[10px]">Player-driven trading only</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="bg-zinc-900/20 backdrop-blur-sm border border-white/5 p-1 rounded-2xl hover:border-white/20 transition-all duration-300 group tilt-card">
+                            <!-- Right: Roadmap & Teasers (KitBox, BetterMC, Event Servers) -->
+                            <div class="bg-zinc-900/20 backdrop-blur-sm xi-card-border p-1 rounded-2xl hover:border-blue-500/50 transition-all duration-300 group tilt-card">
                                 <div class="bg-black/50 h-full rounded-xl p-8 md:p-10 relative overflow-hidden">
-                                    <div class="absolute top-0 right-0 p-32 bg-zinc-500/5 blur-[80px] rounded-full pointer-events-none group-hover:bg-zinc-500/10 transition-colors"></div>
+                                    <div class="absolute top-0 right-0 p-32 bg-blue-600/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-blue-600/20 transition-colors"></div>
 
                                     <div class="flex items-center justify-between mb-8">
-                                        <h3 class="text-2xl text-white font-pixel tracking-tight">ANARCHY</h3>
-                                        <i class="fas fa-skull text-2xl text-zinc-400 group-hover:scale-110 transition-transform"></i>
+                                        <h3 class="text-2xl text-white font-pixel tracking-tight">EXPANSIONS</h3>
+                                        <i class="fas fa-layer-group text-2xl text-blue-400 group-hover:scale-110 transition-transform"></i>
                                     </div>
 
-                                    <p class="font-mono text-sm text-zinc-400 leading-relaxed mb-8 relative z-10">
-                                        No land claims. No protection blocks. Absolute freedom. Build your base deep underground or high in the sky. Your security depends on your secrecy.
-                                    </p>
+                                    <p class="font-mono text-xs text-zinc-500 uppercase tracking-widest mb-4">Coming Soon to Season XI</p>
 
-                                    <div class="bg-red-950/20 border border-red-500/10 p-5 rounded-lg relative z-10 hover:bg-red-950/30 transition-colors">
-                                        <div class="flex items-start gap-3">
-                                            <i class="fas fa-exclamation-circle text-red-400 mt-1"></i>
-                                            <div>
-                                                <h4 class="text-red-400 font-bold text-xs uppercase tracking-wider mb-1">Survivor's Tip</h4>
-                                                <p class="text-red-200/60 text-[11px] font-mono leading-relaxed">
-                                                    Spawn is a warzone. Travel at least <strong class="text-white">10k blocks</strong> out before setting up a permanent base. Trust no one with coordinates.
-                                                </p>
+                                    <div class="space-y-3 relative z-10">
+                                        <!-- Teaser 1 -->
+                                        <div class="bg-zinc-900/40 border border-white/5 p-4 rounded-lg hover:bg-zinc-900/60 transition-colors group/item">
+                                            <div class="flex justify-between items-center mb-1">
+                                                <h4 class="text-white font-bold text-sm tracking-wide group-hover/item:text-blue-400 transition-colors">KITBOX</h4>
+                                                <span class="text-[9px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20">PVP MODE</span>
                                             </div>
+                                            <p class="text-zinc-500 text-[10px] font-mono">Fast-paced arena combat with custom loadouts.</p>
+                                        </div>
+
+                                        <!-- Teaser 2 -->
+                                        <div class="bg-zinc-900/40 border border-white/5 p-4 rounded-lg hover:bg-zinc-900/60 transition-colors group/item">
+                                            <div class="flex justify-between items-center mb-1">
+                                                <h4 class="text-white font-bold text-sm tracking-wide group-hover/item:text-purple-400 transition-colors">BETTERMC</h4>
+                                                <span class="text-[9px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded border border-purple-500/20">RPG</span>
+                                            </div>
+                                            <p class="text-zinc-500 text-[10px] font-mono">Enhanced survival with new mobs and structures.</p>
+                                        </div>
+
+                                        <!-- Teaser 3 -->
+                                        <div class="bg-zinc-900/40 border border-white/5 p-4 rounded-lg hover:bg-zinc-900/60 transition-colors group/item">
+                                            <div class="flex justify-between items-center mb-1">
+                                                <h4 class="text-white font-bold text-sm tracking-wide group-hover/item:text-yellow-400 transition-colors">EVENT SERVERS</h4>
+                                                <span class="text-[9px] bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded border border-yellow-500/20">LIMITED</span>
+                                            </div>
+                                            <p class="text-zinc-500 text-[10px] font-mono">Weekly hosted minigames and tournaments.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Gallery (Structure Preserved) -->
                         <div class="mb-20">
                             <div class="flex items-center justify-between mb-8 px-2">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-1 h-6 bg-brand-accent rounded-full"></div>
+                                    <div class="w-1 h-6 bg-orange-500 rounded-full"></div>
                                     <h2 class="text-2xl text-white font-pixel tracking-tight">MEDIA GALLERY</h2>
                                 </div>
-                                <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">Visual Records</span>
+                                <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">Season XI Preview</span>
                             </div>
                             
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 ${[
                                     'seasonxlobby.png',
                                     'season9lobby.png', 
-                                    'shopseasonx.png'
+                                    'shopseasonx.png',
+                                    'Lifestealseasonx.jpg'
                                 ].map((img, i) => `
-                                    <div class="aspect-square bg-zinc-900 rounded-xl overflow-hidden border border-white/5 relative group cursor-pointer" 
+                                    <div class="aspect-square bg-zinc-900 rounded-xl overflow-hidden xi-card-border relative group cursor-pointer" 
                                          onclick="app.openScreenshotModal('https://digitality.neocities.org/mongolvibes/${img}')">
                                         <img src="https://digitality.neocities.org/mongolvibes/${img}" 
                                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100" 
                                              onerror="this.src='https://placehold.co/400x400/18181b/white?text=Img+${i+1}'">
                                         <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                                         <div class="absolute bottom-3 left-3 bg-black/60 backdrop-blur px-2 py-1 rounded text-[9px] font-mono text-white opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0 duration-300 border border-white/10">
-                                            VIEW IMAGE
+                                            VIEW
                                         </div>
                                     </div>
                                 `).join('')}
@@ -1537,7 +1591,7 @@
                             <div class="max-w-2xl text-center">
                                 <i class="fas fa-quote-left text-zinc-700 text-xl mb-4"></i>
                                 <p class="text-zinc-400 font-mono text-xs leading-relaxed italic">
-                                    MongolVibes seasons typically run for 1 to 3 months. We are constantly expanding with new gamemodes. Our goal is to craft the most enjoyable server for our community.
+                                    Season XI represents a new era for MongolVibes. We are committed to a high-quality, vanilla-focused experience that respects your time and effort.
                                 </p>
                             </div>
                         </div>
@@ -1823,7 +1877,7 @@
                 app.state.currentPage = pageId;
                 
                 let pageTitle = app.state.defaultSeo.title;
-                if(pageId === 'community') pageTitle = "MongolVibes | Season X Community";
+                if(pageId === 'community') pageTitle = "MongolVibes | Season XI";
                 if(pageId === 'store') pageTitle = "MongolVibes | Item Shop";
                 if(pageId === 'news') pageTitle = "MongolVibes | News Feed";
 
@@ -1977,7 +2031,7 @@
                 container.innerHTML = filteredPosts.map(post => {
                     const date = new Date(post.date.seconds * 1000).toLocaleDateString("en-GB"); 
                     const category = (post.category || 'update').toUpperCase();
-                    const isDev = category === 'UPDATE' || category === 'UPDATES';
+                    const isDev = category === 'DEV UPDATE' || category === 'UPDATES';
                     const catColor = isDev ? 'text-red-400' : 'text-green-400';
                     
                     return `
